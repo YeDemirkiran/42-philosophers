@@ -1,1 +1,4 @@
 .vscode/
+**/*.o
+**/obj/
+src/philo/philo
