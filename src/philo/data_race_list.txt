@@ -1,0 +1,34 @@
+1 - Possible data race during write of size 1 at 0x1FFEFFFDB0 by thread #1
+==5340== Locks held: none
+==5340==    at 0x109D1D: start_philosophers (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x1094EB: start_simulation (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x109364: main (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==
+==5340== This conflicts with a previous read of size 1 by thread #2
+==5340== Locks held: 1, at address 0x1FFEFFFD88
+==5340==    at 0x109A1B: read_signal_mutex (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x109A6D: philosopher_routine (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x485396A: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==5340==    by 0x4906AC2: start_thread (pthread_create.c:442)
+==5340==    by 0x4997A73: clone (clone.S:100)
+==5340==  Address 0x1ffefffdb0 is on thread #1's stack
+==5340==  in frame #2, created by main (???:)
+
+
+2 - Possible data race during read of size 1 at 0x1FFEFFFDB0 by thread #2
+==5340== Locks held: 1, at address 0x1FFEFFFD88
+==5340==    at 0x109A1B: read_signal_mutex (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x109A6D: philosopher_routine (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x485396A: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==5340==    by 0x4906AC2: start_thread (pthread_create.c:442)
+==5340==    by 0x4997A73: clone (clone.S:100)
+==5340==
+==5340== This conflicts with a previous write of size 1 by thread #1
+==5340== Locks held: none
+==5340==    at 0x109D1D: start_philosophers (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x1094EB: start_simulation (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==    by 0x109364: main (in /home/yademirk/Desktop/42-Cursus/philosophers/philo/philo)
+==5340==  Address 0x1ffefffdb0 is on thread #1's stack
+==5340==  in frame #5, created by main (???:)
+
+3 -

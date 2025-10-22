@@ -1,0 +1,14 @@
+1 - MANDATORY
+
+- DONE - Learn threads and multi-threading
+- DONE - Learn data races and race conditions
+- DONE - Learn deadlock
+- DONE - Learn mutexes
+
+1.1 - Errors
+- Fix deadlocks on 1, 2 and more philos
+- Fix data race in time_philosopher
+- Fix data race in printf
+
+2 - BONUS
+- Learn semaphores
