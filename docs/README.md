@@ -32,12 +32,15 @@ The documentation used here may be out of date. It's important to keep up to dat
 - ThreadMentor: https://pages.mtu.edu/~shene/NSF-3/e-Book/index.html
 - Multi-processing: https://en.wikipedia.org/wiki/Multiprocessing
 - Synchronization: https://en.wikipedia.org/wiki/Synchronization_(computer_science)
+- Context Switch: https://en.wikipedia.org/wiki/Context_switch
+- Thread Safety: https://en.wikipedia.org/wiki/Thread_safety
 
 ### Threading Problems
 - Threading Issues: https://www.geeksforgeeks.org/operating-systems/threading-issues/
 - Deadlock: https://en.wikipedia.org/wiki/Deadlock_(computer_science)
 - Mutual Exclusion (mutexes): https://en.wikipedia.org/wiki/Mutual_exclusion
 - Resource Starvation: https://en.wikipedia.org/wiki/Starvation_(computer_science)
+- Resource Contention: https://en.wikipedia.org/wiki/Resource_contention
 - Livelock: https://www.geeksforgeeks.org/operating-systems/deadlock-starvation-and-livelock/
 
 ### Deadlock Solutions
