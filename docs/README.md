@@ -1,5 +1,5 @@
 # Documentation
-This is the documentation for my implemantation of the project, and also the Dining Philosophers problem in general.
+This is the documentation for my implementation of the project, and also the Dining Philosophers problem in general.
 
 ## What is the Dining Philosophers problem?
 "In computer science, the dining philosophers problem is an example problem often used in concurrent algorithm design to illustrate synchronization issues and techniques for resolving them." - Wikipedia
@@ -17,7 +17,7 @@ The documentation used here may be out of date. It's important to keep up to dat
 - ThreadMentor: https://pages.mtu.edu/~shene/NSF-3/e-Book/MUTEX/TM-example-philos-1.html
 - Lefty-Right Version: https://pages.mtu.edu/~shene/NSF-3/e-Book/MUTEX/TM-example-left-right.html
 
-### Concurrency & Paralellism
+### Concurrency & Parallelism
 - Concurrency: https://en.wikipedia.org/wiki/Concurrency_(computer_science)
 - Concurrent Computing: https://en.wikipedia.org/wiki/Concurrent_computing
 - Parallelism: https://en.wikipedia.org/wiki/Parallel_computing
@@ -39,6 +39,10 @@ The documentation used here may be out of date. It's important to keep up to dat
 - Mutual Exclusion (mutexes): https://en.wikipedia.org/wiki/Mutual_exclusion
 - Resource Starvation: https://en.wikipedia.org/wiki/Starvation_(computer_science)
 - Livelock: https://www.geeksforgeeks.org/operating-systems/deadlock-starvation-and-livelock/
+
+### Deadlock Solutions
+- Deadlock Prevention: https://www.geeksforgeeks.org/operating-systems/deadlock-prevention/
+- Handlin Deadlocks: https://www.geeksforgeeks.org/operating-systems/handling-deadlocks/
 
 ### Race Condition and Data Races:
 - Race Condition: https://en.wikipedia.org/wiki/Race_condition#In_software
