@@ -17,10 +17,19 @@ The documentation used here may be out of date. It's important to keep up to dat
 - ThreadMentor: https://pages.mtu.edu/~shene/NSF-3/e-Book/MUTEX/TM-example-philos-1.html
 - Lefty-Right Version: https://pages.mtu.edu/~shene/NSF-3/e-Book/MUTEX/TM-example-left-right.html
 
-### Concurrency & Parallelism
+### Concurrency
 - Concurrency: https://en.wikipedia.org/wiki/Concurrency_(computer_science)
 - Concurrent Computing: https://en.wikipedia.org/wiki/Concurrent_computing
+
+### Parallelism
 - Parallelism: https://en.wikipedia.org/wiki/Parallel_computing
+- Multi-core Processor: https://en.wikipedia.org/wiki/Multi-core_processor
+- Bit-level Parallelism: https://en.wikipedia.org/wiki/Bit-level_parallelism
+- Instruction-level Parallelism: https://en.wikipedia.org/wiki/Instruction-level_parallelism
+- Data Parallelism: https://en.wikipedia.org/wiki/Data_parallelism
+- Task Parallelism: https://en.wikipedia.org/wiki/Task_parallelism
+- Parallel Algorithm: https://en.wikipedia.org/wiki/Parallel_algorithm
+- Sequential Algorithm: https://en.wikipedia.org/wiki/Sequential_algorithm
 
 ### Difference between Concurrency and Parallelism
 - StackOverflow: https://stackoverflow.com/questions/1050222/what-is-the-difference-between-concurrency-and-parallelism
