@@ -6,13 +6,14 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/06 14:59:18 by yademirk         ###   ########.fr       */
+/*   Updated: 2025/10/15 01:19:45 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <macros/status.h>
 #include <structs/s_philosopher.h>
 #include <structs/s_thread_data.h>
 

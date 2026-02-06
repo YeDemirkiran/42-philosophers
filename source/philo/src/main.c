@@ -1,22 +1,22 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 21:35:53 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/06 14:58:31 by yademirk         ###   ########.fr       */
+/*   Updated: 2025/09/09 12:39:26 by yademirk         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include <structs/s_table.h>
 #include <modules/table.h>
 #include <modules/simulation.h>
+#include <macros/status.h>
 
 static void	wrong_usage(void)
 {
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 		wrong_usage();
 		return (EXIT_FAILURE);
 	}
-	if (init_table(&table, argc, argv) == false)
+	if (init_table(&table, argc, argv) == FAILURE)
 		return (EXIT_FAILURE);
 	start_simulation(&table);
 	clear_table(&table);
