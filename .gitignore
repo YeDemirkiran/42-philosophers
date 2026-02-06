@@ -1,4 +1,5 @@
 .vscode/
 **/*.o
 **/obj/
-src/philo/philo
+source/philo/philo
+source/philo/philo_bonus
