@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2025/10/15 01:21:36 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:12:35 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -19,12 +19,12 @@
 #include <modules/philosophers/philosophers_utils.h>
 
 // colors
-#define THINK_COLOR "\e[1;93m"
-#define TAKE_FORK_COLOR "\e[1;37m"
-#define EAT_COLOR "\e[1;92m"
-#define SLEEP_COLOR "\e[1;96m"
-#define DEATH_COLOR "\e[1;91m"
-#define COLOR_RESET "\e[0m"
+#define THINK_COLOR "\033[1;93m"
+#define TAKE_FORK_COLOR "\033[1;37m"
+#define EAT_COLOR "\033[1;92m"
+#define SLEEP_COLOR "\033[1;96m"
+#define DEATH_COLOR "\033[1;91m"
+#define COLOR_RESET "\033[0m"
 
 void	philosopher_die(t_thread_data *data, long time)
 {
