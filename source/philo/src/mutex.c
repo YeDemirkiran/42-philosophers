@@ -1,19 +1,18 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mutex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:20:11 by yademirk          #+#    #+#             */
-/*   Updated: 2025/09/09 12:39:40 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/06 14:58:56 by yademirk         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <pthread.h>
-
-#include <macros/status.h>
 
 void	destroy_mutexes(pthread_mutex_t *mutexes, int count)
 {
@@ -35,17 +34,17 @@ int	init_mutexes(pthread_mutex_t **mutexes, int count)
 
 	*mutexes = malloc(sizeof(pthread_mutex_t) * count);
 	if (!(*mutexes))
-		return (FAILURE);
+		return (false);
 	i = 0;
 	while (i < count)
 	{
 		res = pthread_mutex_init(*mutexes + i, NULL);
-		if (res != SUCCESS)
+		if (res != true)
 		{
 			destroy_mutexes(*mutexes + count, i);
-			return (FAILURE);
+			return (false);
 		}
 		i++;
 	}
-	return (SUCCESS);
+	return (true);
 }

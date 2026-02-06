@@ -6,17 +6,17 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2025/10/12 20:32:55 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/06 14:59:16 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
+#include <stdbool.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
 
-#include <macros/status.h>
 #include <structs/s_table.h>
 #include <structs/s_thread_data.h>
 
@@ -129,7 +129,7 @@ int	start_philosophers(t_table *table, int count,
 	{
 		res = pthread_create(&(philos[i].thread_id), NULL,
 				philo_routine, data[i]);
-		if (res != SUCCESS)
+		if (res != true)
 		{
 			free(data);
 			return (0);
