@@ -6,10 +6,11 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/06 14:59:16 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:09:10 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
+#define _DEFAULT_SOURCE
 #include <stdbool.h>
 #include <unistd.h>
 #include <pthread.h>
