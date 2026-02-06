@@ -6,7 +6,7 @@
 #    By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/01 21:37:32 by yademirk          #+#    #+#              #
-#    Updated: 2025/09/23 20:58:14 by yademirk         ###   ########.fr        #
+#    Updated: 2026/02/06 15:03:49 by yademirk         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -17,7 +17,7 @@ CC = cc
 W_FLAGS = -Wall -Wextra -Werror
 LIB_FLAGS = -pthread
 INC_FLAGS = -I./include/
-FLAGS = $(W_FLAGS) $(INC_FLAGS) $(LIB_FLAGS)
+FLAGS = $(W_FLAGS) -std=c99 -pedantic -pedantic-errors $(INC_FLAGS) $(LIB_FLAGS)
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
