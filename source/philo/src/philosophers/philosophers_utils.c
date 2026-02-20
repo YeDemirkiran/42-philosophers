@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philosophers_utils.c                               :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2025/10/15 01:19:45 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/20 21:32:51 by yademirk         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -67,10 +67,10 @@ void	free_philosophers(t_philosopher *philos, int count)
 	free(philos);
 }
 
-void	printf_philosopher(pthread_mutex_t *mutex,
-	long timestamp, int philo_id, char *string)
-{
-	pthread_mutex_lock(mutex);
-	printf("%li %i %s", timestamp, philo_id, string);
-	pthread_mutex_unlock(mutex);
-}
+// void	printf_philosopher(pthread_mutex_t *mutex,
+// 	long timestamp, int philo_id, char *string)
+// {
+// 	pthread_mutex_lock(mutex);
+// 	printf("%li %i %s", timestamp, philo_id, string);
+// 	pthread_mutex_unlock(mutex);
+// }
