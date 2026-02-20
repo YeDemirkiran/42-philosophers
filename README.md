@@ -1,5 +1,4 @@
-# 42-philosophers
-My implementation of the Philosophers project from Ecole 42.
+*This project has been created as part of the 42 curriculum by yademirk.*
 
 ## Project Status
 (to be added)
