@@ -6,7 +6,7 @@
 #    By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/01 21:37:32 by yademirk          #+#    #+#              #
-#    Updated: 2026/02/20 21:36:05 by yademirk         ###   ########.fr        #
+#    Updated: 2026/02/21 14:13:36 by yademirk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,30 +23,36 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 
 UTILS_DIR = utils/
-UTILS_SRC = $(addprefix $(UTILS_DIR), convert.c)
+UTILS_SRC = $(addprefix $(UTILS_DIR), convert.c philo_message.c)
 
 PHILOSOPHERS_DIR = philosophers/
 PHILOSOPHERS_SRC = $(addprefix $(PHILOSOPHERS_DIR), philosophers.c philosophers_routine.c philosophers_utils.c)
 
-C_FILES = main.c mutex.c simulation.c table.c philo_message.c $(UTILS_SRC) $(PHILOSOPHERS_SRC)
+C_FILES = main.c mutex.c simulation.c table.c $(UTILS_SRC) $(PHILOSOPHERS_SRC)
 SRCS = $(addprefix $(SRC_DIR), $(C_FILES))
 OBJS = $(addprefix $(OBJ_DIR), $(C_FILES:.c=.o))
-
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+	@echo Creating the $@ executable...
+	@$(CC) $(FLAGS) $(OBJS) -o $@
+	@echo Done.
 
 $(OBJ_DIR)%o: $(SRC_DIR)%c
-	mkdir -p $(dir $@)
-	$(CC) $(FLAGS) -c $^ -o $@
+	@mkdir -p $(dir $@)
+	@echo Compiling $^...
+	@$(CC) $(FLAGS) -c $^ -o $@
 
 clean:
-	rm -rf $(OBJS)
+	@echo Cleaning the $(OBJ_DIR) dir...
+	@rm -rf $(OBJ_DIR)
+	@echo Done.
 
 fclean: clean
-	rm -rf $(NAME)
+	@echo Cleaning the executable $(NAME)...
+	@rm -rf $(NAME)
+	@echo Done.
 
 re: fclean all
 

@@ -6,19 +6,17 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/20 21:35:28 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:12:33 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <pthread.h>
 
-#include <structs/s_thread_data.h>
-
-#include <modules/philosophers/philosophers.h>
-#include <modules/philosophers/philosophers_utils.h>
-
-#include "../philo_message.h"
+#include "structs/s_thread_data.h"
+#include "modules/utils.h"
+#include "modules/philosophers/philosophers.h"
+#include "modules/philosophers/philosophers_utils.h"
 
 // colors
 #define THINK_COLOR "\033[1;93m"
