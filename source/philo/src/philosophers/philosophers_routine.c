@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/21 14:12:33 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:28:18 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	philosopher_die(t_thread_data *data, long time)
 	}
 	*(data->signal) = 1;
 	pthread_mutex_unlock(data->signal_mutex);
-	philo_message(*data->philosopher->id, time, DEATH_COLOR "died" COLOR_RESET "\n");
+	philo_message(data->philosopher->id, time, DEATH_COLOR "died" COLOR_RESET "\n");
 	// printf_philosopher(data->print_mutex, time, *data->philosopher->id,
 	// 	DEATH_COLOR "died" COLOR_RESET "\n");
 }
@@ -61,10 +61,10 @@ static int	take_forks(t_thread_data *data)
 		philosopher_die(data, data->last_meal_time + data->config->starve_time);
 		return (0);
 	}
-	philo_message(*data->philosopher->id, time, THINK_COLOR "is thinking" COLOR_RESET "\n");
+	philo_message(data->philosopher->id, time, THINK_COLOR "is thinking" COLOR_RESET "\n");
 	// printf_philosopher(data->print_mutex, time, *data->philosopher->id,
 	// 	THINK_COLOR "is thinking" COLOR_RESET "\n");
-	if (*data->philosopher->id % 2 == 0)
+	if (data->philosopher->id % 2 == 0)
 		pthread_mutex_lock(data->philosopher->left_fork);
 	else
 		pthread_mutex_lock(data->philosopher->right_fork);
@@ -79,7 +79,7 @@ static int	take_forks(t_thread_data *data)
 		philosopher_die(data, data->last_meal_time + data->config->starve_time);
 		return (0);
 	}
-	philo_message(*data->philosopher->id, time, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
+	philo_message(data->philosopher->id, time, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
 	// printf_philosopher(data->print_mutex, time, *data->philosopher->id,
 	// 	TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
 	if (data->philosopher->left_fork == data->philosopher->right_fork)
@@ -88,7 +88,7 @@ static int	take_forks(t_thread_data *data)
 		philosopher_die(data, data->last_meal_time + data->config->starve_time);
 		return (0);
 	}
-	if (*data->philosopher->id % 2 == 0)
+	if (data->philosopher->id % 2 == 0)
 		pthread_mutex_lock(data->philosopher->right_fork);
 	else
 		pthread_mutex_lock(data->philosopher->left_fork);
@@ -103,7 +103,7 @@ static int	take_forks(t_thread_data *data)
 		philosopher_die(data, data->last_meal_time + data->config->starve_time);
 		return (0);
 	}
-	philo_message(*data->philosopher->id, time, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
+	philo_message(data->philosopher->id, time, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
 	// printf_philosopher(data->print_mutex, time, *data->philosopher->id,
 	// 	TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
 	return (1);
@@ -126,7 +126,7 @@ void	philosopher_eat(t_thread_data *data)
 	}
 	time = time_philosopher(data, 0);
 	data->last_meal_time = time;
-	philo_message(*data->philosopher->id, time, EAT_COLOR "is eating" COLOR_RESET "\n");
+	philo_message(data->philosopher->id, time, EAT_COLOR "is eating" COLOR_RESET "\n");
 	// printf_philosopher(data->print_mutex, time, *data->philosopher->id,
 	// 	EAT_COLOR "is eating" COLOR_RESET "\n");
 	time_philosopher(data, data->config->eat_time);
@@ -149,7 +149,7 @@ void	philosopher_sleep(t_thread_data *data)
 	if (read_signal_mutex(data->signal, data->signal_mutex))
 		return ;
 	time = time_philosopher(data, 0);
-	philo_message(*data->philosopher->id, time, SLEEP_COLOR "is sleeping" COLOR_RESET "\n");
+	philo_message(data->philosopher->id, time, SLEEP_COLOR "is sleeping" COLOR_RESET "\n");
 	// printf_philosopher(data->print_mutex, time, *data->philosopher->id,
 	// 	SLEEP_COLOR "is sleeping" COLOR_RESET "\n");
 	diff = data->config->starve_time - data->config->sleep_time;

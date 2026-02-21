@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/21 14:10:59 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:29:14 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ static int	init_config(t_config *config, int argc, char **argv)
 	config->starve_time = config_numbers[1];
 	config->eat_time = config_numbers[2];
 	config->sleep_time = config_numbers[3];
+	config_numbers[4] = -1;
 	if (argc > 5 && argv[5])
 		config_numbers[4] = ft_atol(argv[5]);
-	else
-		config_numbers[4] = -1;
-	config->eat_count = config_numbers[4] * (config_numbers[4] >= 0);
+	if (config_numbers[4] < 0)
+		config_numbers[4] = 0;
+	config->eat_count = config_numbers[4];
 	return (SUCCESS);
 }
 
@@ -77,7 +78,7 @@ int	init_table(t_table *table, int argc, char **argv)
 
 void	clear_table(t_table *table)
 {
-	free_philosophers(table->philosophers, table->config.philo_count);
+	free(table->philosophers);
 	destroy_mutexes(table->forks, table->config.philo_count);
 	pthread_mutex_destroy(&(table->over_mutex));
 	pthread_mutex_destroy(&(table->print_mutex));

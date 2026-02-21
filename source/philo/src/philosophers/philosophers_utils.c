@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/20 21:32:51 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:29:17 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	init_philosophers(t_philosopher *philos, pthread_mutex_t *forks,
 	i = 0;
 	while (i < philo_count)
 	{
-		philos[i].id = malloc(sizeof(int));
-		*(philos[i].id) = i;
+		philos[i].id = i;
 		philos[i].eat_count = 0;
 		philos[i].left_fork = forks + i;
 		philos[i].right_fork = forks + ((i + 1) % philo_count);
@@ -53,24 +52,3 @@ void	join_philosophers(t_philosopher *philos, int count)
 		i++;
 	}
 }
-
-void	free_philosophers(t_philosopher *philos, int count)
-{
-	int	i;
-
-	i = 0;
-	while (i < count)
-	{
-		free(philos[i].id);
-		i++;
-	}
-	free(philos);
-}
-
-// void	printf_philosopher(pthread_mutex_t *mutex,
-// 	long timestamp, int philo_id, char *string)
-// {
-// 	pthread_mutex_lock(mutex);
-// 	printf("%li %i %s", timestamp, philo_id, string);
-// 	pthread_mutex_unlock(mutex);
-// }
