@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/06 15:18:19 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 07:17:18 by yademirk         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
 #include <stdbool.h>
@@ -26,25 +26,11 @@
 #include <modules/philosophers/philosophers_utils.h>
 
 /**
- * @brief Sleep for ms, then return the time difference since the beginning.
- *
- * The first call returns always 0. To get the current timestamp without
- * sleeping, make ms 0.
+ * @brief Sleeps for the given milliseconds.
  */
-long	time_philosopher(t_thread_data *data, long ms)
+long	msleep(long ms)
 {
-	long			current_time;
-	long			timestamp;
-	struct timeval	tv;
-
-	if (ms > 0)
-		usleep(ms * 1000);
-	gettimeofday(&tv, NULL);
-	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	if (data->time_in_ms == 0)
-		data->time_in_ms = current_time;
-	timestamp = current_time - data->time_in_ms;
-	return (timestamp);
+	return (usleep(ms * 1000));
 }
 
 /**
@@ -71,11 +57,6 @@ void	*philosopher_routine(void *data)
 
 	thread_data = (t_thread_data *)data;
 	dinner_over = thread_data->signal;
-	while (1)
-	{
-		if (!read_signal_mutex(dinner_over, thread_data->signal_mutex))
-			break ;
-	}
 	while (1)
 	{
 		if (read_signal_mutex(dinner_over, thread_data->signal_mutex))

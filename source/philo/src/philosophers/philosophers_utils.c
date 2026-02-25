@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/21 14:29:17 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 07:03:54 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 #include <structs/s_philosopher.h>
 #include <structs/s_thread_data.h>
 
-t_byte	should_philosopher_die(t_thread_data *data, long current_time)
+#include "modules/utils.h"
+
+t_byte	should_philosopher_die(t_thread_data *data)
 {
-	// printf("(%i current time: %li, last meal: %li, starve_time: %lu)\n", *data->philosopher->id, current_time, data->last_meal_time, data->config->starve_time);
-	fflush(stdout);
+	long	current_time;
+
+	current_time = get_time();
 	return (current_time
 		>= data->last_meal_time + (long)(data->config->starve_time));
 }

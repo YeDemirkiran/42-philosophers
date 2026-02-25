@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/21 14:29:20 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 07:04:01 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <structs/s_philosopher.h>
 # include <structs/s_thread_data.h>
 
-t_byte	should_philosopher_die(t_thread_data *data, long current_time);
+t_byte	should_philosopher_die(t_thread_data *data);
 void	init_philosophers(t_philosopher *philos, pthread_mutex_t *forks,
 			int philo_count);
 void	join_philosophers(t_philosopher *philos, int count);
