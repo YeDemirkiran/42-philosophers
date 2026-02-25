@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/21 14:29:14 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 08:33:07 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,22 @@ static int	init_config(t_config *config, int argc, char **argv)
 
 int	init_table(t_table *table, int argc, char **argv)
 {
-	table->dinner_over = 1;
+	table->dinner_over = 0;
 	if (pthread_mutex_init(&(table->over_mutex), NULL) != SUCCESS)
-		return (FAILURE);
-	if (pthread_mutex_init(&(table->print_mutex), NULL) != SUCCESS)
 		return (FAILURE);
 	if (init_config(&(table->config), argc, argv) != SUCCESS)
 		return (FAILURE);
-	if (init_mutexes(&(table->forks), table->config.philo_count) != SUCCESS)
-	{
-		pthread_mutex_destroy(&(table->over_mutex));
-		return (FAILURE);
-	}
 	table->philosophers = malloc(sizeof(t_philosopher)
 			* table->config.philo_count);
 	if (!table->philosophers)
 	{
-		destroy_mutexes(table->forks, table->config.philo_count);
+		pthread_mutex_destroy(&(table->over_mutex));
+		return (FAILURE);
+	}
+	if (init_mutexes(&(table->forks), table->config.philo_count) != SUCCESS)
+	{
+		pthread_mutex_destroy(&(table->over_mutex));
+		free(table->philosophers);
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -81,5 +80,4 @@ void	clear_table(t_table *table)
 	free(table->philosophers);
 	destroy_mutexes(table->forks, table->config.philo_count);
 	pthread_mutex_destroy(&(table->over_mutex));
-	pthread_mutex_destroy(&(table->print_mutex));
 }
