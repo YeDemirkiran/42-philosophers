@@ -6,14 +6,13 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:16:51 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 07:12:00 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 08:09:09 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include <structs/s_thread_data.h>
 # include <structs/s_table.h>
 
 /**

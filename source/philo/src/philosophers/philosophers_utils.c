@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 07:03:54 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 08:00:25 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 
 #include <macros/status.h>
 #include <structs/s_philosopher.h>
-#include <structs/s_thread_data.h>
+#include <structs/s_table.h>
 
 #include "modules/utils.h"
 
-t_byte	should_philosopher_die(t_thread_data *data)
+t_byte	should_philosopher_die(t_philosopher *philo)
 {
 	long	current_time;
 
 	current_time = get_time();
 	return (current_time
-		>= data->last_meal_time + (long)(data->config->starve_time));
+		>= philo->last_meal_time + (long)(philo->config->starve_time));
 }
 
-void	init_philosophers(t_philosopher *philos, pthread_mutex_t *forks,
+void	init_philosophers(t_philosopher *philos, t_table *table,
 	int philo_count)
 {
 	int	i;
@@ -38,8 +38,12 @@ void	init_philosophers(t_philosopher *philos, pthread_mutex_t *forks,
 	{
 		philos[i].id = i;
 		philos[i].eat_count = 0;
-		philos[i].left_fork = forks + i;
-		philos[i].right_fork = forks + ((i + 1) % philo_count);
+		philos[i].last_meal_time = 0;
+		philos[i].left_fork = table->forks + i;
+		philos[i].right_fork = table->forks + ((i + 1) % philo_count);
+		philos[i].config = &(table->config);
+		philos[i].signal = &(table->dinner_over);
+		philos[i].signal_mutex = &(table->over_mutex);
 		i++;
 	}
 }

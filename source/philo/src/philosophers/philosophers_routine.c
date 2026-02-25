@@ -6,14 +6,14 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 07:12:48 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 08:08:40 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <pthread.h>
 
-#include "structs/s_thread_data.h"
+#include "structs/s_philosopher.h"
 #include "modules/utils.h"
 #include "modules/philosophers/philosophers.h"
 #include "modules/philosophers/philosophers_utils.h"
@@ -26,120 +26,120 @@
 #define DEATH_COLOR "\033[1;91m"
 #define COLOR_RESET "\033[0m"
 
-void	philosopher_die(t_thread_data *data)
+void	philosopher_die(t_philosopher *philo)
 {
-	pthread_mutex_lock(data->signal_mutex);
-	if (*data->signal == 1)
+	philo_message(philo->id, DEATH_COLOR "died" COLOR_RESET "\n");
+	pthread_mutex_lock(philo->signal_mutex);
+	if (*philo->signal == 1)
 	{
-		pthread_mutex_unlock(data->signal_mutex);
+		pthread_mutex_unlock(philo->signal_mutex);
 		return ;
 	}
-	*(data->signal) = 1;
-	pthread_mutex_unlock(data->signal_mutex);
-	philo_message(data->philosopher->id, DEATH_COLOR "died" COLOR_RESET "\n");
+	*(philo->signal) = 1;
+	pthread_mutex_unlock(philo->signal_mutex);
 }
 
-static void	leave_forks(t_thread_data *data)
+static void	leave_forks(t_philosopher *philo)
 {
-	pthread_mutex_unlock(data->philosopher->left_fork);
-	if (data->philosopher->left_fork == data->philosopher->right_fork)
+	pthread_mutex_unlock(philo->left_fork);
+	if (philo->left_fork == philo->right_fork)
 		return ;
-	pthread_mutex_unlock(data->philosopher->right_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
-static int	take_forks(t_thread_data *data)
+static int	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_t	*first_fork;
 
-	if (read_signal_mutex(data->signal, data->signal_mutex))
+	if (read_signal_mutex(philo->signal, philo->signal_mutex))
 		return (1);
-	if (should_philosopher_die(data))
+	if (should_philosopher_die(philo))
 	{
-		philosopher_die(data);
+		philosopher_die(philo);
 		return (0);
 	}
-	philo_message(data->philosopher->id, THINK_COLOR "is thinking" COLOR_RESET "\n");
-	if (data->philosopher->left_fork < data->philosopher->right_fork)
-		first_fork = data->philosopher->left_fork;
+	philo_message(philo->id, THINK_COLOR "is thinking" COLOR_RESET "\n");
+	if (philo->left_fork < philo->right_fork)
+		first_fork = philo->left_fork;
 	else
-		first_fork = data->philosopher->right_fork;
+		first_fork = philo->right_fork;
 	pthread_mutex_lock(first_fork);
-	if (read_signal_mutex(data->signal, data->signal_mutex))
+	if (should_philosopher_die(philo))
+	{
+		philosopher_die(philo);
+		return (0);
+	}
+	if (read_signal_mutex(philo->signal, philo->signal_mutex))
 	{
 		pthread_mutex_unlock(first_fork);
 		return (1);
 	}
-	if (should_philosopher_die(data))
+	philo_message(philo->id, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
+	if (philo->left_fork == philo->right_fork)
 	{
-		philosopher_die(data);
-		return (0);
-	}
-	philo_message(data->philosopher->id, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
-	if (data->philosopher->left_fork == data->philosopher->right_fork)
-	{
-		msleep(data->config->starve_time);
+		msleep(philo->config->starve_time);
 		pthread_mutex_unlock(first_fork);
-		philosopher_die(data);
+		philosopher_die(philo);
 		return (0);
 	}
-	if (first_fork == data->philosopher->left_fork)
-		pthread_mutex_lock(data->philosopher->right_fork);
+	if (first_fork == philo->left_fork)
+		pthread_mutex_lock(philo->right_fork);
 	else
-		pthread_mutex_lock(data->philosopher->left_fork);
-	if (read_signal_mutex(data->signal, data->signal_mutex))
+		pthread_mutex_lock(philo->left_fork);
+	if (read_signal_mutex(philo->signal, philo->signal_mutex))
 	{
-		leave_forks(data);
+		leave_forks(philo);
 		return (1);
 	}
-	if (should_philosopher_die(data))
+	if (should_philosopher_die(philo))
 	{
-		leave_forks(data);
-		philosopher_die(data);
+		leave_forks(philo);
+		philosopher_die(philo);
 		return (0);
 	}
-	philo_message(data->philosopher->id, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
+	philo_message(philo->id, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
 	return (1);
 }
 
-void	philosopher_eat(t_thread_data *data)
+void	philosopher_eat(t_philosopher *philo)
 {
-	if (should_philosopher_die(data))
-		philosopher_die(data);
-	if (read_signal_mutex(data->signal, data->signal_mutex))
+	if (should_philosopher_die(philo))
+		philosopher_die(philo);
+	if (read_signal_mutex(philo->signal, philo->signal_mutex))
 		return ;
-	if (!take_forks(data)
-		|| read_signal_mutex(data->signal, data->signal_mutex))
+	if (!take_forks(philo)
+		|| read_signal_mutex(philo->signal, philo->signal_mutex))
 	{
-		leave_forks(data);
+		leave_forks(philo);
 		return ;
 	}
-	data->last_meal_time = get_time();
-	philo_message(data->philosopher->id, EAT_COLOR "is eating" COLOR_RESET "\n");
-	msleep(data->config->eat_time);
-	leave_forks(data);
-	data->philosopher->eat_count += 1;
-	if (data->config->eat_count > 0
-		&& data->philosopher->eat_count >= data->config->eat_count)
+	philo->last_meal_time = get_time();
+	philo_message(philo->id, EAT_COLOR "is eating" COLOR_RESET "\n");
+	msleep(philo->config->eat_time);
+	leave_forks(philo);
+	philo->eat_count += 1;
+	if (philo->config->eat_count > 0
+		&& philo->eat_count >= philo->config->eat_count)
 	{
-		pthread_mutex_lock(data->signal_mutex);
-		*(data->signal) = 1;
-		pthread_mutex_unlock(data->signal_mutex);
+		pthread_mutex_lock(philo->signal_mutex);
+		*(philo->signal) = 1;
+		pthread_mutex_unlock(philo->signal_mutex);
 	}
 }
 
-void	philosopher_sleep(t_thread_data *data)
+void	philosopher_sleep(t_philosopher *philo)
 {
 	long	diff;
 
-	if (read_signal_mutex(data->signal, data->signal_mutex))
+	if (read_signal_mutex(philo->signal, philo->signal_mutex))
 		return ;
-	philo_message(data->philosopher->id, SLEEP_COLOR "is sleeping" COLOR_RESET "\n");
-	diff = data->config->starve_time - data->config->sleep_time;
+	philo_message(philo->id, SLEEP_COLOR "is sleeping" COLOR_RESET "\n");
+	diff = philo->config->starve_time - philo->config->sleep_time;
 	if (diff <= 0)
 	{
-		msleep(data->config->starve_time);
-		philosopher_die(data);
+		msleep(philo->config->starve_time);
+		//philosopher_die(data);
 	}
 	else
-		msleep(data->config->sleep_time);
+		msleep(philo->config->sleep_time);
 }

@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 07:17:18 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 08:42:21 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #include <macros/status.h>
 #include <structs/s_table.h>
-#include <structs/s_thread_data.h>
+#include <structs/s_philosopher.h>
 
 #include <modules/philosophers/philosophers_routine.h>
 #include <modules/philosophers/philosophers_utils.h>
@@ -52,23 +52,22 @@ t_byte	read_signal_mutex(t_byte *signal, pthread_mutex_t *mutex)
  */
 void	*philosopher_routine(void *data)
 {
-	t_thread_data	*thread_data;
+	t_philosopher	*philo;
 	t_byte			*dinner_over;
 
-	thread_data = (t_thread_data *)data;
-	dinner_over = thread_data->signal;
+	philo = (t_philosopher *)data;
+	dinner_over = philo->signal;
 	while (1)
 	{
-		if (read_signal_mutex(dinner_over, thread_data->signal_mutex))
+		if (read_signal_mutex(dinner_over, philo->signal_mutex))
 			break ;
 		philosopher_eat(data);
-		if (read_signal_mutex(dinner_over, thread_data->signal_mutex))
+		if (read_signal_mutex(dinner_over, philo->signal_mutex))
 			break ;
 		philosopher_sleep(data);
-		if (read_signal_mutex(dinner_over, thread_data->signal_mutex))
+		if (read_signal_mutex(dinner_over, philo->signal_mutex))
 			break ;
 	}
-	free(data);
 	return (NULL);
 }
 
@@ -85,43 +84,19 @@ int	start_philosophers(t_table *table, int count,
 	int				i;
 	int				res;
 	t_philosopher	*philos;
-	t_thread_data	**data;
 
 	philos = table->philosophers;
 	if (!philos)
 		return (0);
-	init_philosophers(philos, table->forks, table->config.philo_count);
-	data = malloc(sizeof(t_thread_data *) * count);
-	if (!data)
-		return (0);
-	i = 0;
-	while (i < count)
-	{
-		data[i] = malloc(sizeof(t_thread_data));
-		data[i]->philosopher = philos + i;
-		data[i]->config = &(table->config);
-		data[i]->time_in_ms = 0;
-		data[i]->last_meal_time = 0;
-		data[i]->signal = &(table->dinner_over);
-		data[i]->signal_mutex = &(table->over_mutex);
-		data[i]->print_mutex = &(table->print_mutex);
-		i++;
-	}
+	init_philosophers(philos, table, table->config.philo_count);
 	i = 0;
 	while (i < count)
 	{
 		res = pthread_create(&(philos[i].thread_id), NULL,
-				philo_routine, data[i]);
+				philo_routine, philos + i);
 		if (res != SUCCESS)
-		{
-			free(data);
 			return (0);
-		}
 		i++;
 	}
-	free(data);
-	pthread_mutex_lock(&table->over_mutex);
-	table->dinner_over = 0;
-	pthread_mutex_unlock(&table->over_mutex);
 	return (i);
 }
