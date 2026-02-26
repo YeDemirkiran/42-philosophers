@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 08:08:40 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/26 07:38:59 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 
 void	philosopher_die(t_philosopher *philo)
 {
-	philo_message(philo->id, DEATH_COLOR "died" COLOR_RESET "\n");
 	pthread_mutex_lock(philo->signal_mutex);
 	if (*philo->signal == 1)
 	{
@@ -37,14 +36,15 @@ void	philosopher_die(t_philosopher *philo)
 	}
 	*(philo->signal) = 1;
 	pthread_mutex_unlock(philo->signal_mutex);
+	philo_message(philo->id, DEATH_COLOR "died" COLOR_RESET "\n");
 }
 
 static void	leave_forks(t_philosopher *philo)
 {
-	pthread_mutex_unlock(philo->left_fork);
-	if (philo->left_fork == philo->right_fork)
-		return ;
-	pthread_mutex_unlock(philo->right_fork);
+	if (philo->left_fork != NULL)
+		pthread_mutex_unlock(philo->left_fork);
+	if (philo->left_fork != philo->right_fork && philo->right_fork != NULL)
+		pthread_mutex_unlock(philo->right_fork);
 }
 
 static int	take_forks(t_philosopher *philo)
@@ -59,7 +59,7 @@ static int	take_forks(t_philosopher *philo)
 		return (0);
 	}
 	philo_message(philo->id, THINK_COLOR "is thinking" COLOR_RESET "\n");
-	if (philo->left_fork < philo->right_fork)
+	if (philo->left_fork < philo->right_fork || philo->right_fork == NULL)
 		first_fork = philo->left_fork;
 	else
 		first_fork = philo->right_fork;
@@ -75,14 +75,13 @@ static int	take_forks(t_philosopher *philo)
 		return (1);
 	}
 	philo_message(philo->id, TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n");
-	if (philo->left_fork == philo->right_fork)
+	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
 	{
 		msleep(philo->config->starve_time);
-		pthread_mutex_unlock(first_fork);
 		philosopher_die(philo);
 		return (0);
 	}
-	if (first_fork == philo->left_fork)
+	if (first_fork == philo->left_fork && philo->right_fork != NULL)
 		pthread_mutex_lock(philo->right_fork);
 	else
 		pthread_mutex_lock(philo->left_fork);
@@ -93,7 +92,6 @@ static int	take_forks(t_philosopher *philo)
 	}
 	if (should_philosopher_die(philo))
 	{
-		leave_forks(philo);
 		philosopher_die(philo);
 		return (0);
 	}

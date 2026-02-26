@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 08:00:25 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/25 09:15:37 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	init_philosophers(t_philosopher *philos, t_table *table,
 		philos[i].eat_count = 0;
 		philos[i].last_meal_time = 0;
 		philos[i].left_fork = table->forks + i;
-		philos[i].right_fork = table->forks + ((i + 1) % philo_count);
+		if (philo_count < 2)
+			philos[i].right_fork = NULL;
+		else
+			philos[i].right_fork = table->forks + ((i + 1) % philo_count);
 		philos[i].config = &(table->config);
 		philos[i].signal = &(table->dinner_over);
 		philos[i].signal_mutex = &(table->over_mutex);
