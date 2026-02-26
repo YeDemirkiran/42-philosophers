@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 08:42:21 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/26 15:12:23 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,46 +26,22 @@
 #include <modules/philosophers/philosophers_utils.h>
 
 /**
- * @brief Sleeps for the given milliseconds.
- */
-long	msleep(long ms)
-{
-	return (usleep(ms * 1000));
-}
-
-/**
- * @brief Hold the execution untih the mutex signal is avaliable,
- * then return its value.
- */
-t_byte	read_signal_mutex(t_byte *signal, pthread_mutex_t *mutex)
-{
-	t_byte	res;
-
-	pthread_mutex_lock(mutex);
-	res = *signal;
-	pthread_mutex_unlock(mutex);
-	return (res);
-}
-
-/**
  * @brief The philosopher routine. It's ran in a thread.
  */
 void	*philosopher_routine(void *data)
 {
 	t_philosopher	*philo;
-	t_byte			*dinner_over;
 
 	philo = (t_philosopher *)data;
-	dinner_over = philo->signal;
 	while (1)
 	{
-		if (read_signal_mutex(dinner_over, philo->signal_mutex))
+		if (!should_philo_continue(philo))
 			break ;
 		philosopher_eat(data);
-		if (read_signal_mutex(dinner_over, philo->signal_mutex))
+		if (!should_philo_continue(philo))
 			break ;
 		philosopher_sleep(data);
-		if (read_signal_mutex(dinner_over, philo->signal_mutex))
+		if (!should_philo_continue(philo))
 			break ;
 	}
 	return (NULL);
