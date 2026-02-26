@@ -6,9 +6,14 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 06:59:25 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/02/26 15:11:10 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief Sleeps for the given milliseconds.
+ */
+long		msleep(long ms);
 
 /**
  * @brief Returns the current time in milliseconds since the start
@@ -27,6 +32,7 @@ long		get_time(void);
  * @return -1 on error (mutex_lock or mutex_unlock fails), and whatever printf
  * returns otherwise.
  */
-int			philo_message(int philo_id, const char *message);
+int			philo_message(int philo_id, const char *message,
+				long optional_time);
 
 long long	ft_atol(char *str);
