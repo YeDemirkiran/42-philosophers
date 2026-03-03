@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/26 15:13:12 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/03 06:45:41 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PHILOSOPHERS_UTILS_H
 
 # include <pthread.h>
-# include <structs/s_philosopher.h>
+# include <structs/s_table.h>
 
 /**
  * @brief This function does two things:

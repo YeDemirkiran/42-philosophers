@@ -6,12 +6,14 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/26 15:13:34 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:19:00 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #include "structs/s_philosopher.h"
 #include "modules/utils.h"
@@ -61,7 +63,7 @@ static int	take_forks(t_philosopher *philo)
 	philo_message(philo->id, FORK_MESSAGE, -1);
 	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
 	{
-		msleep(philo->config->starve_time);
+		interval_sleep(philo->config->starve_time, philo);
 		pthread_mutex_unlock(first_fork);
 		should_philo_continue(philo);
 		return (0);
@@ -90,7 +92,7 @@ void	philosopher_eat(t_philosopher *philo)
 		return ;
 	}
 	philo_message(philo->id, EAT_MESSAGE, philo->last_meal_time);
-	msleep(philo->config->eat_time);
+	interval_sleep(philo->config->eat_time, philo);
 	leave_forks(philo);
 	philo->eat_count += 1;
 	// TODO: Refine eat count logic
@@ -105,17 +107,8 @@ void	philosopher_eat(t_philosopher *philo)
 
 void	philosopher_sleep(t_philosopher *philo)
 {
-	long	diff;
-
 	if (!should_philo_continue(philo))
 		return ;
 	philo_message(philo->id, SLEEP_MESSAGE, -1);
-	diff = philo->config->starve_time - philo->config->sleep_time;
-	if (diff <= 0)
-	{
-		msleep(philo->config->starve_time);
-		//should_philo_continue(philo, );
-	}
-	else
-		msleep(philo->config->sleep_time);
+	interval_sleep(philo->config->sleep_time, philo);
 }
