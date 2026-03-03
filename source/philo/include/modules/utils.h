@@ -6,14 +6,18 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/26 15:11:10 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:18:01 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "structs/s_philosopher.h"
+
 /**
- * @brief Sleeps for the given milliseconds.
+ * @brief Sleeps for ms duration, but does it in intervals.
+ * Checks whether the philosopher has died with each interval and exits
+ * early.
  */
-long		msleep(long ms);
+void		interval_sleep(long ms, t_philosopher *philo);
 
 /**
  * @brief Returns the current time in milliseconds since the start
