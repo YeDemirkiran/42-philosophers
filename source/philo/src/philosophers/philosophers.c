@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/09 15:14:55 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/11 17:37:32 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	*philosopher_routine(void *data)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)data;
+	if (philo->id % 2 == 0)
+		usleep(500);
 	while (1)
 	{
 		if (!should_philo_continue(philo))
