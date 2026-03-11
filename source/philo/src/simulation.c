@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/11 17:55:45 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:10:34 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 #define DEATH_COLOR "\033[1;91m"
 #define COLOR_RESET "\033[0m"
 
-void	detach_philosophers(t_philosopher *philos, size_t count)
+/**
+ * @brief Calls pthread_detach on each thread in a loop.
+ */
+static void	detach_philosophers(t_philosopher *philos, size_t count)
 {
 	size_t	i;
 
@@ -33,7 +36,12 @@ void	detach_philosophers(t_philosopher *philos, size_t count)
 	}
 }
 
-int	any_philo_dead(t_philosopher *philos, size_t count)
+/**
+ * @brief Checks if any philo has died
+ * @return -1 if no philosopher has died, and
+ * the ID of the dead philosopher otherwise.
+ */
+static int	any_philo_dead(t_philosopher *philos, size_t count)
 {
 	size_t	i;
 	long	time;
@@ -51,10 +59,66 @@ int	any_philo_dead(t_philosopher *philos, size_t count)
 	return (-1);
 }
 
+/**
+ * @brief Checks if all philos have eaten enough.
+ *
+ * @return 1 if all philos has eaten, 0 otherwise.
+ */
+static int	all_philos_eaten(t_philosopher *philos, size_t philo_count,
+	size_t max_eat_count)
+{
+	size_t	i;
+
+	if (max_eat_count == 0)
+		return (0);
+	i = 0;
+	while (i < philo_count)
+	{
+		if (philos[i].eat_count < max_eat_count)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static void	monitor_philosophers(t_table *table,
+	t_philosopher *philos, size_t philo_count)
+{
+	int	dead_id;
+	int	max_eat;
+
+	while (1)
+	{
+		usleep(100);
+		dead_id = any_philo_dead(philos, philo_count);
+		max_eat = all_philos_eaten(philos, philo_count,
+			table->config.eat_count);
+		if (dead_id >= 0 || max_eat)
+		{
+			pthread_mutex_lock(&table->over_mutex);
+			table->dinner_over = 1;
+			pthread_mutex_unlock(&table->over_mutex);
+			if (dead_id >= 0)
+				philo_message(dead_id,
+					DEATH_COLOR "died" COLOR_RESET "\n", -1);
+			break ;
+		}
+	}
+}
+
+/**
+ * @brief Starts the dinner simulation and the monitor.
+ *
+ * The monitor keeps checking every philosopher in an interval.
+ * When a philosopher dies or all philosophers has eaten enough, the dinner
+ * stops.
+ *
+ * @note Also sleeps by some arbitrary time in milliseconds after the simulation ends,
+ * to prevent the main thread from leaving before the child threads.
+ */
 void	start_simulation(t_table *table)
 {
 	int		res;
-	int		dead_id;
 	size_t	philo_count;
 
 	philo_count = table->config.philo_count;
@@ -62,18 +126,6 @@ void	start_simulation(t_table *table)
 	if (res != (int)philo_count)
 		table->dinner_over = 1;
 	detach_philosophers(table->philosophers, philo_count);
-	while (1)
-	{
-		usleep(100);
-		dead_id = any_philo_dead(table->philosophers, philo_count);
-		if (dead_id >= 0)
-		{
-			pthread_mutex_lock(&table->over_mutex);
-			table->dinner_over = 1;
-			pthread_mutex_unlock(&table->over_mutex);
-			philo_message(dead_id, DEATH_COLOR "died" COLOR_RESET "\n", -1);
-			break ;
-		}
-	}
+	monitor_philosophers(table, table->philosophers, philo_count);
 	usleep(20000);
 }
