@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/09 15:37:37 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/11 17:55:45 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void	start_simulation(t_table *table)
 			break ;
 		}
 	}
-	//join_philosophers(table->philosophers, res);
+	usleep(20000);
 }
