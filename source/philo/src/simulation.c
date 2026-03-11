@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/09 15:20:42 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:37:37 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	any_philo_dead(t_philosopher *philos, size_t count)
 	starve_time = philos->config->starve_time;
 	while (i < count)
 	{
-		if (time - philos->last_meal_time >= starve_time)
+		if (time - philos[i].last_meal_time >= starve_time)
 			return (i);
 		i++;
 	}
