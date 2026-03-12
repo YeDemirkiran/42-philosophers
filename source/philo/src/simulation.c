@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 15:55:29 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:38:47 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ static int	any_philo_dead(t_philosopher *philos, size_t count)
 	long	last_meal_time;
 
 	i = 0;
-	time = get_time();
 	starve_time = philos->config->starve_time;
 	while (i < count)
 	{
 		pthread_mutex_lock(&philos[i].meal_mutex);
 		last_meal_time = philos[i].last_meal_time;
 		pthread_mutex_unlock(&philos[i].meal_mutex);
+		time = get_time();
 		if (time - last_meal_time >= starve_time)
 			return (i);
 		i++;
