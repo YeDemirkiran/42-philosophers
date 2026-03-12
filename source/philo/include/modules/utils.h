@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/03 07:18:01 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:30:07 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void		interval_sleep(long ms, t_philosopher *philo);
  * @brief Returns the current time in milliseconds since the start
  * of the program.
  * @return -1 on error, time in milliseconds otherwise.
+ * @note Call once in the main thread to initialize epoch. Otherwise,
+ * race conditions may occur.
  */
 long		get_time(void);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 21:35:53 by yademirk          #+#    #+#             */
-/*   Updated: 2025/09/09 12:39:26 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:29:47 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <structs/s_table.h>
 #include <modules/table.h>
+#include <modules/utils.h>
 #include <modules/simulation.h>
 #include <macros/status.h>
 
@@ -35,6 +36,7 @@ int	main(int argc, char **argv)
 	}
 	if (init_table(&table, argc, argv) == FAILURE)
 		return (EXIT_FAILURE);
+	get_time();
 	start_simulation(&table);
 	clear_table(&table);
 	return (EXIT_SUCCESS);
