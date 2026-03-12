@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 09:03:48 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:42:02 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include "macros/status.h"
 #include "modules/mutex.h"
 #include "modules/utils.h"
-#include "modules/philosophers/philosophers.h"
-#include "modules/philosophers/philosophers_utils.h"
 
 static int	validate_config(long long config_numbers[5])
 {

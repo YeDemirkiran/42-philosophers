@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 08:59:03 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:56:56 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 #include "structs/s_philosopher.h"
 #include "modules/utils.h"
-#include "modules/philosophers/philosophers.h"
-#include "modules/philosophers/philosophers_utils.h"
+
+#include "philosophers_utils.h"
 
 // colors for reference
 

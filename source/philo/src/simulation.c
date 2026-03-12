@@ -6,35 +6,20 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 09:38:33 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:55:29 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
 #include <unistd.h>
 #include <macros/status.h>
-#include <structs/s_table.h>
-#include <modules/philosophers/philosophers.h>
-#include <modules/philosophers/philosophers_utils.h>
-#include <modules/utils.h>
+
+#include "structs/s_table.h"
+#include "modules/philosophers.h"
+#include "modules/utils.h"
 
 #define DEATH_COLOR "\033[1;91m"
 #define COLOR_RESET "\033[0m"
-
-/**
- * @brief Calls pthread_detach on each thread in a loop.
- */
-static void	philosophers_join(t_philosopher *philos, size_t count)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < count)
-	{
-		pthread_join(philos[i].thread_id, NULL);
-		i++;
-	}
-}
 
 /**
  * @brief Checks if any philo has died
@@ -135,5 +120,5 @@ void	start_simulation(t_table *table)
 		pthread_mutex_unlock(&table->over_mutex);
 	}
 	monitor_philosophers(table, table->philosophers, philo_count);
-	philosophers_join(table->philosophers, philo_count);
+	join_philosophers(table->philosophers, philo_count);
 }

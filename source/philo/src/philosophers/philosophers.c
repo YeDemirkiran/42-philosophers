@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 09:37:55 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:47:45 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-#include <macros/status.h>
-#include <structs/s_table.h>
-#include <structs/s_philosopher.h>
+#include "macros/status.h"
+#include "structs/s_table.h"
+#include "structs/s_philosopher.h"
 
-#include <modules/philosophers/philosophers_routine.h>
-#include <modules/philosophers/philosophers_utils.h>
+#include "philosophers_utils.h"
+#include "philosophers_routine.h"
 
 /**
  * @brief The philosopher routine. It's ran in a thread.
