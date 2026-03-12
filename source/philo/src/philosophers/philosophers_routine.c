@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:33:28 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:46:52 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	take_forks(t_philosopher *philo)
 
 	if (!should_philo_continue(philo))
 		return (0);
-	philo_message(philo->id, THINK_MESSAGE, -1);
+	philo_message(philo->id, THINK_MESSAGE, get_time());
 	if (philo->left_fork < philo->right_fork || philo->right_fork == NULL)
 		first_fork = philo->left_fork;
 	else
@@ -62,7 +62,7 @@ static int	take_forks(t_philosopher *philo)
 		pthread_mutex_unlock(first_fork);
 		return (0);
 	}
-	philo_message(philo->id, FORK_MESSAGE, -1);
+	philo_message(philo->id, FORK_MESSAGE, get_time());
 	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
 	{
 		interval_sleep(philo->config->starve_time, philo);
@@ -78,7 +78,7 @@ static int	take_forks(t_philosopher *philo)
 		leave_forks(philo);
 		return (0);
 	}
-	philo_message(philo->id, FORK_MESSAGE, -1);
+	philo_message(philo->id, FORK_MESSAGE, get_time());
 	return (1);
 }
 
@@ -108,8 +108,11 @@ int	philosopher_eat(t_philosopher *philo)
 
 void	philosopher_sleep(t_philosopher *philo)
 {
+	long	time;
+
 	if (!should_philo_continue(philo))
 		return ;
-	philo_message(philo->id, SLEEP_MESSAGE, -1);
+	time = get_time();
+	philo_message(philo->id, SLEEP_MESSAGE, time);
 	interval_sleep(philo->config->sleep_time, philo);
 }

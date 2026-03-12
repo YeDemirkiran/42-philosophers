@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:38:47 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:47:15 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	monitor_philosophers(t_table *table,
 			pthread_mutex_unlock(&table->over_mutex);
 			if (dead_id >= 0)
 				philo_message(dead_id,
-					DEATH_COLOR "died" COLOR_RESET "\n", -1);
+					DEATH_COLOR "died" COLOR_RESET "\n", get_time());
 			break ;
 		}
 	}

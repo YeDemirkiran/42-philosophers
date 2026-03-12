@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:30:07 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:45:02 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,10 @@ long		get_time(void);
  * format. Acquires the print lock before doing it, and automatically unlocks
  * the mutex after printing.
  *
- * It automatically retrieves the current time.
- *
  * @return -1 on error (mutex_lock or mutex_unlock fails), and whatever printf
  * returns otherwise.
  */
 int			philo_message(int philo_id, const char *message,
-				long optional_time);
+				long timestamp);
 
 long long	ft_atol(char *str);
