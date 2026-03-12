@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/11 17:37:32 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:37:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void	*philosopher_routine(void *data)
  * Returns 0 when error, otherwise returns the number of
  * successfully started threads.
  */
-int	start_philosophers(t_table *table, int count,
-	void *(*philo_routine)(void *))
+int	start_philosophers(t_table *table, int count)
 {
 	int				i;
 	int				res;
@@ -72,7 +71,7 @@ int	start_philosophers(t_table *table, int count,
 	while (i < count)
 	{
 		res = pthread_create(&(philos[i].thread_id), NULL,
-				philo_routine, philos + i);
+				philosopher_routine, philos + i);
 		if (res != SUCCESS)
 			return (0);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 09:09:19 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:38:33 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	start_simulation(t_table *table)
 	size_t	philo_count;
 
 	philo_count = table->config.philo_count;
-	res = start_philosophers(table, philo_count, philosopher_routine);
+	res = start_philosophers(table, philo_count);
 	if (res != (int)philo_count)
 	{
 		pthread_mutex_lock(&table->over_mutex);

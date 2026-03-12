@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:16:51 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/26 15:11:33 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:38:15 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <structs/s_table.h>
 
-void	*philosopher_routine(void *data);
-int		start_philosophers(t_table *table, int count,
-			void *(*philo_routine)(void *));
+int		start_philosophers(t_table *table, int count);
 
 #endif
