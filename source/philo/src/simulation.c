@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 08:47:34 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:09:19 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 /**
  * @brief Calls pthread_detach on each thread in a loop.
  */
-static void	detach_philosophers(t_philosopher *philos, size_t count)
+static void	philosophers_join(t_philosopher *philos, size_t count)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < count)
 	{
-		pthread_detach(philos[i].thread_id);
+		pthread_join(philos[i].thread_id, NULL);
 		i++;
 	}
 }
@@ -46,13 +46,17 @@ static int	any_philo_dead(t_philosopher *philos, size_t count)
 	size_t	i;
 	long	time;
 	long	starve_time;
+	long	last_meal_time;
 
 	i = 0;
 	time = get_time();
 	starve_time = philos->config->starve_time;
 	while (i < count)
 	{
-		if (time - philos[i].last_meal_time >= starve_time)
+		pthread_mutex_lock(&philos[i].meal_mutex);
+		last_meal_time = philos[i].last_meal_time;
+		pthread_mutex_unlock(&philos[i].meal_mutex);
+		if (time - last_meal_time >= starve_time)
 			return (i);
 		i++;
 	}
@@ -68,13 +72,17 @@ static int	all_philos_eaten(t_philosopher *philos, size_t philo_count,
 	size_t max_eat_count)
 {
 	size_t	i;
+	size_t	eat_count;
 
 	if (max_eat_count == 0)
 		return (0);
 	i = 0;
 	while (i < philo_count)
 	{
-		if (philos[i].eat_count < max_eat_count)
+		pthread_mutex_lock(&philos[i].meal_mutex);
+		eat_count = philos[i].eat_count;
+		pthread_mutex_unlock(&philos[i].meal_mutex);
+		if (eat_count < max_eat_count)
 			return (0);
 		i++;
 	}
@@ -112,10 +120,6 @@ static void	monitor_philosophers(t_table *table,
  * The monitor keeps checking every philosopher in an interval.
  * When a philosopher dies or all philosophers has eaten enough, the dinner
  * stops.
- *
- * @note Also sleeps by some arbitrary time in milliseconds
- * after the simulation ends, to prevent the main thread
- * from leaving before the child threads.
  */
 void	start_simulation(t_table *table)
 {
@@ -125,8 +129,11 @@ void	start_simulation(t_table *table)
 	philo_count = table->config.philo_count;
 	res = start_philosophers(table, philo_count, philosopher_routine);
 	if (res != (int)philo_count)
+	{
+		pthread_mutex_lock(&table->over_mutex);
 		table->dinner_over = 1;
-	detach_philosophers(table->philosophers, philo_count);
+		pthread_mutex_unlock(&table->over_mutex);
+	}
 	monitor_philosophers(table, table->philosophers, philo_count);
-	usleep(20000);
+	philosophers_join(table->philosophers, philo_count);
 }

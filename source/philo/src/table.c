@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 08:33:07 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:03:48 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,22 @@ int	init_table(t_table *table, int argc, char **argv)
 	return (SUCCESS);
 }
 
+static void	clear_philosophers(t_philosopher *philosophers, size_t count)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < count)
+	{
+		pthread_mutex_destroy(&philosophers[i].meal_mutex);
+		i++;
+	}
+	free(philosophers);
+}
+
 void	clear_table(t_table *table)
 {
-	free(table->philosophers);
+	clear_philosophers(table->philosophers, table->config.philo_count);
 	destroy_mutexes(table->forks, table->config.philo_count);
 	pthread_mutex_destroy(&(table->over_mutex));
 }

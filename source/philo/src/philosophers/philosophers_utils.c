@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 08:44:44 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:01:21 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,6 @@
 #include <structs/s_table.h>
 
 #include "modules/utils.h"
-
-/**
- * @brief Hold the execution untih the mutex signal is avaliable,
- * then return its value.
- */
-static t_byte	read_signal_mutex(t_byte *signal, pthread_mutex_t *mutex)
-{
-	t_byte	res;
-
-	pthread_mutex_lock(mutex);
-	res = *signal;
-	pthread_mutex_unlock(mutex);
-	return (res);
-}
 
 /**
  * @brief This function does two things:
@@ -46,7 +32,9 @@ int	should_philo_continue(t_philosopher *philo)
 {
 	t_byte	dinner_over;
 
-	dinner_over = read_signal_mutex(philo->signal, philo->signal_mutex);
+	pthread_mutex_lock(philo->signal_mutex);
+	dinner_over = *(philo->signal);
+	pthread_mutex_unlock(philo->signal_mutex);
 	if (dinner_over)
 		return (0);
 	return (1);
@@ -62,6 +50,7 @@ void	init_philosophers(t_philosopher *philos, t_table *table,
 	{
 		philos[i].id = i;
 		philos[i].eat_count = 0;
+		pthread_mutex_init(&philos[i].meal_mutex, NULL);
 		philos[i].last_meal_time = 0;
 		philos[i].left_fork = table->forks + i;
 		if (philo_count < 2)

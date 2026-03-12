@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 08:43:10 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 08:59:03 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,25 @@ static int	take_forks(t_philosopher *philo)
 
 int	philosopher_eat(t_philosopher *philo)
 {
+	long	last_meal_time;
+
 	if (!take_forks(philo))
 		return (0);
-	philo->last_meal_time = get_time();
+	last_meal_time = get_time();
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal_time = last_meal_time;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	if (!should_philo_continue(philo))
 	{
 		leave_forks(philo);
 		return (0);
 	}
-	philo_message(philo->id, EAT_MESSAGE, philo->last_meal_time);
+	philo_message(philo->id, EAT_MESSAGE, last_meal_time);
 	interval_sleep(philo->config->eat_time, philo);
 	leave_forks(philo);
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->eat_count += 1;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	return (1);
 }
 
