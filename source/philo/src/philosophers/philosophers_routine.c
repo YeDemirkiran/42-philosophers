@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/11 18:16:07 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 08:43:10 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "modules/philosophers/philosophers.h"
 #include "modules/philosophers/philosophers_utils.h"
 
-// colors
+// colors for reference
 
 #define THINK_COLOR "\033[1;93m"
 #define TAKE_FORK_COLOR "\033[1;37m"
@@ -28,12 +28,14 @@
 #define SLEEP_COLOR "\033[1;96m"
 #define COLOR_RESET "\033[0m"
 
-// messages
+// We'll have to embed color codes directly in the macro
+// Instead of being able to use the defined ones already
+// Thanks Norm
 
-#define EAT_MESSAGE EAT_COLOR "is eating" COLOR_RESET "\n"
-#define THINK_MESSAGE THINK_COLOR "is thinking" COLOR_RESET "\n"
-#define FORK_MESSAGE TAKE_FORK_COLOR "has taken a fork" COLOR_RESET "\n"
-#define SLEEP_MESSAGE SLEEP_COLOR "is sleeping" COLOR_RESET "\n"
+#define EAT_MESSAGE "\033[1;92mis eating\033[0m\n"
+#define THINK_MESSAGE "\033[1;93mis thinking\033[0m\n"
+#define FORK_MESSAGE "\033[1;37mhas taken a fork\033[0m\n"
+#define SLEEP_MESSAGE "\033[1;96mis sleeping\033[0m\n"
 
 static void	leave_forks(t_philosopher *philo)
 {

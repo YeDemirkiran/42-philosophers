@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/09 15:23:06 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 08:44:44 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 #include <structs/s_table.h>
 
 #include "modules/utils.h"
-
-#define DEATH_COLOR "\033[1;91m"
-#define COLOR_RESET "\033[0m"
 
 /**
  * @brief Hold the execution untih the mutex signal is avaliable,
@@ -47,18 +44,8 @@ static t_byte	read_signal_mutex(t_byte *signal, pthread_mutex_t *mutex)
  */
 int	should_philo_continue(t_philosopher *philo)
 {
-	//long	current_time;
-	//t_byte	is_dead;
 	t_byte	dinner_over;
 
-	// current_time = get_time();
-	// is_dead = current_time >= philo->last_meal_time
-	// 			+ (long)(philo->config->starve_time);
-	// if (is_dead)
-	// {
-	// 	//philosopher_die(philo, current_time);
-	// 	return (0);
-	// }
 	dinner_over = read_signal_mutex(philo->signal, philo->signal_mutex);
 	if (dinner_over)
 		return (0);

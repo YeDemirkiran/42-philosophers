@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/11 18:10:34 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/12 08:47:34 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	monitor_philosophers(t_table *table,
 		usleep(100);
 		dead_id = any_philo_dead(philos, philo_count);
 		max_eat = all_philos_eaten(philos, philo_count,
-			table->config.eat_count);
+				table->config.eat_count);
 		if (dead_id >= 0 || max_eat)
 		{
 			pthread_mutex_lock(&table->over_mutex);
@@ -113,8 +113,9 @@ static void	monitor_philosophers(t_table *table,
  * When a philosopher dies or all philosophers has eaten enough, the dinner
  * stops.
  *
- * @note Also sleeps by some arbitrary time in milliseconds after the simulation ends,
- * to prevent the main thread from leaving before the child threads.
+ * @note Also sleeps by some arbitrary time in milliseconds
+ * after the simulation ends, to prevent the main thread
+ * from leaving before the child threads.
  */
 void	start_simulation(t_table *table)
 {
