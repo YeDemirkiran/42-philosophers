@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:46:52 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 12:30:49 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	take_forks(t_philosopher *philo)
 	if (!should_philo_continue(philo))
 		return (0);
 	philo_message(philo->id, THINK_MESSAGE, get_time());
-	if (philo->left_fork < philo->right_fork || philo->right_fork == NULL)
+	if (philo->right_fork == NULL)
 		first_fork = philo->left_fork;
 	else
 		first_fork = philo->right_fork;
