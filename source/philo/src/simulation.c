@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:47:15 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 12:49:18 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	monitor_philosophers(t_table *table,
 
 	while (1)
 	{
-		usleep(100);
+		usleep(1000);
 		dead_id = any_philo_dead(philos, philo_count);
 		max_eat = all_philos_eaten(philos, philo_count,
 				table->config.eat_count);
