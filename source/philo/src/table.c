@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 18:55:33 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 19:07:16 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 #define ARG_4_ERR "argument time_to_sleep must be a positive integer"
 #define ARG_5_ERR "optional argument max_eat_count must be a positive integer"
 
+/**
+ * @brief Validates the first 4 config numbers and whether they are positive
+ * integers.
+ *
+ * @return 0 on success, 1 on failure.
+ */
 static int	validate_config(long long config_numbers[5])
 {
 	if (config_numbers[0] < 0 || config_numbers[1] < 0
@@ -33,6 +39,14 @@ static int	validate_config(long long config_numbers[5])
 	return (SUCCESS);
 }
 
+/**
+ * @brief Initializes the table's config and rules.
+ *
+ * @return 0 on success, 1 on failure.
+ *
+ * @note The optional 5th argument "max_eat_count" is set to 0
+ * if it's not set by the user.
+ */
 static int	init_config(t_config *config, int argc, char **argv)
 {
 	long long	config_numbers[5];
@@ -83,6 +97,11 @@ static int	init_config(t_config *config, int argc, char **argv)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Inits the table.
+ *
+ * @return 0 on success, 1 on failure.
+ */
 int	init_table(t_table *table, int argc, char **argv)
 {
 	table->dinner_over = 0;
@@ -106,6 +125,13 @@ int	init_table(t_table *table, int argc, char **argv)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Iterates over all philosophers and destroys them.
+ *
+ * - Mutexes are destroyed
+ *
+ * - The array is free'd
+ */
 static void	clear_philosophers(t_philosopher *philosophers, size_t count)
 {
 	size_t	i;
@@ -119,6 +145,13 @@ static void	clear_philosophers(t_philosopher *philosophers, size_t count)
 	free(philosophers);
 }
 
+/**
+ * @brief Clears the table.
+ *
+ * - Clears and frees all philosophers
+ *
+ * - Destroys all mutexes
+ */
 void	clear_table(t_table *table)
 {
 	clear_philosophers(table->philosophers, table->config.philo_count);
