@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 20:21:55 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 22:04:05 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ long		get_time(void);
  */
 int			philo_message(int philo_id, const char *message,
 				long timestamp);
+
+/**
+ * @brief Prints an error message to the standard error
+ * in the "philo: error: [message]" format.
+ *
+ * @note Prints "philo: error: Unknown error" if msg is NULL.
+ */
+void		philo_error(const char *msg);
 
 /**
  * @brief Sleeps for ms duration, but does it in intervals.

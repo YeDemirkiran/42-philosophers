@@ -6,7 +6,7 @@
 #    By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/01 21:37:32 by yademirk          #+#    #+#              #
-#    Updated: 2026/03/11 17:48:44 by yademirk         ###   ########.fr        #
+#    Updated: 2026/03/14 22:04:17 by yademirk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 
 UTILS_DIR = utils/
-UTILS_SRC = $(addprefix $(UTILS_DIR), convert.c get_time.c interval_sleep.c philo_message.c)
+UTILS_SRC = $(addprefix $(UTILS_DIR), convert.c get_time.c interval_sleep.c philo_message.c philo_error.c)
 
 PHILOSOPHERS_DIR = philosophers/
 PHILOSOPHERS_SRC = $(addprefix $(PHILOSOPHERS_DIR), philosophers.c philosophers_routine.c philosophers_utils.c)
