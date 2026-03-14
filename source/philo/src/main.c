@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 21:35:53 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:29:47 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 20:18:07 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <modules/simulation.h>
 #include <macros/status.h>
 
+/**
+ * @brief Prints the correct usage message.
+ */
 static void	wrong_usage(void)
 {
 	printf("usage: philo philo_count time_to_die time_to_eat time_to_sleep"

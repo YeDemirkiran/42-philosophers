@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 15:55:53 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 21:56:47 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,17 @@
  * @return 0 if the philosopher should stop, 1 if it should continue.
  */
 int		should_philo_continue(t_philosopher *philo);
-void	init_philosophers(t_philosopher *philos, t_table *table,
+
+/**
+ * @brief Initializes all philosopher structs.
+ * @return 1 on success, 0 on failure.
+ */
+int		init_philosophers(t_philosopher *philos, t_table *table,
 			int philo_count);
+
+/**
+ * @brief Calls pthread_join on all philosophers.
+ */
 void	join_philosophers(t_philosopher *philos, int count);
 
 #endif

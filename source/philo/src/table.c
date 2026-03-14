@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 19:07:16 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 20:22:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	init_config(t_config *config, int argc, char **argv)
 }
 
 /**
- * @brief Inits the table.
+ * @brief Inits the dinner table.
  *
  * @return 0 on success, 1 on failure.
  */
@@ -146,7 +146,7 @@ static void	clear_philosophers(t_philosopher *philosophers, size_t count)
 }
 
 /**
- * @brief Clears the table.
+ * @brief Clears the dinner table.
  *
  * - Clears and frees all philosophers
  *

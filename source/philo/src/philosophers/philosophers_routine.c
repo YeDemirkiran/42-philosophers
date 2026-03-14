@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 13:07:13 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 21:51:49 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 #define FORK_MESSAGE "\033[1;37mhas taken a fork\033[0m\n"
 #define SLEEP_MESSAGE "\033[1;96mis sleeping\033[0m\n"
 
+/**
+ * @brief Leaves forks in the order they are acquired.
+ */
 static void	leave_forks(t_philosopher *philo)
 {
 	if (philo->left_fork != NULL)
@@ -45,6 +48,13 @@ static void	leave_forks(t_philosopher *philo)
 		pthread_mutex_unlock(philo->right_fork);
 }
 
+/**
+ * @brief Acquires forks in a left-right order.
+ *
+ * @return 0 on failure (philosopher death, dinner over), 1 on success.
+ *
+ * @note You should exit the thread when 0 is returned.
+ */
 static int	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_t	*first_fork;
@@ -82,6 +92,15 @@ static int	take_forks(t_philosopher *philo)
 	return (1);
 }
 
+/**
+ * @brief Acquires the forks automatically and starts eating.
+ *
+ * Checks the death and dinner state before each important state
+ * and self-terminates accordingly. Returns 0 on such cases, which means
+ * the philosopher should stop and exit immediately.
+ *
+ * @return 0 on failure (death, dinner over), 1 on success.
+ */
 int	philosopher_eat(t_philosopher *philo)
 {
 	long	last_meal_time;
@@ -112,6 +131,11 @@ int	philosopher_eat(t_philosopher *philo)
 	return (1);
 }
 
+/**
+ * @brief Philosopher sleep routine. Sleeps with intervals.
+ * Automatically stops if the philosopher has died or when the
+ * dinner is over.
+ */
 void	philosopher_sleep(t_philosopher *philo)
 {
 	long	time;

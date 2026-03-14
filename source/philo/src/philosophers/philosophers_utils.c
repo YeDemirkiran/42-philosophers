@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 09:01:21 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 21:20:29 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@
 #include "modules/utils.h"
 
 /**
- * @brief This function does two things:
- *
- * 1 - Checks if the philosopher is dead and prints the death message
- *
- * 2 - Checks if the dinner is over
- *
  * @return 0 if the philosopher should stop, 1 if it should continue.
  */
 int	should_philo_continue(t_philosopher *philo)
@@ -40,7 +34,11 @@ int	should_philo_continue(t_philosopher *philo)
 	return (1);
 }
 
-void	init_philosophers(t_philosopher *philos, t_table *table,
+/**
+ * @brief Initializes all philosopher structs.
+ * @return 1 on success, 0 on failure.
+ */
+int	init_philosophers(t_philosopher *philos, t_table *table,
 	int philo_count)
 {
 	int	i;
@@ -62,12 +60,18 @@ void	init_philosophers(t_philosopher *philos, t_table *table,
 		philos[i].signal_mutex = &(table->over_mutex);
 		i++;
 	}
+	return (1);
 }
 
+/**
+ * @brief Calls pthread_join on all philosophers.
+ */
 void	join_philosophers(t_philosopher *philos, int count)
 {
 	int	i;
 
+	if (philos == NULL || count <= 0)
+		return ;
 	i = 0;
 	while (i < count)
 	{

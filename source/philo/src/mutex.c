@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:20:11 by yademirk          #+#    #+#             */
-/*   Updated: 2025/09/09 12:39:40 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 20:17:47 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <macros/status.h>
 
+/**
+ * @brief Destroys all mutexes and frees the array.
+ */
 void	destroy_mutexes(pthread_mutex_t *mutexes, int count)
 {
 	int	i;
@@ -28,6 +31,12 @@ void	destroy_mutexes(pthread_mutex_t *mutexes, int count)
 	free(mutexes);
 }
 
+/**
+ * @brief Malloc's the given mutex array by the given count and
+ * initalizes all of them.
+ *
+ * @return 0 on success, 1 on failure.
+ */
 int	init_mutexes(pthread_mutex_t **mutexes, int count)
 {
 	int				res;

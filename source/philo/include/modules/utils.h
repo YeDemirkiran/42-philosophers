@@ -6,18 +6,21 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:45:02 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 20:21:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs/s_philosopher.h"
 
 /**
- * @brief Sleeps for ms duration, but does it in intervals.
- * Checks whether the philosopher has died with each interval and exits
- * early.
+ * @brief Converts the given string to a long integer.
+ *
+ * Additionally checks an optional sign character at the start of the string.
+ *
+ * @note You can't safely determine if the given string contains invalid
+ * characters since this function simply returns 0 on such cases.
  */
-void		interval_sleep(long ms, t_philosopher *philo);
+long long	ft_atol(const char *str);
 
 /**
  * @brief Returns the current time in milliseconds since the start
@@ -39,4 +42,9 @@ long		get_time(void);
 int			philo_message(int philo_id, const char *message,
 				long timestamp);
 
-long long	ft_atol(char *str);
+/**
+ * @brief Sleeps for ms duration, but does it in intervals.
+ * Checks whether the philosopher has died with each interval and exits
+ * early.
+ */
+void		interval_sleep(long ms, t_philosopher *philo);

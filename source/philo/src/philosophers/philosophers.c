@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 15:47:45 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 20:25:32 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@
 #include "philosophers_routine.h"
 
 /**
- * @brief The philosopher routine. It's ran in a thread.
+ * @brief The philosopher routine. It's used in a thread.
+ *
+ * @return NULL.
  */
-void	*philosopher_routine(void *data)
+static void	*philosopher_routine(void *data)
 {
 	t_philosopher	*philo;
 
@@ -54,7 +56,7 @@ void	*philosopher_routine(void *data)
  * @brief Initializes the philosophers of a table,
  * then starts each of them in their own thread.
  *
- * Returns 0 when error, otherwise returns the number of
+ * @return 0 on error, otherwise returns the number of
  * successfully started threads.
  */
 int	start_philosophers(t_table *table, int count)

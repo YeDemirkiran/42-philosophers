@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 12:49:18 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 21:56:28 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 
 #define DEATH_COLOR "\033[1;91m"
 #define COLOR_RESET "\033[0m"
+
+#ifndef MONITOR_INTERVAL_MS
+# define MONITOR_INTERVAL_MS 1000
+#endif
 
 /**
  * @brief Checks if any philo has died
@@ -74,6 +78,18 @@ static int	all_philos_eaten(t_philosopher *philos, size_t philo_count,
 	return (1);
 }
 
+/**
+ * @brief Runs in a loop and checks all philosophers' states in each
+ * interval.
+ *
+ * In each philosopher, two properties are checked:
+ *
+ * - If it's dead (enough time has passed since the last meal time)
+ *
+ * - If it's eaten equal to  or more than the optional max_eat_count argument.
+ *
+ * Sleeps for MONITOR_INTERVAL_MS duration before each interval.
+ */
 static void	monitor_philosophers(t_table *table,
 	t_philosopher *philos, size_t philo_count)
 {
@@ -82,7 +98,7 @@ static void	monitor_philosophers(t_table *table,
 
 	while (1)
 	{
-		usleep(1000);
+		usleep(MONITOR_INTERVAL_MS);
 		dead_id = any_philo_dead(philos, philo_count);
 		max_eat = all_philos_eaten(philos, philo_count,
 				table->config.eat_count);
@@ -103,8 +119,8 @@ static void	monitor_philosophers(t_table *table,
  * @brief Starts the dinner simulation and the monitor.
  *
  * The monitor keeps checking every philosopher in an interval.
- * When a philosopher dies or all philosophers has eaten enough, the dinner
- * stops.
+ * When a philosopher dies or all philosophers has eaten enough, the
+ * simulation stops.
  */
 void	start_simulation(t_table *table)
 {
