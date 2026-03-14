@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 06:38:59 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:28:32 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:56:51 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ long	get_time(void)
 
 	if (gettimeofday(&tv, NULL) != 0)
 		return (-1);
-	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);;
+	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	if (epoch == 0)
 		epoch = current_time;
 	timestamp = current_time - epoch;

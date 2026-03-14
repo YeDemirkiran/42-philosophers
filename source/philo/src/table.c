@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 13:03:25 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:55:33 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 #include "macros/status.h"
 #include "modules/mutex.h"
 #include "modules/utils.h"
+
+#define ERR_PRE "philo: error: "
+#define ARG_1_ERR "argument philo_number must be a positive integer"
+#define ARG_2_ERR "argument time_to_die must be a positive integer"
+#define ARG_3_ERR "argument time_to_eat must be a positive integer"
+#define ARG_4_ERR "argument time_to_sleep must be a positive integer"
+#define ARG_5_ERR "optional argument max_eat_count must be a positive integer"
 
 static int	validate_config(long long config_numbers[5])
 {
@@ -35,25 +42,25 @@ static int	init_config(t_config *config, int argc, char **argv)
 	config_numbers[0] = ft_atol(argv[1]);
 	if (config_numbers[0] <= 0)
 	{
-		write(STDERR_FILENO, "philo: error: argument philo_number must be a positive integer\n", 64);
+		write(STDERR_FILENO, ERR_PRE ARG_1_ERR "\n", 63);
 		return (FAILURE);
 	}
 	config_numbers[1] = ft_atol(argv[2]);
 	if (config_numbers[1] <= 0)
 	{
-		write(STDERR_FILENO, "philo: error: argument time_to_die must be a positive integer\n", 63);
+		write(STDERR_FILENO, ERR_PRE ARG_2_ERR "\n", 62);
 		return (FAILURE);
 	}
 	config_numbers[2] = ft_atol(argv[3]);
 	if (config_numbers[2] <= 0)
 	{
-		write(STDERR_FILENO, "philo: error: argument time_to_eat must be a positive integer\n", 63);
+		write(STDERR_FILENO, ERR_PRE ARG_3_ERR "\n", 62);
 		return (FAILURE);
 	}
 	config_numbers[3] = ft_atol(argv[4]);
 	if (config_numbers[3] <= 0)
 	{
-		write(STDERR_FILENO, "philo: error: argument time_to_sleep must be a positive integer\n", 65);
+		write(STDERR_FILENO, ERR_PRE ARG_4_ERR "\n", 64);
 		return (FAILURE);
 	}
 	if (validate_config(config_numbers) == FAILURE)
@@ -68,7 +75,7 @@ static int	init_config(t_config *config, int argc, char **argv)
 		config_numbers[4] = ft_atol(argv[5]);
 		if (config_numbers[4] <= 0)
 		{
-			write(STDERR_FILENO, "philo: error: optional argument max_eat_count must be a positive integer\n", 74);
+			write(STDERR_FILENO, ERR_PRE ARG_5_ERR "\n", 73);
 			return (FAILURE);
 		}
 	}
