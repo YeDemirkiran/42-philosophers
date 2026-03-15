@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 22:04:05 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 01:07:41 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ void		philo_error(const char *msg);
  * @brief Sleeps for ms duration, but does it in intervals.
  * Checks whether the philosopher has died with each interval and exits
  * early.
+ *
+ * @return 0 on failure, 1 on success.
  */
-void		interval_sleep(long ms, t_philosopher *philo);
+int			interval_sleep(long ms, t_philosopher *philo);
