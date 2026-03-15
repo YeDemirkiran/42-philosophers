@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 22:30:50 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:41:07 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,13 @@ size_t	start_philosophers(t_table *table, size_t count)
 	int				res;
 	t_philosopher	*philos;
 
+	if (table == NULL || count == 0)
+		return (0);
 	philos = table->philosophers;
 	if (!philos)
 		return (0);
-	init_philosophers(philos, table, table->config.philo_count);
+	if (init_philosophers(philos, table, table->config.philo_count) == 0)
+		return (0);
 	i = 0;
 	while (i < count)
 	{
