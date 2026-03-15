@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 21:51:49 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 01:08:42 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,25 @@ int	philosopher_eat(t_philosopher *philo)
  * @brief Philosopher sleep routine. Sleeps with intervals.
  * Automatically stops if the philosopher has died or when the
  * dinner is over.
+ *
+ * @return 0 on failure, 1 on success.
  */
-void	philosopher_sleep(t_philosopher *philo)
+int	philosopher_sleep(t_philosopher *philo)
 {
 	long	time;
 
+	if (philo == NULL)
+		return (0);
 	if (!should_philo_continue(philo))
-		return ;
+		return (0);
 	time = get_time();
+	if (time == -1)
+	{
+		philo_error("internal: A philospher couldn't read time during sleep");
+		return (0);
+	}
 	philo_message(philo->id, SLEEP_MESSAGE, time);
-	interval_sleep(philo->config->sleep_time, philo);
+	if (interval_sleep(philo->config->sleep_time, philo) != 1)
+		return (0);
+	return (1);
 }

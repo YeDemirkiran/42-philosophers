@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 22:52:36 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 01:02:46 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	should_philo_continue(t_philosopher *philo)
 {
 	t_byte	dinner_over;
 
-	pthread_mutex_lock(philo->signal_mutex);
-	dinner_over = *(philo->signal);
-	pthread_mutex_unlock(philo->signal_mutex);
-	if (dinner_over)
+	if (pthread_mutex_lock(philo->signal_mutex) != SUCCESS)
 		return (0);
-	return (1);
+	dinner_over = *(philo->signal);
+	if (pthread_mutex_unlock(philo->signal_mutex) != SUCCESS)
+		return (0);
+	return (!dinner_over);
 }
 
 /**

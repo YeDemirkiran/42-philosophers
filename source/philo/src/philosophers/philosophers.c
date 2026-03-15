@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 22:41:07 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 01:09:22 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <sys/time.h>
 
 #include "macros/status.h"
+#include "modules/utils.h"
 #include "structs/s_table.h"
 #include "structs/s_philosopher.h"
 
@@ -36,7 +37,13 @@ static void	*philosopher_routine(void *data)
 
 	philo = (t_philosopher *)data;
 	if (philo->id % 2 == 0)
-		usleep(500);
+	{
+		if (usleep(500) != SUCCESS)
+		{
+			philo_error("internal: A philosopher couldn't sleep at start");
+			return (NULL);
+		}
+	}
 	while (1)
 	{
 		if (!should_philo_continue(philo))
@@ -45,7 +52,8 @@ static void	*philosopher_routine(void *data)
 			break ;
 		if (!should_philo_continue(philo))
 			break ;
-		philosopher_sleep(data);
+		if (!philosopher_sleep(data))
+			break ;
 		if (!should_philo_continue(philo))
 			break ;
 	}
@@ -78,7 +86,7 @@ size_t	start_philosophers(t_table *table, size_t count)
 		res = pthread_create(&(philos[i].thread_id), NULL,
 				philosopher_routine, philos + i);
 		if (res != SUCCESS)
-			return (0);
+			return (i);
 		i++;
 	}
 	return (i);
