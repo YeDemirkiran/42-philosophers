@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:20:11 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 20:17:47 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 21:51:29 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	init_mutexes(pthread_mutex_t **mutexes, int count)
 	int				i;
 
 	*mutexes = malloc(sizeof(pthread_mutex_t) * count);
-	if (!(*mutexes))
+	if (*mutexes == NULL)
 		return (FAILURE);
 	i = 0;
 	while (i < count)
@@ -51,7 +51,7 @@ int	init_mutexes(pthread_mutex_t **mutexes, int count)
 		res = pthread_mutex_init(*mutexes + i, NULL);
 		if (res != SUCCESS)
 		{
-			destroy_mutexes(*mutexes + count, i);
+			destroy_mutexes(*mutexes, i);
 			return (FAILURE);
 		}
 		i++;
