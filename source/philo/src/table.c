@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 22:51:50 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 01:28:57 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "macros/status.h"
 #include "modules/mutex.h"
 #include "modules/utils.h"
+#include "modules/philosophers.h"
 
 #define ARG_1_ERR "Argument philo_number must be a positive integer"
 #define ARG_2_ERR "Argument time_to_die must be zero or a positive integer"
