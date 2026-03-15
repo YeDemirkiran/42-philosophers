@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:10:37 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 15:56:11 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 04:58:38 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "modules/philosophers.h"
 #include "modules/utils.h"
 
-#define SLEEP_INTERVAL 1000
+#define SLEEP_INTERVAL 200
 
 /**
  * @brief Sleeps for ms duration, but does it in intervals.

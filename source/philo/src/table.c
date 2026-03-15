@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 22:06:07 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 21:56:14 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 #include "modules/utils.h"
 
 #define ARG_1_ERR "Argument philo_number must be a positive integer"
-#define ARG_2_ERR "Argument time_to_die must be a positive integer"
-#define ARG_3_ERR "Argument time_to_eat must be a positive integer"
-#define ARG_4_ERR "Argument time_to_sleep must be a positive integer"
+#define ARG_2_ERR "Argument time_to_die must be zero or a positive integer"
+#define ARG_3_ERR "Argument time_to_eat must be zero or a positive integer"
+#define ARG_4_ERR "Argument time_to_sleep must be zero or a positive integer"
 #define ARG_5_ERR "Optional argument max_eat_count must be a positive integer"
 
 /**
@@ -32,6 +32,8 @@
  */
 static int	validate_config(long long config_numbers[5])
 {
+	if (config_numbers == NULL)
+		return (FAILURE);
 	if (config_numbers[0] < 0 || config_numbers[1] < 0
 		|| config_numbers[2] < 0 || config_numbers[3] < 0)
 		return (FAILURE);
@@ -50,8 +52,13 @@ static int	init_config(t_config *config, int argc, char **argv)
 {
 	long long	config_numbers[5];
 
-	if (!argv[1] || !argv[2] || !argv[3] || !argv[4])
+	if (config == NULL || argc <= 0 || argv == NULL)
 		return (FAILURE);
+	if (!argv[1] || !argv[2] || !argv[3] || !argv[4])
+	{
+		philo_error(NULL);
+		return (FAILURE);
+	}
 	config_numbers[0] = ft_atol(argv[1]);
 	if (config_numbers[0] <= 0)
 	{
@@ -59,19 +66,19 @@ static int	init_config(t_config *config, int argc, char **argv)
 		return (FAILURE);
 	}
 	config_numbers[1] = ft_atol(argv[2]);
-	if (config_numbers[1] <= 0)
+	if (config_numbers[1] < 0)
 	{
 		philo_error(ARG_2_ERR);
 		return (FAILURE);
 	}
 	config_numbers[2] = ft_atol(argv[3]);
-	if (config_numbers[2] <= 0)
+	if (config_numbers[2] < 0)
 	{
 		philo_error(ARG_3_ERR);
 		return (FAILURE);
 	}
 	config_numbers[3] = ft_atol(argv[4]);
-	if (config_numbers[3] <= 0)
+	if (config_numbers[3] < 0)
 	{
 		philo_error(ARG_4_ERR);
 		return (FAILURE);
@@ -103,22 +110,29 @@ static int	init_config(t_config *config, int argc, char **argv)
  */
 int	init_table(t_table *table, int argc, char **argv)
 {
+	if (table == NULL || argc <= 0 || argv == NULL)
+		return (FAILURE);
 	table->dinner_over = 0;
 	if (init_config(&(table->config), argc, argv) != SUCCESS)
 		return (FAILURE);
 	if (pthread_mutex_init(&(table->over_mutex), NULL) != SUCCESS)
+	{
+		philo_error("internal: Can't initialize dinner_over mutex");
 		return (FAILURE);
+	}
 	table->philosophers = malloc(sizeof(t_philosopher)
 			* table->config.philo_count);
 	if (!table->philosophers)
 	{
 		pthread_mutex_destroy(&(table->over_mutex));
+		philo_error("internal: Can't allocate memory");
 		return (FAILURE);
 	}
 	if (init_mutexes(&(table->forks), table->config.philo_count) != SUCCESS)
 	{
 		pthread_mutex_destroy(&(table->over_mutex));
 		free(table->philosophers);
+		philo_error("internal: Can't initialize fork mutexes");
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -135,6 +149,8 @@ static void	clear_philosophers(t_philosopher *philosophers, size_t count)
 {
 	size_t	i;
 
+	if (philosophers == NULL || count == 0)
+		return ;
 	i = 0;
 	while (i < count)
 	{
@@ -153,6 +169,8 @@ static void	clear_philosophers(t_philosopher *philosophers, size_t count)
  */
 void	clear_table(t_table *table)
 {
+	if (table == NULL)
+		return ;
 	clear_philosophers(table->philosophers, table->config.philo_count);
 	destroy_mutexes(table->forks, table->config.philo_count);
 	pthread_mutex_destroy(&(table->over_mutex));

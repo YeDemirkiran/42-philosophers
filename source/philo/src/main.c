@@ -6,12 +6,11 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 21:35:53 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 22:05:29 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 21:54:39 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 
 #include "structs/s_table.h"
@@ -25,18 +24,18 @@
  */
 static void	on_wrong_usage_message(void)
 {
-	printf("usage: philo philo_count time_to_die time_to_eat time_to_sleep"
-		" [max_eat_count]\n");
+	write(STDIN_FILENO, "usage: philo philo_count time_to_die"
+		" time_to_eat time_to_sleep [max_eat_count]\n", 79);
 }
 
 int	main(int argc, char **argv)
 {
 	t_table		table;
 
-	if (argc < 5 || argc > 6)
+	if (argc < 5 || argc > 6 || argv == NULL || *argv == NULL)
 	{
 		on_wrong_usage_message();
-		return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	}
 	if (init_table(&table, argc, argv) == FAILURE)
 		return (EXIT_FAILURE);
