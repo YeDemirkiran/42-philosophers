@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 21:20:29 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:31:30 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,20 @@ int	init_philosophers(t_philosopher *philos, t_table *table,
 /**
  * @brief Calls pthread_join on all philosophers.
  */
-void	join_philosophers(t_philosopher *philos, int count)
+void	join_philosophers(t_philosopher *philos, size_t count)
 {
-	int	i;
+	size_t	i;
 
-	if (philos == NULL || count <= 0)
+	if (philos == NULL || count == 0)
 		return ;
 	i = 0;
 	while (i < count)
 	{
-		pthread_join(philos[i].thread_id, NULL);
+		if (pthread_join(philos[i].thread_id, NULL) != SUCCESS)
+		{
+			philo_error("internal: Can't join one or more threads");
+			return ;
+		}
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 20:25:32 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:30:50 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static void	*philosopher_routine(void *data)
  * @return 0 on error, otherwise returns the number of
  * successfully started threads.
  */
-int	start_philosophers(t_table *table, int count)
+size_t	start_philosophers(t_table *table, size_t count)
 {
-	int				i;
+	size_t			i;
 	int				res;
 	t_philosopher	*philos;
 
