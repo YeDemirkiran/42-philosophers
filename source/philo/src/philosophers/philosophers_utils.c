@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 22:31:30 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:52:36 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,43 @@ int	should_philo_continue(t_philosopher *philo)
 }
 
 /**
+ * @brief Iterates over all philosophers and destroys them.
+ *
+ * - Mutexes are destroyed
+ *
+ * - The array is free'd
+ */
+void	clear_philosophers(t_philosopher *philosophers, size_t count)
+{
+	size_t	i;
+
+	if (philosophers == NULL || count == 0)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		pthread_mutex_destroy(&philosophers[i].meal_mutex);
+		i++;
+	}
+	free(philosophers);
+}
+
+/**
  * @brief Initializes all philosopher structs.
  * @return 1 on success, 0 on failure.
  */
 int	init_philosophers(t_philosopher *philos, t_table *table,
-	int philo_count)
+	size_t philo_count)
 {
-	int	i;
+	size_t	i;
 
+	if (philos == NULL || table == NULL || philo_count == 0)
+		return (0);
 	i = 0;
 	while (i < philo_count)
 	{
 		philos[i].id = i;
 		philos[i].eat_count = 0;
-		pthread_mutex_init(&philos[i].meal_mutex, NULL);
 		philos[i].last_meal_time = 0;
 		philos[i].left_fork = table->forks + i;
 		if (philo_count < 2)
@@ -58,6 +81,11 @@ int	init_philosophers(t_philosopher *philos, t_table *table,
 		philos[i].config = &(table->config);
 		philos[i].signal = &(table->dinner_over);
 		philos[i].signal_mutex = &(table->over_mutex);
+		if (pthread_mutex_init(&philos[i].meal_mutex, NULL) != SUCCESS)
+		{
+			clear_philosophers(philos, i);
+			return (0);
+		}
 		i++;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:16:51 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 22:31:38 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:53:10 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@
  */
 int		should_philo_continue(t_philosopher *philo);
 
+/**
+ * @brief Iterates over all philosophers and destroys them.
+ *
+ * - Mutexes are destroyed
+ *
+ * - The array is free'd
+ */
+void	clear_philosophers(t_philosopher *philosophers, size_t count);
+
+/**
+ * @brief Calls pthread_join on all philosophers.
+ */
 void	join_philosophers(t_philosopher *philos, size_t count);
 
 /**
