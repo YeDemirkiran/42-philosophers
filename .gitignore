@@ -2,4 +2,4 @@
 **/*.o
 **/obj/
 source/philo/philo
-source/philo/philo_bonus
+source/philo_bonus/philo_bonus
