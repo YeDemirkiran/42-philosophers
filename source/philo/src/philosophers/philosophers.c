@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 18:26:16 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 22:55:47 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ static void	*philosopher_routine(void *data)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)data;
-	if (philo->id % 2 == 0)
-	{
-		if (usleep(500) != SUCCESS)
-		{
-			philo_error("internal: A philosopher couldn't sleep at start");
-			return (NULL);
-		}
-	}
+	// if (philo->id % 2 == 0)
+	// {
+	// 	if (usleep(500) != SUCCESS)
+	// 	{
+	// 		philo_error("internal: A philosopher couldn't sleep at start");
+	// 		return (NULL);
+	// 	}
+	// }
 	while (1)
 	{
 		if (!should_philo_continue(philo))
