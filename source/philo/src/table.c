@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:37:46 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 16:40:40 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,31 @@
 #define ARG_3_ERR "Argument time_to_eat must be zero or a positive integer"
 #define ARG_4_ERR "Argument time_to_sleep must be zero or a positive integer"
 #define ARG_5_ERR "Optional argument max_eat_count must be a positive integer"
+
+static t_byte	init_config_numbers(long long config_numbers[5], char **argv)
+{
+	const char	*err_msg[4] = {ARG_1_ERR, ARG_2_ERR, ARG_3_ERR, ARG_4_ERR};
+	size_t		i;
+
+	config_numbers[0] = ft_atol(argv[0]);
+	if (config_numbers[0] <= 0)
+	{
+		philo_error(err_msg[0]);
+		return (FAILURE);
+	}
+	i = 1;
+	while (i < 4)
+	{
+		config_numbers[i] = ft_atol(argv[i]);
+		if (config_numbers[i] < 0)
+		{
+			philo_error(err_msg[i]);
+			return (FAILURE);
+		}
+		i++;
+	}
+	return (SUCCESS);
+}
 
 /**
  * @brief Validates the first 4 config numbers and whether they are positive
@@ -55,35 +80,8 @@ static t_byte	init_config(t_config *config, int argc, char **argv)
 
 	if (config == NULL || argc <= 0 || argv == NULL)
 		return (FAILURE);
-	if (!argv[1] || !argv[2] || !argv[3] || !argv[4])
-	{
-		philo_error(NULL);
+	if (init_config_numbers(config_numbers, argv + 1) != SUCCESS)
 		return (FAILURE);
-	}
-	config_numbers[0] = ft_atol(argv[1]);
-	if (config_numbers[0] <= 0)
-	{
-		philo_error(ARG_1_ERR);
-		return (FAILURE);
-	}
-	config_numbers[1] = ft_atol(argv[2]);
-	if (config_numbers[1] < 0)
-	{
-		philo_error(ARG_2_ERR);
-		return (FAILURE);
-	}
-	config_numbers[2] = ft_atol(argv[3]);
-	if (config_numbers[2] < 0)
-	{
-		philo_error(ARG_3_ERR);
-		return (FAILURE);
-	}
-	config_numbers[3] = ft_atol(argv[4]);
-	if (config_numbers[3] < 0)
-	{
-		philo_error(ARG_4_ERR);
-		return (FAILURE);
-	}
 	if (validate_config(config_numbers) == FAILURE)
 		return (FAILURE);
 	config->philo_count = config_numbers[0];
@@ -111,8 +109,6 @@ static t_byte	init_config(t_config *config, int argc, char **argv)
  */
 t_byte	init_table(t_table *table, int argc, char **argv)
 {
-	if (table == NULL || argc <= 0 || argv == NULL)
-		return (FAILURE);
 	table->dinner_over = 0;
 	if (init_config(&(table->config), argc, argv) != SUCCESS)
 		return (FAILURE);
