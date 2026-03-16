@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:10:37 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 01:29:22 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:39:52 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  *
  * @return 0 on failure, 1 on success.
  */
-int	interval_sleep(long ms, t_philosopher *philo)
+t_byte	interval_sleep(long ms, t_philosopher *philo)
 {
 	long	sleep_time;
 	long	timer;

@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:54 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 20:22:51 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:37:38 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  *
  * @return 0 on success, 1 on failure.
  */
-int		init_table(t_table *table, int argc, char **argv);
+t_byte	init_table(t_table *table, int argc, char **argv);
 
 /**
  * @brief Clears the dinner table.

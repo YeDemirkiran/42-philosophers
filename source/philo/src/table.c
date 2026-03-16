@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 01:28:57 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:37:46 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
  *
  * @return 0 on success, 1 on failure.
  */
-static int	validate_config(long long config_numbers[5])
+static t_byte	validate_config(long long config_numbers[5])
 {
 	if (config_numbers == NULL)
 		return (FAILURE);
@@ -49,7 +49,7 @@ static int	validate_config(long long config_numbers[5])
  * @note The optional 5th argument "max_eat_count" is set to 0
  * if it's not set by the user.
  */
-static int	init_config(t_config *config, int argc, char **argv)
+static t_byte	init_config(t_config *config, int argc, char **argv)
 {
 	long long	config_numbers[5];
 
@@ -109,7 +109,7 @@ static int	init_config(t_config *config, int argc, char **argv)
  *
  * @return 0 on success, 1 on failure.
  */
-int	init_table(t_table *table, int argc, char **argv)
+t_byte	init_table(t_table *table, int argc, char **argv)
 {
 	if (table == NULL || argc <= 0 || argv == NULL)
 		return (FAILURE);

@@ -6,14 +6,15 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:20:11 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 21:51:29 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:38:38 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <pthread.h>
 
-#include <macros/status.h>
+#include "macros/status.h"
+#include "types/t_byte.h"
 
 /**
  * @brief Destroys all mutexes and frees the array.
@@ -37,7 +38,7 @@ void	destroy_mutexes(pthread_mutex_t *mutexes, int count)
  *
  * @return 0 on success, 1 on failure.
  */
-int	init_mutexes(pthread_mutex_t **mutexes, int count)
+t_byte	init_mutexes(pthread_mutex_t **mutexes, int count)
 {
 	int				res;
 	int				i;
