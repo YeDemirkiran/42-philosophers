@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 21:25:01 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 16:45:07 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:27:33 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,15 @@ int	philo_message(int philo_id, const char *message, long timestamp)
 	int						result;
 
 	if (pthread_mutex_lock(&mutex) != 0)
+	{
+		philo_error("internal: Can't lock philosopher message mutex");
 		return (-1);
+	}
 	result = printf("%li %i %s", timestamp, philo_id + 1, message);
 	if (pthread_mutex_unlock(&mutex) != 0)
+	{
+		philo_error("internal: Can't unlock philosopher message mutex");
 		return (-1);
+	}
 	return (result);
 }
