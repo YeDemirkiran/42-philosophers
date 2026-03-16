@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:25:20 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:42:10 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	leave_forks(t_philosopher *philo)
  *
  * @note You should exit the thread when 0 is returned.
  */
-static int	take_forks(t_philosopher *philo)
+static t_byte	take_forks(t_philosopher *philo)
 {
 	pthread_mutex_t	*first_fork;
 
@@ -104,7 +104,7 @@ static int	take_forks(t_philosopher *philo)
  *
  * @return 0 on failure (death, dinner over), 1 on success.
  */
-int	philosopher_eat(t_philosopher *philo)
+t_byte	philosopher_eat(t_philosopher *philo)
 {
 	long	last_meal_time;
 	size_t	new_eat_count;
@@ -142,7 +142,7 @@ int	philosopher_eat(t_philosopher *philo)
  *
  * @return 0 on failure, 1 on success.
  */
-int	philosopher_sleep(t_philosopher *philo)
+t_byte	philosopher_sleep(t_philosopher *philo)
 {
 	long	time;
 

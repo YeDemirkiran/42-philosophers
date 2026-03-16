@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:32:15 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:40:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_byte	should_philo_continue(t_philosopher *philo);
  * @brief Initializes all philosopher structs.
  * @return 1 on success, 0 on failure.
  */
-int		init_philosophers(t_philosopher *philos, t_table *table,
+t_byte	init_philosophers(t_philosopher *philos, t_table *table,
 			size_t philo_count);
 
 #endif

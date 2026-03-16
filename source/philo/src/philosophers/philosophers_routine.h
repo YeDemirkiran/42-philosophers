@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:45:04 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 01:09:05 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:42:15 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  *
  * @return 0 on failure (death, dinner over), 1 on success.
  */
-int		philosopher_eat(t_philosopher *philo);
+t_byte	philosopher_eat(t_philosopher *philo);
 
 /**
  * @brief Philosopher sleep routine. Sleeps with intervals.
@@ -33,6 +33,6 @@ int		philosopher_eat(t_philosopher *philo);
  *
  * @return 0 on failure, 1 on success.
  */
-int		philosopher_sleep(t_philosopher *philo);
+t_byte	philosopher_sleep(t_philosopher *philo);
 
 #endif

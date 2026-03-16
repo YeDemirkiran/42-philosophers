@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:31:51 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:40:51 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	clear_philosophers(t_philosopher *philosophers, size_t count)
  * @brief Initializes all philosopher structs.
  * @return 1 on success, 0 on failure.
  */
-int	init_philosophers(t_philosopher *philos, t_table *table,
+t_byte	init_philosophers(t_philosopher *philos, t_table *table,
 	size_t philo_count)
 {
 	size_t	i;
