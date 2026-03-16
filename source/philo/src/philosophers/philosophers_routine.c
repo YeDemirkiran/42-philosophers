@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 18:13:38 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 18:23:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,7 @@
 
 #include "philosophers_utils.h"
 
-// colors for reference
-
-#define THINK_COLOR "\033[1;93m"
-#define TAKE_FORK_COLOR "\033[1;37m"
-#define EAT_COLOR "\033[1;92m"
-#define SLEEP_COLOR "\033[1;96m"
-#define COLOR_RESET "\033[0m"
-
-// We'll have to embed color codes directly in the macro
-// Instead of being able to use the defined ones already
-// Thanks Norm
-
-#define EAT_MESSAGE "\033[1;92mis eating\033[0m\n"
-#define THINK_MESSAGE "\033[1;93mis thinking\033[0m\n"
-#define FORK_MESSAGE "\033[1;37mhas taken a fork\033[0m\n"
-#define SLEEP_MESSAGE "\033[1;96mis sleeping\033[0m\n"
+#include "philo_messages.h"
 
 /**
  * @brief Leaves forks in the order they are acquired.
@@ -61,56 +46,6 @@ static t_byte	leave_forks(t_philosopher *philo)
 			return (0);
 		}
 	}
-	return (1);
-}
-
-/**
- * @brief Takes a fork and prints a message.
- *
- * @return 0 on failure, 1 on success.
- */
-static t_byte	take_fork(t_philosopher *philo, pthread_mutex_t *fork)
-{
-	if (philo == NULL || fork == NULL)
-		return (0);
-	if (pthread_mutex_lock(fork) != SUCCESS)
-	{
-		philo_error("internal: A philosopher can't take its fork (mutex err)");
-		return (0);
-	}
-	if (!should_philo_continue(philo))
-	{
-		pthread_mutex_unlock(fork);
-		return (0);
-	}
-	if (philo_message(philo->id, FORK_MESSAGE, get_time()) == -1)
-		return (0);
-	return (1);
-}
-
-/**
- * @brief Acquires forks in a left-right order.
- *
- * @return 0 on failure (philosopher death, dinner over), 1 on success.
- *
- * @note You should exit the thread when 0 is returned.
- */
-static t_byte	take_forks(t_philosopher *philo)
-{
-	if (!should_philo_continue(philo))
-		return (0);
-	if (philo_message(philo->id, THINK_MESSAGE, get_time()) == -1)
-		return (0);
-	if (take_fork(philo, philo->left_fork) != 1)
-		return (0);
-	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
-	{
-		interval_sleep(philo->config->starve_time, philo);
-		pthread_mutex_unlock(philo->left_fork);
-		return (0);
-	}
-	if (take_fork(philo, philo->right_fork) != 1)
-		return (0);
 	return (1);
 }
 

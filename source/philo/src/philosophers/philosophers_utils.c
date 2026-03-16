@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 17:13:54 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 18:26:33 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <structs/s_table.h>
 
 #include "modules/utils.h"
+
+#include "philo_messages.h"
 
 /**
  * @return 0 if the philosopher should stop, 1 if it should continue.
@@ -41,62 +43,6 @@ t_byte	should_philo_continue(t_philosopher *philo)
 }
 
 /**
- * @brief Iterates over all philosophers and destroys them.
- *
- * - Mutexes are destroyed
- *
- * - The array is free'd
- */
-void	clear_philosophers(t_philosopher *philosophers, size_t count)
-{
-	size_t	i;
-
-	if (philosophers == NULL || count == 0)
-		return ;
-	i = 0;
-	while (i < count)
-	{
-		pthread_mutex_destroy(&philosophers[i].meal_mutex);
-		i++;
-	}
-	free(philosophers);
-}
-
-/**
- * @brief Initializes all philosopher structs.
- * @return 1 on success, 0 on failure.
- */
-t_byte	init_philosophers(t_philosopher *philos, t_table *table,
-	size_t philo_count)
-{
-	size_t	i;
-
-	if (philos == NULL || table == NULL || philo_count == 0)
-		return (0);
-	i = 0;
-	while (i < philo_count)
-	{
-		philos[i].id = i;
-		philos[i].eat_count = 0;
-		philos[i].last_meal_time = 0;
-		philos[i].left_fork = table->forks + i;
-		philos[i].right_fork = NULL;
-		if (philo_count > 1)
-			philos[i].right_fork = table->forks + ((i + 1) % philo_count);
-		philos[i].config = &(table->config);
-		philos[i].signal = &(table->dinner_over);
-		philos[i].signal_mutex = &(table->over_mutex);
-		if (pthread_mutex_init(&philos[i].meal_mutex, NULL) != SUCCESS)
-		{
-			clear_philosophers(philos, i);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-/**
  * @brief Calls pthread_join on all philosophers.
  */
 void	join_philosophers(t_philosopher *philos, size_t count)
@@ -115,4 +61,54 @@ void	join_philosophers(t_philosopher *philos, size_t count)
 		}
 		i++;
 	}
+}
+
+/**
+ * @brief Takes a fork and prints a message.
+ *
+ * @return 0 on failure, 1 on success.
+ */
+static t_byte	take_fork(t_philosopher *philo, pthread_mutex_t *fork)
+{
+	if (philo == NULL || fork == NULL)
+		return (0);
+	if (pthread_mutex_lock(fork) != SUCCESS)
+	{
+		philo_error("internal: A philosopher can't take its fork (mutex err)");
+		return (0);
+	}
+	if (!should_philo_continue(philo))
+	{
+		pthread_mutex_unlock(fork);
+		return (0);
+	}
+	if (philo_message(philo->id, FORK_MESSAGE, get_time()) == -1)
+		return (0);
+	return (1);
+}
+
+/**
+ * @brief Acquires forks in a left-right order.
+ *
+ * @return 0 on failure (philosopher death, dinner over), 1 on success.
+ *
+ * @note You should exit the thread when 0 is returned.
+ */
+t_byte	take_forks(t_philosopher *philo)
+{
+	if (!should_philo_continue(philo))
+		return (0);
+	if (philo_message(philo->id, THINK_MESSAGE, get_time()) == -1)
+		return (0);
+	if (take_fork(philo, philo->left_fork) != 1)
+		return (0);
+	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
+	{
+		interval_sleep(philo->config->starve_time, philo);
+		pthread_mutex_unlock(philo->left_fork);
+		return (0);
+	}
+	if (take_fork(philo, philo->right_fork) != 1)
+		return (0);
+	return (1);
 }

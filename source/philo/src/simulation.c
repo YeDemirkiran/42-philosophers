@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 16:49:44 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 18:23:44 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,7 @@
 #include "structs/s_table.h"
 #include "modules/philosophers.h"
 #include "modules/utils.h"
-
-// for reference
-
-#define DEATH_COLOR "\033[1;91m"
-#define COLOR_RESET "\033[0m"
-
-#define DEATH_MESSAGE "\033[1;91mdied\033[0m\n"
+#include "philo_messages.h"
 
 #ifndef MONITOR_INTERVAL_MS
 # define MONITOR_INTERVAL_MS 1000

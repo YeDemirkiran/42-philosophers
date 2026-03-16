@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:40:55 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 18:26:45 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@
 t_byte	should_philo_continue(t_philosopher *philo);
 
 /**
- * @brief Initializes all philosopher structs.
- * @return 1 on success, 0 on failure.
+ * @brief Acquires forks in a left-right order.
+ *
+ * @return 0 on failure (philosopher death, dinner over), 1 on success.
+ *
+ * @note You should exit the thread when 0 is returned.
  */
-t_byte	init_philosophers(t_philosopher *philos, t_table *table,
-			size_t philo_count);
+t_byte	take_forks(t_philosopher *philo);
 
 #endif
