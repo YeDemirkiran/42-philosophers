@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:42:50 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 17:34:31 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "structs/s_philosopher.h"
 #include "modules/utils.h"
+#include "macros/status.h"
 
 #include "philosophers_utils.h"
 
@@ -39,13 +40,28 @@
 
 /**
  * @brief Leaves forks in the order they are acquired.
+ *
+ * @return 0 on failure, 1 on success.
  */
-static void	leave_forks(t_philosopher *philo)
+static t_byte	leave_forks(t_philosopher *philo)
 {
 	if (philo->left_fork != NULL)
-		pthread_mutex_unlock(philo->left_fork);
+	{
+		if (pthread_mutex_unlock(philo->left_fork) != SUCCESS)
+		{
+			philo_error("internal: A philosopher can't leave its left fork");
+			return (0);
+		}
+	}
 	if (philo->left_fork != philo->right_fork && philo->right_fork != NULL)
-		pthread_mutex_unlock(philo->right_fork);
+	{
+		if (pthread_mutex_unlock(philo->right_fork) != SUCCESS)
+		{
+			philo_error("internal: A philosopher can't leave its right fork");
+			return (0);
+		}
+	}
+	return (1);
 }
 
 /**
@@ -57,20 +73,21 @@ static void	leave_forks(t_philosopher *philo)
  */
 static t_byte	take_forks(t_philosopher *philo)
 {
-	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*fork;
 
 	if (!should_philo_continue(philo))
 		return (0);
 	if (philo_message(philo->id, THINK_MESSAGE, get_time()) == -1)
 		return (0);
-	if (philo->right_fork == NULL)
-		first_fork = philo->left_fork;
-	else
-		first_fork = philo->right_fork;
-	pthread_mutex_lock(first_fork);
+	fork = philo->left_fork;
+	if (pthread_mutex_lock(fork) != SUCCESS)
+	{
+		philo_error("internal: A philosopher can't take its fork (mutex err)");
+		return (0);
+	}
 	if (!should_philo_continue(philo))
 	{
-		pthread_mutex_unlock(first_fork);
+		pthread_mutex_unlock(fork);
 		return (0);
 	}
 	if (philo_message(philo->id, FORK_MESSAGE, get_time()) == -1)
@@ -78,13 +95,15 @@ static t_byte	take_forks(t_philosopher *philo)
 	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
 	{
 		interval_sleep(philo->config->starve_time, philo);
-		pthread_mutex_unlock(first_fork);
+		pthread_mutex_unlock(fork);
 		return (0);
 	}
-	if (first_fork == philo->left_fork)
-		pthread_mutex_lock(philo->right_fork);
-	else
-		pthread_mutex_lock(philo->left_fork);
+	fork = philo->right_fork;
+	if (pthread_mutex_lock(fork) != SUCCESS)
+	{
+		philo_error("internal: A philosopher can't take its fork (mutex err)");
+		return (0);
+	}
 	if (!should_philo_continue(philo))
 	{
 		leave_forks(philo);
@@ -110,12 +129,25 @@ t_byte	philosopher_eat(t_philosopher *philo)
 	size_t	new_eat_count;
 	size_t	max_eat_count;
 
-	if (!take_forks(philo))
+	if (philo == NULL || !take_forks(philo))
 		return (0);
 	last_meal_time = get_time();
-	pthread_mutex_lock(&philo->meal_mutex);
+	if (last_meal_time == -1)
+	{
+		philo_error("internal: Error during last_meal_time update");
+		return (0);
+	}
+	if (pthread_mutex_lock(&philo->meal_mutex) != SUCCESS)
+	{
+		philo_error("internal: Can't lock meal_mutex during eating");
+		return (0);
+	}
 	philo->last_meal_time = last_meal_time;
-	pthread_mutex_unlock(&philo->meal_mutex);
+	if (pthread_mutex_unlock(&philo->meal_mutex) != SUCCESS)
+	{
+		philo_error("internal: Can't unlock meal_mutex during eating");
+		return (0);
+	}
 	if (!should_philo_continue(philo))
 	{
 		leave_forks(philo);
@@ -125,12 +157,21 @@ t_byte	philosopher_eat(t_philosopher *philo)
 		return (0);
 	if (interval_sleep(philo->config->eat_time, philo) != 1)
 		return (0);
-	leave_forks(philo);
-	pthread_mutex_lock(&philo->meal_mutex);
+	if (leave_forks(philo) != 1)
+		return (0);
+	if (pthread_mutex_lock(&philo->meal_mutex) != SUCCESS)
+	{
+		philo_error("internal: Can't lock meal_mutex during eating");
+		return (0);
+	}
 	philo->eat_count += 1;
 	new_eat_count = philo->eat_count;
 	max_eat_count = philo->config->eat_count;
-	pthread_mutex_unlock(&philo->meal_mutex);
+	if (pthread_mutex_unlock(&philo->meal_mutex) != SUCCESS)
+	{
+		philo_error("internal: Can't unlock meal_mutex during eating");
+		return (0);
+	}
 	if (max_eat_count != 0 && new_eat_count >= max_eat_count)
 		return (0);
 	return (1);
