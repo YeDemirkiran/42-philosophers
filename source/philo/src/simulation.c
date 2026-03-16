@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 01:31:51 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 16:49:44 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 #ifndef MONITOR_INTERVAL_MS
 # define MONITOR_INTERVAL_MS 1000
 #endif
+
+#define MONITOR_MSG_1 "internal: The monitor thread can't sleep, aborting"
+#define MONITOR_MSG_2 "internal: Can't check the death of philosophers"
+#define MONITOR_MSG_3 "internal: Can't check the eat count of philosophers"
 
 /**
  * @brief Checks if any philo has died
@@ -92,6 +96,16 @@ static int	all_philos_eaten(t_philosopher *philos, size_t philo_count,
 	return (1);
 }
 
+static void	on_monitor_error(t_table *table, const char *msg)
+{
+	if (table == NULL)
+		return ;
+	pthread_mutex_lock(&table->over_mutex);
+	table->dinner_over = 1;
+	pthread_mutex_unlock(&table->over_mutex);
+	philo_error(msg);
+}
+
 /**
  * @brief Runs in a loop and checks all philosophers' states in each
  * interval.
@@ -113,32 +127,14 @@ static void	monitor_philosophers(t_table *table,
 	while (1)
 	{
 		if (usleep(MONITOR_INTERVAL_MS) != SUCCESS)
-		{
-			pthread_mutex_lock(&table->over_mutex);
-			table->dinner_over = 1;
-			pthread_mutex_unlock(&table->over_mutex);
-			philo_error("internal: The monitor thread can't sleep, aborting");
-			return ;
-		}
+			return (on_monitor_error(table, MONITOR_MSG_1));
 		dead_id = any_philo_dead(philos, philo_count);
 		if (dead_id == -2)
-		{
-			pthread_mutex_lock(&table->over_mutex);
-			table->dinner_over = 1;
-			pthread_mutex_unlock(&table->over_mutex);
-			philo_error("internal: Can't check the death of philosophers");
-			return ;
-		}
+			return (on_monitor_error(table, MONITOR_MSG_2));
 		max_eat = all_philos_eaten(philos, philo_count,
 				table->config.eat_count);
 		if (max_eat == -1)
-		{
-			pthread_mutex_lock(&table->over_mutex);
-			table->dinner_over = 1;
-			pthread_mutex_unlock(&table->over_mutex);
-			philo_error("internal: Can't check the eat count of philosophers");
-			return ;
-		}
+			return (on_monitor_error(table, MONITOR_MSG_3));
 		if (dead_id >= 0 || max_eat)
 		{
 			pthread_mutex_lock(&table->over_mutex);
