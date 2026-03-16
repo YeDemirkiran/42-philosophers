@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 00:58:41 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 01:31:51 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #define DEATH_COLOR "\033[1;91m"
 #define COLOR_RESET "\033[0m"
 
-#define DEATH_MESSAGE "\033[1;91m" "died" "\033[0m" "\n"
+#define DEATH_MESSAGE "\033[1;91mdied\033[0m\n"
 
 #ifndef MONITOR_INTERVAL_MS
 # define MONITOR_INTERVAL_MS 1000

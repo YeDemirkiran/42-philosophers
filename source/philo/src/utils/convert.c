@@ -6,9 +6,11 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:47:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 20:20:22 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:22:14 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stddef.h>
 
 /**
  * @brief Converts the given string to a long integer.
@@ -23,6 +25,8 @@ long long	ft_atol(const char *str)
 	long long	total;
 	char		sign;
 
+	if (str == NULL)
+		return (0);
 	total = 0;
 	sign = 1;
 	if (*str == '-' || *str == '+')
