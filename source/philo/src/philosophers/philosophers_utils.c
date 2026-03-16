@@ -6,16 +6,17 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 18:26:33 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 23:01:17 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _DEFAULT_SOURCE
+#include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
 
-#include <macros/status.h>
-#include <structs/s_philosopher.h>
-#include <structs/s_table.h>
+#include "macros/status.h"
+#include "structs/s_philosopher.h"
+#include "structs/s_table.h"
 
 #include "modules/utils.h"
 
@@ -83,8 +84,42 @@ static t_byte	take_fork(t_philosopher *philo, pthread_mutex_t *fork)
 		return (0);
 	}
 	if (philo_message(philo->id, FORK_MESSAGE, get_time()) == -1)
+	{
+		pthread_mutex_unlock(fork);
 		return (0);
+	}
 	return (1);
+}
+
+/**
+ * @brief Chooses a fork out of two based on certain circumstances.
+ *
+ * If current_fork is NULL, then the lower numbered fork is returned.
+ *
+ * Else, the opposite of the current_fork is returned.
+ */
+static pthread_mutex_t	*choose_fork(t_philosopher *philo,
+	pthread_mutex_t *current_fork)
+{
+	pthread_mutex_t	*fork;
+
+	if (philo == NULL)
+		return (NULL);
+	if (current_fork == NULL)
+	{
+		if (philo->left_fork < philo->right_fork)
+			fork = philo->left_fork;
+		else
+			fork = philo->right_fork;
+	}
+	else
+	{
+		if (current_fork == philo->left_fork)
+			fork = philo->right_fork;
+		else
+			fork = philo->left_fork;
+	}
+	return (fork);
 }
 
 /**
@@ -96,19 +131,27 @@ static t_byte	take_fork(t_philosopher *philo, pthread_mutex_t *fork)
  */
 t_byte	take_forks(t_philosopher *philo)
 {
+	pthread_mutex_t	*fork;
+
 	if (!should_philo_continue(philo))
 		return (0);
 	if (philo_message(philo->id, THINK_MESSAGE, get_time()) == -1)
 		return (0);
-	if (take_fork(philo, philo->left_fork) != 1)
+	usleep((philo->last_meal_time + philo->config->starve_time - get_time()) * 10);
+	fork = choose_fork(philo, NULL);
+	if (take_fork(philo, fork) != 1)
 		return (0);
 	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
 	{
 		interval_sleep(philo->config->starve_time, philo);
-		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(fork);
 		return (0);
 	}
-	if (take_fork(philo, philo->right_fork) != 1)
+	fork = choose_fork(philo, fork);
+	if (take_fork(philo, fork) != 1)
+	{
+		pthread_mutex_unlock(choose_fork(philo, fork));
 		return (0);
+	}
 	return (1);
 }
