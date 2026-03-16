@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 17:34:31 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 17:59:23 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,30 @@ static t_byte	leave_forks(t_philosopher *philo)
 }
 
 /**
+ * @brief Takes a fork and prints a message.
+ *
+ * @return 0 on failure, 1 on success.
+ */
+static t_byte	take_fork(t_philosopher *philo, pthread_mutex_t *fork)
+{
+	if (philo == NULL || fork == NULL)
+		return (0);
+	if (pthread_mutex_lock(fork) != SUCCESS)
+	{
+		philo_error("internal: A philosopher can't take its fork (mutex err)");
+		return (0);
+	}
+	if (!should_philo_continue(philo))
+	{
+		pthread_mutex_unlock(fork);
+		return (0);
+	}
+	if (philo_message(philo->id, FORK_MESSAGE, get_time()) == -1)
+		return (0);
+	return (1);
+}
+
+/**
  * @brief Acquires forks in a left-right order.
  *
  * @return 0 on failure (philosopher death, dinner over), 1 on success.
@@ -73,43 +97,19 @@ static t_byte	leave_forks(t_philosopher *philo)
  */
 static t_byte	take_forks(t_philosopher *philo)
 {
-	pthread_mutex_t	*fork;
-
 	if (!should_philo_continue(philo))
 		return (0);
 	if (philo_message(philo->id, THINK_MESSAGE, get_time()) == -1)
 		return (0);
-	fork = philo->left_fork;
-	if (pthread_mutex_lock(fork) != SUCCESS)
-	{
-		philo_error("internal: A philosopher can't take its fork (mutex err)");
-		return (0);
-	}
-	if (!should_philo_continue(philo))
-	{
-		pthread_mutex_unlock(fork);
-		return (0);
-	}
-	if (philo_message(philo->id, FORK_MESSAGE, get_time()) == -1)
+	if (take_fork(philo, philo->left_fork) != 1)
 		return (0);
 	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
 	{
 		interval_sleep(philo->config->starve_time, philo);
-		pthread_mutex_unlock(fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return (0);
 	}
-	fork = philo->right_fork;
-	if (pthread_mutex_lock(fork) != SUCCESS)
-	{
-		philo_error("internal: A philosopher can't take its fork (mutex err)");
-		return (0);
-	}
-	if (!should_philo_continue(philo))
-	{
-		leave_forks(philo);
-		return (0);
-	}
-	if (philo_message(philo->id, FORK_MESSAGE, get_time()) == -1)
+	if (take_fork(philo, philo->right_fork) != 1)
 		return (0);
 	return (1);
 }
