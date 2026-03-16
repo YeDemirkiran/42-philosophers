@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 00:57:52 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/16 07:32:15 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 /**
  * @return 0 if the philosopher should stop, 1 if it should continue.
  */
-int		should_philo_continue(t_philosopher *philo);
+t_byte	should_philo_continue(t_philosopher *philo);
 
 /**
  * @brief Initializes all philosopher structs.
