@@ -2,24 +2,24 @@
 
 # Description
 The Dining Philosophers problem, created by Edsger Dijkstra in 1965, is an example problem
-designed to showcase concurrency and synchronization issues in multihtreaded programs.
+designed to showcase concurrency and synchronization issues in multithreaded programs.
 
 ## Overview
 
 - X number of philosophers sit around a table
-- There is a plate of sphagetti in front of everyone
+- There is a plate of spaghetti in front of everyone
 - Each philosopher has a fork to their left and to their right
 - There are as many forks as philosophers (e.g. 5 philosophers, 5 forks)
 - A philosopher has to eat and think repeatedly without dying
   - The philosophers also sleep for some time after eating in the 42 version
 - To eat, a philosopher must use both forks to their left and right
 - A fork cannot be used by more than one philosopher
-- A philosopher cannot use a fork that is in currently use: They have to wait for their turn
-- When a philosopher dies by starving, the dinner (simulation) ends
+- A philosopher cannot use a fork that is currently in use: They have to wait for their turn
+- When a philosopher dies of starvation, the dinner (simulation) ends
 
 The 42 version of the problem incorporates unique challenges such as:
-- The philosophers also has to sleep after eating
-- The philosopher should optionally stop eating when all of them eat enough
+- The philosophers must also sleep after eating
+- The simulation can optionally stop once all philosophers have eaten enough times.
 
 ## Frequent Issues
 The dining philosophers is an example problem, to showcase classic mulithreading and parallelism
@@ -30,7 +30,7 @@ can proceed because each waits for another member
 - Livelock: Similar to deadlock, but all members are active instead of passively waiting. Even though
 they are working, no progress occurs. It's very similar to deadlock.
 - Starvation: When a process can't access to the resources it needs in time. In this case,
-a philosopher may not be able to reach forks and wait indefinetely before it dies because of starvation.
+a philosopher may not be able to reach forks and wait indefinitely before it dies because of starvation.
 
 It's the programmer's task to solve these problems and several solutions exist. In this project, I used:
 
@@ -123,7 +123,7 @@ and several other computer concepts
 
 ### Deadlock Solutions
 - Deadlock Prevention: https://www.geeksforgeeks.org/operating-systems/deadlock-prevention/
-- Handlin Deadlocks: https://www.geeksforgeeks.org/operating-systems/handling-deadlocks/
+- Handling Deadlocks: https://www.geeksforgeeks.org/operating-systems/handling-deadlocks/
 
 ### Race Condition and Data Races
 - Race Condition: https://en.wikipedia.org/wiki/Race_condition#In_software
