@@ -36,8 +36,14 @@ The documentation used here may be out of date. It's important to keep up to dat
 - Concurrency is not Parallelism: https://bytebytego.com/guides/concurrency-is-not-parallelism/
 - Reddit: https://www.reddit.com/r/programming/comments/nfzw29/concurrency_vs_parallelism/
 
-### Multi-Threading:
+### Threads
+- Thread: https://en.wikipedia.org/wiki/Thread_(computing)
+- Execution: https://en.wikipedia.org/wiki/Execution_(computing)
+- Scheduler: https://en.wikipedia.org/wiki/Scheduling_(computing)
+
+### Multi-Threading
 - Multi-threading: https://en.wikipedia.org/wiki/Multithreading_(computer_architecture)
+- Oracle's Multithreaded Programming Guide: https://docs.oracle.com/cd/E19455-01/806-5257/index.html
 - ThreadMentor: https://pages.mtu.edu/~shene/NSF-3/e-Book/index.html
 - Multi-processing: https://en.wikipedia.org/wiki/Multiprocessing
 - Synchronization: https://en.wikipedia.org/wiki/Synchronization_(computer_science)
@@ -56,7 +62,7 @@ The documentation used here may be out of date. It's important to keep up to dat
 - Deadlock Prevention: https://www.geeksforgeeks.org/operating-systems/deadlock-prevention/
 - Handlin Deadlocks: https://www.geeksforgeeks.org/operating-systems/handling-deadlocks/
 
-### Race Condition and Data Races:
+### Race Condition and Data Races
 - Race Condition: https://en.wikipedia.org/wiki/Race_condition#In_software
 - Race Condition vs Data Races: https://www.avanderlee.com/swift/race-condition-vs-data-race/
 - Race Condition vs Data Races (2): https://stackoverflow.com/questions/11276259/
