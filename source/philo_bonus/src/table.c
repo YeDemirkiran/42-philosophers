@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:34:19 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:59:28 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 #define ARG_3_ERR "Argument time_to_eat must be zero or a positive integer"
 #define ARG_4_ERR "Argument time_to_sleep must be zero or a positive integer"
 #define ARG_5_ERR "Optional argument max_eat_count must be a positive integer"
+
+#define FORK_SEMAPHORE_NAME "/philo_forks"
+#define PRINT_SEMAPHORE_NAME "/philo_print"
 
 static t_byte	init_config_numbers(long long config_numbers[5], char **argv)
 {
@@ -112,22 +115,30 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 	table->dinner_over = 0;
 	if (init_config(&(table->config), argc, argv) != SUCCESS)
 		return (FAILURE);
-	table->forks = sem_open("/philo_forks", O_CREAT,
+	table->philosophers = malloc(sizeof(t_philosopher)
+		* table->config.philo_count);
+	if (table->philosophers == NULL)
+	{
+		philo_error("internal: Can't allocate memory for philosophers");
+		return (FAILURE);
+	}
+	table->forks = sem_open(FORK_SEMAPHORE_NAME, O_CREAT,
 		0644, table->config.philo_count);
 	if (table->forks == SEM_FAILED)
 	{
-		philo_error("internal: Can't initialize fork semaphore");
+		philo_error("internal: Can't initialize the fork semaphore");
 		return (FAILURE);
 	}
-	sem_unlink("/philo_forks");
-	// table->death_semaphore = sem_open("/philo_death", O_CREAT, 0644, 0);
-	// if (table->death_semaphore == SEM_FAILED)
-	// {
-	// 	sem_close(table->forks);
-	// 	philo_error("internal: Can't initialize death semaphore");
-	// 	return (FAILURE);
-	// }
-	// sem_unlink("/philo_death");
+	sem_unlink(FORK_SEMAPHORE_NAME);
+	table->print_semaphore = sem_open(PRINT_SEMAPHORE_NAME, O_CREAT,
+		0644, 0);
+	if (table->print_semaphore == SEM_FAILED)
+	{
+		sem_close(table->forks);
+		philo_error("internal: Can't initialize the print semaphore");
+		return (FAILURE);
+	}
+	sem_unlink(PRINT_SEMAPHORE_NAME);
 	return (SUCCESS);
 }
 
