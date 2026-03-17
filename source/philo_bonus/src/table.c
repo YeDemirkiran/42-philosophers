@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   table.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 16:40:40 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:09:24 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "structs/s_table.h"
 #include "macros/status.h"
-#include "modules/mutex.h"
 #include "modules/utils.h"
 #include "modules/philosophers.h"
 
@@ -112,24 +112,11 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 	table->dinner_over = 0;
 	if (init_config(&(table->config), argc, argv) != SUCCESS)
 		return (FAILURE);
-	if (pthread_mutex_init(&(table->over_mutex), NULL) != SUCCESS)
+	table->forks = sem_open("/philo_forks", O_CREAT,
+		0644, table->config.philo_count);
+	if (table->forks == SEM_FAILED)
 	{
-		philo_error("internal: Can't initialize dinner_over mutex");
-		return (FAILURE);
-	}
-	table->philosophers = malloc(sizeof(t_philosopher)
-			* table->config.philo_count);
-	if (!table->philosophers)
-	{
-		pthread_mutex_destroy(&(table->over_mutex));
-		philo_error("internal: Can't allocate memory");
-		return (FAILURE);
-	}
-	if (init_mutexes(&(table->forks), table->config.philo_count) != SUCCESS)
-	{
-		pthread_mutex_destroy(&(table->over_mutex));
-		free(table->philosophers);
-		philo_error("internal: Can't initialize fork mutexes");
+		philo_error("internal: Can't initialize fork semaphore");
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -140,13 +127,11 @@ t_byte	init_table(t_table *table, int argc, char **argv)
  *
  * - Clears and frees all philosophers
  *
- * - Destroys all mutexes
+ * - Destroys all semaphores
  */
 void	clear_table(t_table *table)
 {
 	if (table == NULL)
 		return ;
 	clear_philosophers(table->philosophers, table->config.philo_count);
-	destroy_mutexes(table->forks, table->config.philo_count);
-	pthread_mutex_destroy(&(table->over_mutex));
 }

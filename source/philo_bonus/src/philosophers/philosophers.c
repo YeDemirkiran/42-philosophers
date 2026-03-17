@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 23:18:10 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:11:19 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,10 @@ static void	*philosopher_routine(void *data)
 /**
  * @brief Iterates over all philosophers and destroys them.
  *
- * - Mutexes are destroyed
- *
- * - The array is free'd
+ * - The array is free'd.
  */
 void	clear_philosophers(t_philosopher *philosophers, size_t count)
 {
-	size_t	i;
-
-	if (philosophers == NULL || count == 0)
-		return ;
-	i = 0;
-	while (i < count)
-	{
-		pthread_mutex_destroy(&philosophers[i].meal_mutex);
-		i++;
-	}
 	free(philosophers);
 }
 
@@ -91,18 +79,8 @@ static t_byte	init_philosophers(t_philosopher *philos, t_table *table,
 		philos[i].id = i;
 		philos[i].eat_count = 0;
 		philos[i].last_meal_time = 0;
-		philos[i].left_fork = table->forks + i;
-		philos[i].right_fork = NULL;
-		if (philo_count > 1)
-			philos[i].right_fork = table->forks + ((i + 1) % philo_count);
+		philos[i].forks = table->forks;
 		philos[i].config = &(table->config);
-		philos[i].signal = &(table->dinner_over);
-		philos[i].signal_mutex = &(table->over_mutex);
-		if (pthread_mutex_init(&philos[i].meal_mutex, NULL) != SUCCESS)
-		{
-			clear_philosophers(philos, i);
-			return (0);
-		}
 		i++;
 	}
 	return (1);
