@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:02:25 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:23:39 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_byte	should_philo_continue(t_philosopher *philo)
 		philo_error("internal: Can't get time (in should_philo_continue)");
 		return (0);
 	}
-	if (time >= philo->last_meal_time + philo->config->starve_time)
+	if (time >= philo->last_meal_time + (long)philo->config->starve_time)
 		return (0);
 	return (1);
 }
@@ -87,7 +87,7 @@ t_byte	take_forks(t_philosopher *philo)
 	if (philo->config->philo_count == 1)
 	{
 		interval_sleep(philo->config->starve_time, philo);
-		sem_post(philo->config);
+		sem_post(philo->forks);
 		return (0);
 	}
 	if (take_fork(philo) != 1)

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 06:38:59 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/15 22:02:44 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:06:40 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/time.h>
-#include <pthread.h>
+#include <stddef.h>
 
 #include "macros/status.h"
 

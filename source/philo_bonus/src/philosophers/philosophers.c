@@ -6,14 +6,13 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:59:58 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:20:23 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
 #include <stdbool.h>
 #include <unistd.h>
-#include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
@@ -34,26 +33,37 @@ static void	philosopher_routine(t_philosopher philo)
 	while (1)
 	{
 		if (!should_philo_continue(&philo))
-			break ;
+		{
+			sem_close(philo.forks);
+			sem_close(philo.print_semaphore);
+			exit(EXIT_FAILURE);
+		}
 		if (!philosopher_eat(&philo))
-			break ;
+		{
+			sem_close(philo.forks);
+			sem_close(philo.print_semaphore);
+			exit(EXIT_FAILURE);
+		}
 		if (!should_philo_continue(&philo))
-			break ;
+		{
+			sem_close(philo.forks);
+			sem_close(philo.print_semaphore);
+			exit(EXIT_FAILURE);
+		}
 		if (!philosopher_sleep(&philo))
-			break ;
+		{
+			sem_close(philo.forks);
+			sem_close(philo.print_semaphore);
+			exit(EXIT_FAILURE);
+		}
 		if (!should_philo_continue(&philo))
-			break ;
+		{
+			sem_close(philo.forks);
+			sem_close(philo.print_semaphore);
+			exit(EXIT_FAILURE);
+		}
 	}
-}
-
-/**
- * @brief Iterates over all philosophers and destroys them.
- *
- * - The array is free'd.
- */
-void	clear_philosophers(t_philosopher *philosophers, size_t count)
-{
-	free(philosophers);
+	
 }
 
 /**
@@ -115,7 +125,6 @@ size_t	start_philosophers(t_table *table, size_t count)
 			philo = philos[i];
 			free(table->philosophers);
 			philosopher_routine(philo);
-			sem_close(table->forks);
 			exit(EXIT_SUCCESS);
 		}
 		i++;

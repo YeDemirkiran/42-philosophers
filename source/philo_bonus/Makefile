@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+         #
+#    By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/01 21:37:32 by yademirk          #+#    #+#              #
-#    Updated: 2026/03/16 23:19:19 by yademirk         ###   ########.fr        #
+#    Updated: 2026/03/17 10:04:27 by yademirk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ UTILS_SRC = $(addprefix $(UTILS_DIR), convert.c get_time.c interval_sleep.c phil
 PHILOSOPHERS_DIR = philosophers/
 PHILOSOPHERS_SRC = $(addprefix $(PHILOSOPHERS_DIR), philosophers.c philosophers_routine.c philosophers_utils.c)
 
-C_FILES = main.c mutex.c simulation.c table.c $(UTILS_SRC) $(PHILOSOPHERS_SRC)
+C_FILES = main.c simulation.c table.c $(UTILS_SRC) $(PHILOSOPHERS_SRC)
 SRCS = $(addprefix $(SRC_DIR), $(C_FILES))
 OBJS = $(addprefix $(OBJ_DIR), $(C_FILES:.c=.o))
 

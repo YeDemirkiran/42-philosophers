@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:33:26 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:28:20 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 # define MONITOR_INTERVAL_MS 1000
 #endif
 
-#define MONITOR_MSG_1 "internal: The monitor thread can't sleep, aborting"
-#define MONITOR_MSG_2 "internal: Can't check the death of philosophers"
-#define MONITOR_MSG_3 "internal: Can't check the eat count of philosophers"
-
 static void	kill_philosophers(t_philosopher *philos, size_t philo_count)
 {
 	size_t	i;
@@ -42,14 +38,22 @@ static void	kill_philosophers(t_philosopher *philos, size_t philo_count)
 
 static void	wait_philosophers(t_philosopher *philos, size_t philo_count)
 {
-	int	*exit_code;
+	int		exit_code;
+	pid_t	current;
+	size_t	i;
 
+	exit_code = 0;
 	while (1)
 	{
-		if (waitpid(-1, exit_code, 0) == -1)
+		current = waitpid(-1, &exit_code, 0);
+		if (current == -1)
 			break ;
-		if (WEXITSTATUS(*exit_code) != 0)
+		if (WEXITSTATUS(exit_code) != 0)
 		{
+			i = 0;
+			while (i < philo_count && philos[i].pid != current)
+				i++;
+			philo_message(philos + i, DEATH_MESSAGE, get_time());
 			kill_philosophers(philos, philo_count);
 			break ;
 		}

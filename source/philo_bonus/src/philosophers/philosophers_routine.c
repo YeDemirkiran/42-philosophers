@@ -6,13 +6,12 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:02:19 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:19:17 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
 #include <stdlib.h>
-#include <pthread.h>
 #include <unistd.h>
 
 #include "structs/s_philosopher.h"
@@ -88,9 +87,9 @@ static void	increase_eat_count(t_philosopher *philo)
 	if (max_eat_count != 0 && new_eat_count >= max_eat_count)
 	{
 		sem_close(philo->forks);
+		sem_close(philo->print_semaphore);
 		exit(EXIT_SUCCESS);
 	}
-	return (1);
 }
 
 /**

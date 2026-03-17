@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:59:28 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:13:20 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 	}
 	sem_unlink(FORK_SEMAPHORE_NAME);
 	table->print_semaphore = sem_open(PRINT_SEMAPHORE_NAME, O_CREAT,
-		0644, 0);
+		0644, 1);
 	if (table->print_semaphore == SEM_FAILED)
 	{
 		sem_close(table->forks);
@@ -153,5 +153,7 @@ void	clear_table(t_table *table)
 {
 	if (table == NULL)
 		return ;
-	clear_philosophers(table->philosophers, table->config.philo_count);
+	free(table->philosophers);
+	sem_close(table->forks);
+	sem_close(table->print_semaphore);
 }

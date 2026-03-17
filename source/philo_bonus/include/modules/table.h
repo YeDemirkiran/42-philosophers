@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   table.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:54 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:37:38 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:06:17 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_byte	init_table(t_table *table, int argc, char **argv);
  *
  * - Clears and frees all philosophers
  *
- * - Destroys all mutexes
+ * - Destroys all semaphores
  */
 void	clear_table(t_table *table);
 
