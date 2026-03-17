@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:58:39 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:08:31 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static t_byte	leave_forks(t_philosopher *philo)
  */
 static long	update_last_meal_time(t_philosopher *philo)
 {
-
 	if (philo == NULL)
 		return (-1);
 	philo->last_meal_time = get_time();
@@ -85,11 +84,7 @@ static void	increase_eat_count(t_philosopher *philo)
 	new_eat_count = philo->eat_count;
 	max_eat_count = philo->config->eat_count;
 	if (max_eat_count != 0 && new_eat_count >= max_eat_count)
-	{
-		sem_close(philo->forks);
-		sem_close(philo->print_semaphore);
-		exit(EXIT_SUCCESS);
-	}
+		philo_clear_and_exit(philo, EXIT_SUCCESS);
 }
 
 /**
@@ -125,8 +120,8 @@ t_byte	philosopher_eat(t_philosopher *philo)
 	}
 	if (leave_forks(philo) != 1)
 		return (0);
-	increase_eat_count(philo);
 	sem_post(philo->eating_semaphore);
+	increase_eat_count(philo);
 	return (1);
 }
 

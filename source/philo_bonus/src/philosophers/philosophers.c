@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:53:03 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:08:31 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,42 +28,22 @@
 /**
  * @brief The philosopher routine. It's used in a thread.
  */
-static void	philosopher_routine(t_philosopher philo)
+static void	philosopher_routine(t_philosopher *philo)
 {
 	while (1)
 	{
-		if (!should_philo_continue(&philo))
-		{
-			sem_close(philo.forks);
-			sem_close(philo.print_semaphore);
-			exit(EXIT_FAILURE);
-		}
-		if (!philosopher_eat(&philo))
-		{
-			sem_close(philo.forks);
-			sem_close(philo.print_semaphore);
-			exit(EXIT_FAILURE);
-		}
-		if (!should_philo_continue(&philo))
-		{
-			sem_close(philo.forks);
-			sem_close(philo.print_semaphore);
-			exit(EXIT_FAILURE);
-		}
-		if (!philosopher_sleep(&philo))
-		{
-			sem_close(philo.forks);
-			sem_close(philo.print_semaphore);
-			exit(EXIT_FAILURE);
-		}
-		if (!should_philo_continue(&philo))
-		{
-			sem_close(philo.forks);
-			sem_close(philo.print_semaphore);
-			exit(EXIT_FAILURE);
-		}
+		if (!should_philo_continue(philo))
+			philo_clear_and_exit(philo, EXIT_FAILURE);
+		if (!philosopher_eat(philo))
+			philo_clear_and_exit(philo, EXIT_FAILURE);
+		if (!should_philo_continue(philo))
+			philo_clear_and_exit(philo, EXIT_FAILURE);
+		if (!philosopher_sleep(philo))
+			philo_clear_and_exit(philo, EXIT_FAILURE);
+		if (!should_philo_continue(philo))
+			philo_clear_and_exit(philo, EXIT_FAILURE);
 	}
-	
+	philo_clear_and_exit(philo, EXIT_SUCCESS);
 }
 
 /**
@@ -125,8 +105,7 @@ size_t	start_philosophers(t_table *table, size_t count)
 		{
 			philo = philos[i];
 			free(table->philosophers);
-			philosopher_routine(philo);
-			exit(EXIT_SUCCESS);
+			philosopher_routine(&philo);
 		}
 		i++;
 	}

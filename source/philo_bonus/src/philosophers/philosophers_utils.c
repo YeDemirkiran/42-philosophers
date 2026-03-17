@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:50:57 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:08:31 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 #include "modules/utils.h"
 
 #include "philo_messages.h"
+
+void	philo_clear_and_exit(t_philosopher *philo, int status)
+{
+	sem_close(philo->forks);
+	sem_close(philo->print_semaphore);
+	sem_close(philo->eating_semaphore);
+	exit(status);
+}
 
 /**
  * @return 0 if the philosopher should stop, 1 if it should continue.
