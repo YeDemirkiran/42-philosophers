@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:21:22 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:33:22 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ static void	*philosopher_routine(void *data)
 	while (1)
 	{
 		if (!should_philo_continue(philo))
-			philo_clear_and_exit(philo, EXIT_FAILURE);
+			philo_clear_and_exit(philo, 2);
 		if (!philosopher_eat(philo))
-			philo_clear_and_exit(philo, EXIT_FAILURE);
+			philo_clear_and_exit(philo, 2);
 		if (!should_philo_continue(philo))
-			philo_clear_and_exit(philo, EXIT_FAILURE);
+			philo_clear_and_exit(philo, 2);
 		if (!philosopher_sleep(philo))
-			philo_clear_and_exit(philo, EXIT_FAILURE);
+			philo_clear_and_exit(philo, 2);
 		if (!should_philo_continue(philo))
-			philo_clear_and_exit(philo, EXIT_FAILURE);
+			philo_clear_and_exit(philo, 2);
 	}
 	return (NULL);
 }
@@ -65,13 +65,15 @@ static void	philosopher_monitor(t_philosopher *philo)
 		if (time == -1)
 		{
 			philo_error("internal: Can't get time (in philosopher_monitor)");
-			return ;
-		}
-		if (time - philo->last_meal_time >= (long)philo->config->starve_time)
-		{
 			philo_clear_and_exit(philo, EXIT_FAILURE);
 		}
-		usleep(MONITOR_INTERVAL_MS * 1000);
+		if (time - philo->last_meal_time >= (long)philo->config->starve_time)
+			philo_clear_and_exit(philo, 2);
+		if (usleep(MONITOR_INTERVAL_MS * 1000) != SUCCESS)
+		{
+			philo_error("internal: Can't sleep (in philosopher_monitor)");
+			philo_clear_and_exit(philo, EXIT_FAILURE);
+		}
 	}
 }
 

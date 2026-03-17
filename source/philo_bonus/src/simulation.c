@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:28:20 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:32:43 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static void	wait_philosophers(t_philosopher *philos, size_t philo_count)
 			i = 0;
 			while (i < philo_count && philos[i].pid != current)
 				i++;
-			philo_message(philos + i, DEATH_MESSAGE, get_time());
+			if (WEXITSTATUS(exit_code) == 2)
+				philo_message(philos + i, DEATH_MESSAGE, get_time());
 			kill_philosophers(philos, philo_count);
 			break ;
 		}
