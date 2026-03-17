@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 13:01:42 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:30:01 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 # include "structs/s_philosopher.h"
 # include "types/t_byte.h"
 
+/**
+ * @brief Cleans up the philosopher resources and exits.
+ * 
+ * Cleaned resources are:
+ * 
+ * - Forks semaphore
+ * - Print semaphore
+ * - Eating semaphore
+ */
 void	philo_clear_and_exit(t_philosopher *philo, int status);
 
 /**
