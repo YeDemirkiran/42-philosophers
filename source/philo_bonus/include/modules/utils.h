@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:39:51 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:01:25 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ long		get_time(void);
 
 /**
  * @brief Takes a message and prints it in the "philo_id timestamp message"
- * format. Acquires the print lock before doing it, and automatically unlocks
- * the mutex after printing.
+ * format. Acquires the print semaphore before doing it, and
+ * automatically posts it after printing.
  *
- * @return -1 on error (mutex_lock or mutex_unlock fails), and whatever printf
+ * @return -1 on error (semaphore fails), and whatever printf
  * returns otherwise.
  */
-int			philo_message(int philo_id, const char *message,
-				long timestamp);
+int			philo_message(t_philosopher *philo,
+				const char *message, long timestamp);
 
 /**
  * @brief Prints an error message to the standard error
