@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 08:23:59 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:00:02 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ t_byte	take_forks(t_philosopher *philo, long starve_time)
 	time = get_time();
 	if (time == -1)
 		return (0);
-	else if (time > 10 && time - philo->last_meal_time < starve_time * 9 / 10)
+	else if (time > 100 && time - philo->last_meal_time < starve_time * 9 / 10)
 		usleep((philo->last_meal_time + starve_time - time) * 10);
 	if (take_fork(philo, choose_fork(philo, NULL)) != 1)
 		return (0);
