@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:54 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:56:21 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:33:42 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,5 @@
  * @return 0 on success, 1 on failure.
  */
 t_byte	init_table(t_table *table, int argc, char **argv);
-
-/**
- * @brief Clears the dinner table.
- *
- * - Clears and frees all philosophers
- *
- * - Destroys all semaphores
- */
-void	clear_table(t_table *table);
 
 #endif
