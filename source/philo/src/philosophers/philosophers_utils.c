@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 23:17:56 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 08:23:59 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,29 +129,30 @@ static pthread_mutex_t	*choose_fork(t_philosopher *philo,
  *
  * @note You should exit the thread when 0 is returned.
  */
-t_byte	take_forks(t_philosopher *philo)
+t_byte	take_forks(t_philosopher *philo, long starve_time)
 {
-	pthread_mutex_t	*fork;
+	long	time;
 
 	if (!should_philo_continue(philo))
 		return (0);
 	if (philo_message(philo->id, THINK_MESSAGE, get_time()) == -1)
 		return (0);
-	usleep((philo->last_meal_time + philo->config->starve_time - get_time())
-		* 10);
-	fork = choose_fork(philo, NULL);
-	if (take_fork(philo, fork) != 1)
+	time = get_time();
+	if (time == -1)
+		return (0);
+	else if (time > 10 && time - philo->last_meal_time < starve_time * 9 / 10)
+		usleep((philo->last_meal_time + starve_time - time) * 10);
+	if (take_fork(philo, choose_fork(philo, NULL)) != 1)
 		return (0);
 	if (philo->left_fork == philo->right_fork || philo->right_fork == NULL)
 	{
 		interval_sleep(philo->config->starve_time, philo);
-		pthread_mutex_unlock(fork);
+		pthread_mutex_unlock(choose_fork(philo, NULL));
 		return (0);
 	}
-	fork = choose_fork(philo, fork);
-	if (take_fork(philo, fork) != 1)
+	if (take_fork(philo, choose_fork(philo, choose_fork(philo, NULL))) != 1)
 	{
-		pthread_mutex_unlock(choose_fork(philo, fork));
+		pthread_mutex_unlock(choose_fork(philo, choose_fork(philo, NULL)));
 		return (0);
 	}
 	return (1);

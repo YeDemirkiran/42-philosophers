@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_utils.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 18:26:45 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 08:22:29 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ t_byte	should_philo_continue(t_philosopher *philo);
  *
  * @note You should exit the thread when 0 is returned.
  */
-t_byte	take_forks(t_philosopher *philo);
+t_byte	take_forks(t_philosopher *philo, long starve_time);
 
 #endif

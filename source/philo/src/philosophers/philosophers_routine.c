@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_routine.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 22:11:37 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 08:22:33 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_byte	philosopher_eat(t_philosopher *philo)
 {
 	long	last_meal_time;
 
-	if (philo == NULL || !take_forks(philo))
+	if (philo == NULL || !take_forks(philo, philo->config->starve_time))
 		return (0);
 	last_meal_time = update_last_meal_time(philo);
 	if (last_meal_time < 0)
