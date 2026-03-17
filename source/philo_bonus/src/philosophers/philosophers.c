@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:20:23 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:53:03 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static t_byte	init_philosophers(t_philosopher *philos, t_table *table,
 		philos[i].last_meal_time = 0;
 		philos[i].forks = table->forks;
 		philos[i].print_semaphore = table->print_semaphore;
+		philos[i].eating_semaphore = table->eating_semaphore;
 		philos[i].config = &(table->config);
 		i++;
 	}

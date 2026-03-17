@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:13:20 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:54:44 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 #define FORK_SEMAPHORE_NAME "/philo_forks"
 #define PRINT_SEMAPHORE_NAME "/philo_print"
+#define EATING_SEMAPHORE_NAME "/philo_eating"
 
 static t_byte	init_config_numbers(long long config_numbers[5], char **argv)
 {
@@ -112,7 +113,6 @@ static t_byte	init_config(t_config *config, int argc, char **argv)
  */
 t_byte	init_table(t_table *table, int argc, char **argv)
 {
-	table->dinner_over = 0;
 	if (init_config(&(table->config), argc, argv) != SUCCESS)
 		return (FAILURE);
 	table->philosophers = malloc(sizeof(t_philosopher)
@@ -139,6 +139,16 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 		return (FAILURE);
 	}
 	sem_unlink(PRINT_SEMAPHORE_NAME);
+	table->eating_semaphore = sem_open(EATING_SEMAPHORE_NAME, O_CREAT,
+		0644, table->config.philo_count - (table->config.philo_count != 1));
+	if (table->eating_semaphore == SEM_FAILED)
+	{
+		sem_close(table->forks);
+		sem_close(table->print_semaphore);
+		philo_error("internal: Can't initialize the eating semaphore");
+		return (FAILURE);
+	}
+	sem_unlink(EATING_SEMAPHORE_NAME);
 	return (SUCCESS);
 }
 
@@ -156,4 +166,5 @@ void	clear_table(t_table *table)
 	free(table->philosophers);
 	sem_close(table->forks);
 	sem_close(table->print_semaphore);
+	sem_close(table->eating_semaphore);
 }
