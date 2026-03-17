@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_routine.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 22:11:37 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 10:02:19 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
-#include <stdio.h>
+#include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
 
@@ -30,21 +30,17 @@
  */
 static t_byte	leave_forks(t_philosopher *philo)
 {
-	if (philo->left_fork != NULL)
+	if (philo == NULL)
+		return (0);
+	if (sem_post(philo->forks) != SUCCESS)
 	{
-		if (pthread_mutex_unlock(philo->left_fork) != SUCCESS)
-		{
-			philo_error("internal: A philosopher can't leave its left fork");
-			return (0);
-		}
+		philo_error("internal: A philosopher couldn't leave its fork");
+		return (0);
 	}
-	if (philo->left_fork != philo->right_fork && philo->right_fork != NULL)
+	if (sem_post(philo->forks) != SUCCESS)
 	{
-		if (pthread_mutex_unlock(philo->right_fork) != SUCCESS)
-		{
-			philo_error("internal: A philosopher can't leave its right fork");
-			return (0);
-		}
+		philo_error("internal: A philosopher couldn't leave its fork");
+		return (0);
 	}
 	return (1);
 }
@@ -56,23 +52,13 @@ static t_byte	leave_forks(t_philosopher *philo)
  */
 static long	update_last_meal_time(t_philosopher *philo)
 {
-	long	last_meal_time;
 
-	last_meal_time = get_time();
-	if (last_meal_time == -1)
+	if (philo == NULL)
+		return (-1);
+	philo->last_meal_time = get_time();
+	if (philo->last_meal_time == -1)
 	{
 		philo_error("internal: Error during last_meal_time update");
-		return (-1);
-	}
-	if (pthread_mutex_lock(&philo->meal_mutex) != SUCCESS)
-	{
-		philo_error("internal: Can't lock meal_mutex during eating");
-		return (-1);
-	}
-	philo->last_meal_time = last_meal_time;
-	if (pthread_mutex_unlock(&philo->meal_mutex) != SUCCESS)
-	{
-		philo_error("internal: Can't unlock meal_mutex during eating");
 		return (-1);
 	}
 	if (!should_philo_continue(philo))
@@ -80,37 +66,30 @@ static long	update_last_meal_time(t_philosopher *philo)
 		leave_forks(philo);
 		return (-1);
 	}
-	return (last_meal_time);
+	return (philo->last_meal_time);
 }
 
 /**
  * @brief Increases the eat count property of the philosopher.
  *
- * It also checks if the philosopher has eaten enough and returns 0 in such
- * case.
+ * It also checks if the philosopher has eaten enough and automatically 
+ * exits with 0 in such case.
  *
  * @return 0 on either failure or dinner over, 1 on success.
  */
-static t_byte	increase_eat_count(t_philosopher *philo)
+static void	increase_eat_count(t_philosopher *philo)
 {
 	size_t	new_eat_count;
 	size_t	max_eat_count;
 
-	if (pthread_mutex_lock(&philo->meal_mutex) != SUCCESS)
-	{
-		philo_error("internal: Can't lock meal_mutex during eating");
-		return (0);
-	}
 	philo->eat_count += 1;
 	new_eat_count = philo->eat_count;
 	max_eat_count = philo->config->eat_count;
-	if (pthread_mutex_unlock(&philo->meal_mutex) != SUCCESS)
-	{
-		philo_error("internal: Can't unlock meal_mutex during eating");
-		return (0);
-	}
 	if (max_eat_count != 0 && new_eat_count >= max_eat_count)
-		return (0);
+	{
+		sem_close(philo->forks);
+		exit(EXIT_SUCCESS);
+	}
 	return (1);
 }
 
@@ -135,7 +114,7 @@ t_byte	philosopher_eat(t_philosopher *philo)
 		leave_forks(philo);
 		return (0);
 	}
-	if (philo_message(philo->id, EAT_MESSAGE, last_meal_time) == -1)
+	if (philo_message(philo, EAT_MESSAGE, last_meal_time) == -1)
 	{
 		leave_forks(philo);
 		return (0);
@@ -147,8 +126,7 @@ t_byte	philosopher_eat(t_philosopher *philo)
 	}
 	if (leave_forks(philo) != 1)
 		return (0);
-	if (increase_eat_count(philo) != 1)
-		return (0);
+	increase_eat_count(philo);
 	return (1);
 }
 
@@ -173,7 +151,7 @@ t_byte	philosopher_sleep(t_philosopher *philo)
 		philo_error("internal: A philospher couldn't read time during sleep");
 		return (0);
 	}
-	if (philo_message(philo->id, SLEEP_MESSAGE, time) == -1)
+	if (philo_message(philo, SLEEP_MESSAGE, time) == -1)
 		return (0);
 	if (interval_sleep(philo->config->sleep_time, philo) != 1)
 		return (0);

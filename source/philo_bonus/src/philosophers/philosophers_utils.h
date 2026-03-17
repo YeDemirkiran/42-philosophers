@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_utils.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 18:26:45 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:50:56 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 t_byte	should_philo_continue(t_philosopher *philo);
 
 /**
- * @brief Acquires forks in a left-right order.
+ * @brief Acquires forks from the center of the table.
  *
  * @return 0 on failure (philosopher death, dinner over), 1 on success.
  *

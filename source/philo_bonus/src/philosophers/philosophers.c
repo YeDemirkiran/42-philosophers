@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:11:19 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:59:58 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,22 @@
 
 /**
  * @brief The philosopher routine. It's used in a thread.
- *
- * @return NULL.
  */
-static void	*philosopher_routine(void *data)
+static void	philosopher_routine(t_philosopher philo)
 {
-	t_philosopher	*philo;
-
-	philo = (t_philosopher *)data;
 	while (1)
 	{
-		if (!should_philo_continue(philo))
+		if (!should_philo_continue(&philo))
 			break ;
-		if (!philosopher_eat(data))
+		if (!philosopher_eat(&philo))
 			break ;
-		if (!should_philo_continue(philo))
+		if (!should_philo_continue(&philo))
 			break ;
-		if (!philosopher_sleep(data))
+		if (!philosopher_sleep(&philo))
 			break ;
-		if (!should_philo_continue(philo))
+		if (!should_philo_continue(&philo))
 			break ;
 	}
-	return (NULL);
 }
 
 /**
@@ -80,6 +74,7 @@ static t_byte	init_philosophers(t_philosopher *philos, t_table *table,
 		philos[i].eat_count = 0;
 		philos[i].last_meal_time = 0;
 		philos[i].forks = table->forks;
+		philos[i].print_semaphore = table->print_semaphore;
 		philos[i].config = &(table->config);
 		i++;
 	}
@@ -96,8 +91,8 @@ static t_byte	init_philosophers(t_philosopher *philos, t_table *table,
 size_t	start_philosophers(t_table *table, size_t count)
 {
 	size_t			i;
-	int				res;
 	t_philosopher	*philos;
+	t_philosopher	philo;
 
 	if (table == NULL || count == 0)
 		return (0);
@@ -109,10 +104,20 @@ size_t	start_philosophers(t_table *table, size_t count)
 	i = 0;
 	while (i < count)
 	{
-		res = pthread_create(&(philos[i].thread_id), NULL,
-				philosopher_routine, philos + i);
-		if (res != SUCCESS)
-			return (i);
+		philos[i].pid = fork();
+		if (philos[i].pid == -1)
+		{
+			philo_error("internal: A philosopher process couldn't start");
+			return (0);
+		}
+		else if (philos[i].pid == 0)
+		{
+			philo = philos[i];
+			free(table->philosophers);
+			philosopher_routine(philo);
+			sem_close(table->forks);
+			exit(EXIT_SUCCESS);
+		}
 		i++;
 	}
 	return (i);
