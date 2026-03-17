@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:39:10 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/14 20:23:23 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:40:32 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIMULATION_H
 # define SIMULATION_H
 
-# include <structs/s_table.h>
+# include "structs/s_table.h"
 
 /**
  * @brief Starts the dinner simulation and the monitor.

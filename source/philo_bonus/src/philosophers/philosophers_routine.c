@@ -6,13 +6,12 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 11:08:31 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:59:46 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _DEFAULT_SOURCE
+#include <semaphore.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 #include "structs/s_philosopher.h"
 #include "modules/utils.h"

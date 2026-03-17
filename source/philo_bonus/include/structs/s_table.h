@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 14:53:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:53:17 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:57:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <semaphore.h>
 
-# include <structs/s_philosopher.h>
-# include <structs/s_config.h>
+# include "structs/s_philosopher.h"
+# include "structs/s_config.h"
 
 typedef struct s_table
 {

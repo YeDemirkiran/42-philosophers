@@ -6,20 +6,14 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:37:10 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:48:15 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _DEFAULT_SOURCE
-#include <stdbool.h>
-#include <unistd.h>
 #include <pthread.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <sys/time.h>
 
 #include "macros/status.h"
-#include "modules/utils.h"
 #include "structs/s_table.h"
 #include "structs/s_philosopher.h"
 

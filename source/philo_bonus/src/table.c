@@ -6,18 +6,18 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 11:00:11 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:09:25 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
 #include <fcntl.h>
+#include <semaphore.h>
 
 #include "structs/s_table.h"
-#include "macros/status.h"
 #include "modules/utils.h"
 #include "modules/philosophers.h"
+#include "macros/status.h"
 
 #define ARG_1_ERR "Argument philo_number must be a positive integer"
 #define ARG_2_ERR "Argument time_to_die must be zero or a positive integer"

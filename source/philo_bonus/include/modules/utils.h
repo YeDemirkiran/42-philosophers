@@ -6,11 +6,15 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:01:25 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:56:49 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs/s_philosopher.h"
+#ifndef UTILS_H
+# define UTILS_H
+
+# include "structs/s_philosopher.h"
+# include "types/t_byte.h"
 
 /**
  * @brief Converts the given string to a long integer.
@@ -58,3 +62,5 @@ void		philo_error(const char *msg);
  * @return 0 on failure, 1 on success.
  */
 t_byte		interval_sleep(long ms, t_philosopher *philo);
+
+#endif

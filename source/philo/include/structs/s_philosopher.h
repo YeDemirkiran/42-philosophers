@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_philosopher.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:56:29 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/12 08:56:18 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:41:59 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define S_PHILOSOPHER_H
 
 # include <pthread.h>
-# include <types/t_byte.h>
 
+# include "types/t_byte.h"
 # include "structs/s_config.h"
 
 typedef struct s_philosopher

@@ -6,17 +6,17 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:21:51 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:51:32 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
 #include <unistd.h>
-#include <macros/status.h>
 
 #include "structs/s_table.h"
 #include "modules/philosophers.h"
 #include "modules/utils.h"
+#include "macros/status.h"
 #include "philo_messages.h"
 
 #ifndef MONITOR_INTERVAL_MS

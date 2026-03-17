@@ -6,14 +6,11 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 08:22:33 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:43:05 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _DEFAULT_SOURCE
-#include <stdio.h>
 #include <pthread.h>
-#include <unistd.h>
 
 #include "structs/s_philosopher.h"
 #include "modules/utils.h"

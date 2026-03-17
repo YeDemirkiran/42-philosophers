@@ -6,12 +6,13 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:32:43 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:07:14 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
 #include <unistd.h>
+#include <signal.h>
 #include <sys/wait.h>
 
 #include "structs/s_table.h"
@@ -19,10 +20,6 @@
 #include "modules/utils.h"
 #include "philo_messages.h"
 #include "macros/status.h"
-
-#ifndef MONITOR_INTERVAL_MS
-# define MONITOR_INTERVAL_MS 1000
-#endif
 
 static void	kill_philosophers(t_philosopher *philos, size_t philo_count)
 {

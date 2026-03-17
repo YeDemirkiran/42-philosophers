@@ -6,14 +6,15 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 11:08:31 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:01:42 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_UTILS_H
 # define PHILOSOPHERS_UTILS_H
 
-# include <structs/s_table.h>
+# include "structs/s_philosopher.h"
+# include "types/t_byte.h"
 
 void	philo_clear_and_exit(t_philosopher *philo, int status);
 

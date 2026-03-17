@@ -6,15 +6,15 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 08:22:29 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:01:37 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_UTILS_H
 # define PHILOSOPHERS_UTILS_H
 
-# include <pthread.h>
-# include <structs/s_table.h>
+# include "structs/s_philosopher.h"
+# include "types/t_byte.h"
 
 /**
  * @return 0 if the philosopher should stop, 1 if it should continue.

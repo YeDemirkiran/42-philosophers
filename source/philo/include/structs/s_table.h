@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   s_table.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 14:53:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/02/25 07:53:04 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:57:40 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef S_TABLE_H
 # define S_TABLE_H
 
-# include <structs/s_philosopher.h>
-# include <structs/s_config.h>
+# include <pthread.h>
+
+# include "structs/s_philosopher.h"
+# include "structs/s_config.h"
 
 typedef struct s_table
 {

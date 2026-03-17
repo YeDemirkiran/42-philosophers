@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_routine.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:45:04 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 07:42:15 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:44:09 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_ROUTINE_H
 # define PHILOSOPHERS_ROUTINE_H
 
-# include <structs/s_philosopher.h>
+# include "structs/s_philosopher.h"
+# include "types/t_byte.h"
 
 /**
  * @brief Acquires the forks automatically and starts eating.
