@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 10:54:44 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:00:11 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,14 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 	if (init_config(&(table->config), argc, argv) != SUCCESS)
 		return (FAILURE);
 	table->philosophers = malloc(sizeof(t_philosopher)
-		* table->config.philo_count);
+			* table->config.philo_count);
 	if (table->philosophers == NULL)
 	{
 		philo_error("internal: Can't allocate memory for philosophers");
 		return (FAILURE);
 	}
 	table->forks = sem_open(FORK_SEMAPHORE_NAME, O_CREAT,
-		0644, table->config.philo_count);
+			0644, table->config.philo_count);
 	if (table->forks == SEM_FAILED)
 	{
 		philo_error("internal: Can't initialize the fork semaphore");
@@ -131,7 +131,7 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 	}
 	sem_unlink(FORK_SEMAPHORE_NAME);
 	table->print_semaphore = sem_open(PRINT_SEMAPHORE_NAME, O_CREAT,
-		0644, 1);
+			0644, 1);
 	if (table->print_semaphore == SEM_FAILED)
 	{
 		sem_close(table->forks);
@@ -140,7 +140,7 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 	}
 	sem_unlink(PRINT_SEMAPHORE_NAME);
 	table->eating_semaphore = sem_open(EATING_SEMAPHORE_NAME, O_CREAT,
-		0644, table->config.philo_count - (table->config.philo_count != 1));
+			0644, table->config.philo_count - (table->config.philo_count != 1));
 	if (table->eating_semaphore == SEM_FAILED)
 	{
 		sem_close(table->forks);
