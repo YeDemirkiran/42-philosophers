@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:56:29 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:12:12 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:33:59 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_philosopher
 
 	t_config	*config;
 	sem_t		*forks;
+	// sem_t		*death_semaphore;
 }	t_philosopher;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 09:09:24 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:34:19 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,15 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 		philo_error("internal: Can't initialize fork semaphore");
 		return (FAILURE);
 	}
+	sem_unlink("/philo_forks");
+	// table->death_semaphore = sem_open("/philo_death", O_CREAT, 0644, 0);
+	// if (table->death_semaphore == SEM_FAILED)
+	// {
+	// 	sem_close(table->forks);
+	// 	philo_error("internal: Can't initialize death semaphore");
+	// 	return (FAILURE);
+	// }
+	// sem_unlink("/philo_death");
 	return (SUCCESS);
 }
 
