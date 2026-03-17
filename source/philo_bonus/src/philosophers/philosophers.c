@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 11:08:31 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:21:22 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <pthread.h>
 #include <sys/time.h>
 
 #include "macros/status.h"
@@ -25,11 +25,20 @@
 #include "philosophers_utils.h"
 #include "philosophers_routine.h"
 
+#ifndef MONITOR_INTERVAL_MS
+# define MONITOR_INTERVAL_MS 2
+#endif
+
 /**
  * @brief The philosopher routine. It's used in a thread.
  */
-static void	philosopher_routine(t_philosopher *philo)
+static void	*philosopher_routine(void *data)
 {
+	t_philosopher	*philo;
+
+	if (data == NULL)
+		return (NULL);
+	philo = (t_philosopher *)data;
 	while (1)
 	{
 		if (!should_philo_continue(philo))
@@ -43,6 +52,42 @@ static void	philosopher_routine(t_philosopher *philo)
 		if (!should_philo_continue(philo))
 			philo_clear_and_exit(philo, EXIT_FAILURE);
 	}
+	return (NULL);
+}
+
+static void	philosopher_monitor(t_philosopher *philo)
+{
+	long	time;
+
+	while (1)
+	{
+		time = get_time();
+		if (time == -1)
+		{
+			philo_error("internal: Can't get time (in philosopher_monitor)");
+			return ;
+		}
+		if (time - philo->last_meal_time >= (long)philo->config->starve_time)
+		{
+			philo_clear_and_exit(philo, EXIT_FAILURE);
+		}
+		usleep(MONITOR_INTERVAL_MS * 1000);
+	}
+}
+
+static void	start_philosopher_and_monitor(t_philosopher *philo)
+{
+	pthread_t	thread;
+	int			res;
+
+	res = pthread_create(&thread, NULL, philosopher_routine, (void *)philo);
+	if (res != SUCCESS)
+	{
+		philo_error("internal: Can't start philosopher thread");
+		philo_clear_and_exit(philo, EXIT_FAILURE);
+	}
+	philosopher_monitor(philo);
+	pthread_join(thread, NULL);
 	philo_clear_and_exit(philo, EXIT_SUCCESS);
 }
 
@@ -105,7 +150,7 @@ size_t	start_philosophers(t_table *table, size_t count)
 		{
 			philo = philos[i];
 			free(table->philosophers);
-			philosopher_routine(&philo);
+			start_philosopher_and_monitor(&philo);
 		}
 		i++;
 	}
