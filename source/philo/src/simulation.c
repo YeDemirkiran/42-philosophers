@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:51:32 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:12:00 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ static int	all_philos_eaten(t_philosopher *philos, size_t philo_count,
 	return (1);
 }
 
+/**
+ * @brief Sets dinner_over to 1 and calls philo_error on error.
+ */
 static void	on_monitor_error(t_table *table, const char *msg)
 {
 	if (table == NULL)

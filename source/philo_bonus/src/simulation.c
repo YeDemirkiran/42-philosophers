@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 13:07:14 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:21:18 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #include "philo_messages.h"
 #include "macros/status.h"
 
+/**
+ * @brief Sends the SIGTERM signal to all philosophers (child processes).
+ */
 static void	kill_philosophers(t_philosopher *philos, size_t philo_count)
 {
 	size_t	i;
@@ -33,6 +36,16 @@ static void	kill_philosophers(t_philosopher *philos, size_t philo_count)
 	}
 }
 
+/**
+ * @brief Waits for the simulation to end.
+ * 
+ * First, it waits for a process to end. After it ends, it checks the
+ * exit status for philosopher state: Did we exit because of an error,
+ * or we died, or did we eat enough?
+ * 
+ * If we ate enough, the loop keeps working. Otherwise, all philosophers
+ * are killed, and an optional death message is printed.
+ */
 static void	wait_philosophers(t_philosopher *philos, size_t philo_count)
 {
 	int		exit_code;

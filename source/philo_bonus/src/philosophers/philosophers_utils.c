@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 13:00:37 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:16:23 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@
 
 #include "philo_messages.h"
 
+/**
+ * @brief Cleans up the philosopher resources and exits.
+ * 
+ * Cleaned resources are:
+ * 
+ * - Forks semaphore
+ * - Print semaphore
+ * - Eating semaphore
+ */
 void	philo_clear_and_exit(t_philosopher *philo, int status)
 {
 	sem_close(philo->forks);

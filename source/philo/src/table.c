@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:52:37 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:12:51 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@
 #define ARG_4_ERR "Argument time_to_sleep must be zero or a positive integer"
 #define ARG_5_ERR "Optional argument max_eat_count must be a positive integer"
 
+/**
+ * @brief Initializes the first 4 config numbers in a loop.
+ * 
+ * @return 0 on failure, 1 on success.
+ * 
+ * @note The appropiate error message is printed automatically on error.
+ */
 static t_byte	init_config_numbers(long long config_numbers[5], char **argv)
 {
 	const char	*err_msg[4] = {ARG_1_ERR, ARG_2_ERR, ARG_3_ERR, ARG_4_ERR};
