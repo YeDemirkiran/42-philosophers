@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 18:23:44 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:21:51 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "philo_messages.h"
 
 #ifndef MONITOR_INTERVAL_MS
-# define MONITOR_INTERVAL_MS 1000
+# define MONITOR_INTERVAL_MS 1
 #endif
 
 #define MONITOR_MSG_1 "internal: The monitor thread can't sleep, aborting"
@@ -110,7 +110,7 @@ static void	on_monitor_error(t_table *table, const char *msg)
  *
  * - If it's eaten equal to  or more than the optional max_eat_count argument.
  *
- * Sleeps for MONITOR_INTERVAL_MS duration before each interval.
+ * Sleeps for MONITOR_INTERVAL_MS * 1000 duration before each interval.
  */
 static void	monitor_philosophers(t_table *table,
 	t_philosopher *philos, size_t philo_count)
@@ -120,7 +120,7 @@ static void	monitor_philosophers(t_table *table,
 
 	while (1)
 	{
-		if (usleep(MONITOR_INTERVAL_MS) != SUCCESS)
+		if (usleep(MONITOR_INTERVAL_MS * 1000) != SUCCESS)
 			return (on_monitor_error(table, MONITOR_MSG_1));
 		dead_id = any_philo_dead(philos, philo_count);
 		if (dead_id == -2)
