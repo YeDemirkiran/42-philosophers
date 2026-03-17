@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 23:18:10 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:37:10 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static void	*philosopher_routine(void *data)
 	{
 		if (!should_philo_continue(philo))
 			break ;
-		if (!philosopher_eat(data))
+		if (!philosopher_eat(philo))
 			break ;
 		if (!should_philo_continue(philo))
 			break ;
-		if (!philosopher_sleep(data))
+		if (!philosopher_sleep(philo))
 			break ;
 		if (!should_philo_continue(philo))
 			break ;
