@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:10:37 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/16 17:19:12 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/30 05:50:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_byte	interval_sleep(long ms, t_philosopher *philo)
 	while (timer < sleep_time)
 	{
 		if (!should_philo_continue(philo))
-			break ;
+			return (0);
 		if (usleep(SLEEP_INTERVAL) != SUCCESS)
 			return (sleep_error(SLEEP_ERROR_2));
 		timer = get_time();
