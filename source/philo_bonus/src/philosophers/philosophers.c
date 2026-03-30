@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 13:32:39 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/30 05:33:42 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	*philosopher_routine(void *data)
  *
  * Unlike the mandatory part's monitor, this one checks only for one
  * philosopher and only for death, not eat counts.
- * 
+ *
  * It kills the child process by exiting.
  *
  * Sleeps for MONITOR_INTERVAL_MS * 1000 duration before each interval.
@@ -88,7 +88,7 @@ static void	philosopher_monitor(t_philosopher *philo)
 
 /**
  * @brief Starts both the philosopher thread and the monitor.
- * 
+ *
  * Automatically exits with a failure code on errors.
  */
 static void	start_philosopher_and_monitor(t_philosopher *philo)
@@ -127,6 +127,7 @@ static t_byte	init_philosophers(t_philosopher *philos, t_table *table,
 		philos[i].forks = table->forks;
 		philos[i].print_semaphore = table->print_semaphore;
 		philos[i].eating_semaphore = table->eating_semaphore;
+		philos[i].death_semaphore = table->death_semaphore;
 		philos[i].config = &(table->config);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 13:21:18 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/30 05:51:39 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,45 @@
 /**
  * @brief Sends the SIGTERM signal to all philosophers (child processes).
  */
-static void	kill_philosophers(t_philosopher *philos, size_t philo_count)
+static void	kill_philosophers(size_t philo_count, sem_t *death_sem)
 {
 	size_t	i;
+	int		exit_code;
+	pid_t	current;
 
-	i = 0;
-	while (i < philo_count)
+	while (1)
 	{
-		kill(philos[i].pid, SIGTERM);
-		i++;
+		i = 0;
+		while (i < philo_count)
+		{
+			sem_wait(death_sem);
+			i++;
+		}
+		usleep(2000);
+		i = 0;
+		while (i < philo_count)
+		{
+			sem_post(death_sem);
+			i++;
+		}
+		current = waitpid(-1, &exit_code, 0);
+		if (current == -1)
+			break ;
 	}
 }
 
 /**
  * @brief Waits for the simulation to end.
- * 
+ *
  * First, it waits for a process to end. After it ends, it checks the
  * exit status for philosopher state: Did we exit because of an error,
  * or we died, or did we eat enough?
- * 
+ *
  * If we ate enough, the loop keeps working. Otherwise, all philosophers
  * are killed, and an optional death message is printed.
  */
-static void	wait_philosophers(t_philosopher *philos, size_t philo_count)
+static void	wait_philosophers(t_philosopher *philos, size_t philo_count,
+	sem_t *death_sem)
 {
 	int		exit_code;
 	pid_t	current;
@@ -65,7 +81,7 @@ static void	wait_philosophers(t_philosopher *philos, size_t philo_count)
 				i++;
 			if (WEXITSTATUS(exit_code) == 2)
 				philo_message(philos + i, DEATH_MESSAGE, get_time());
-			kill_philosophers(philos, philo_count);
+			kill_philosophers(philo_count, death_sem);
 			break ;
 		}
 	}
@@ -92,8 +108,8 @@ void	start_simulation(t_table *table)
 	if (result == 0 || result != philo_count || result != philo_count)
 	{
 		philo_error("internal: Couldn't start all philosophers, aborting");
-		kill_philosophers(table->philosophers, philo_count);
+		kill_philosophers(philo_count, table->death_semaphore);
 		return ;
 	}
-	wait_philosophers(table->philosophers, philo_count);
+	wait_philosophers(table->philosophers, philo_count, table->death_semaphore);
 }
