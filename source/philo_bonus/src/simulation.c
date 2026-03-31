@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:37:02 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/30 05:51:39 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:33:45 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	kill_philosophers(size_t philo_count, sem_t *death_sem)
 			sem_wait(death_sem);
 			i++;
 		}
-		usleep(2000);
+		usleep(20000);
 		i = 0;
 		while (i < philo_count)
 		{

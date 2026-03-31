@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:59:46 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:48:06 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ static long	update_last_meal_time(t_philosopher *philo)
  * @brief Increases the eat count property of the philosopher.
  *
  * It also checks if the philosopher has eaten enough and automatically 
- * exits with 0 in such case.
+ * returns with 0 in such case.
  *
  * @return 0 on either failure or dinner over, 1 on success.
  */
-static void	increase_eat_count(t_philosopher *philo)
+static t_byte	increase_eat_count(t_philosopher *philo)
 {
 	size_t	new_eat_count;
 	size_t	max_eat_count;
@@ -83,7 +83,8 @@ static void	increase_eat_count(t_philosopher *philo)
 	new_eat_count = philo->eat_count;
 	max_eat_count = philo->config->eat_count;
 	if (max_eat_count != 0 && new_eat_count >= max_eat_count)
-		philo_clear_and_exit(philo, EXIT_SUCCESS);
+		return (0);
+	return (1);
 }
 
 /**
@@ -120,7 +121,8 @@ t_byte	philosopher_eat(t_philosopher *philo)
 	if (leave_forks(philo) != 1)
 		return (0);
 	sem_post(philo->eating_semaphore);
-	increase_eat_count(philo);
+	if (increase_eat_count(philo) != 1)
+		return (0);
 	return (1);
 }
 

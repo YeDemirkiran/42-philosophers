@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/30 05:51:25 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:41:14 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,21 @@ void	philo_clear_and_exit(t_philosopher *philo, int status)
 	exit(status);
 }
 
+int	*philo_clear_and_return(t_philosopher *philo, int status)
+{
+	int	*stat;
+
+	sem_close(philo->forks);
+	sem_close(philo->print_semaphore);
+	sem_close(philo->eating_semaphore);
+	sem_close(philo->death_semaphore);
+	stat = malloc(sizeof(int));
+	if (stat == NULL)
+		return (NULL);
+	*stat = status;
+	return (stat);
+}
+
 #include <stdio.h>
 /**
  * @return 0 if the philosopher should stop, 1 if it should continue.
@@ -71,7 +86,7 @@ t_byte	should_philo_continue(t_philosopher *philo)
 		philo_error("internal: Can't get time (in should_philo_continue)");
 		return (0);
 	}
-	if (time_2 - time > 1)
+	if (time_2 - time > 5)
 		return (0);
 	else if (time - philo->last_meal_time >= (long)philo->config->starve_time)
 		return (0);

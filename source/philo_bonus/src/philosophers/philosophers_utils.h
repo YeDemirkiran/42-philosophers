@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 13:30:01 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:41:22 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
  * - Eating semaphore
  */
 void	philo_clear_and_exit(t_philosopher *philo, int status);
+
+int		*philo_clear_and_return(t_philosopher *philo, int status);
 
 /**
  * @return 0 if the philosopher should stop, 1 if it should continue.

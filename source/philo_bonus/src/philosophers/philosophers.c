@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/30 05:33:42 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:05:54 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ static void	*philosopher_routine(void *data)
 	while (1)
 	{
 		if (!should_philo_continue(philo))
-			philo_clear_and_exit(philo, 2);
+			return (philo_clear_and_return(philo, 2));
 		if (!philosopher_eat(philo))
-			philo_clear_and_exit(philo, 2);
+			return (philo_clear_and_return(philo, 2));
 		if (!should_philo_continue(philo))
-			philo_clear_and_exit(philo, 2);
+			return (philo_clear_and_return(philo, 2));
 		if (!philosopher_sleep(philo))
-			philo_clear_and_exit(philo, 2);
+			return (philo_clear_and_return(philo, 2));
 		if (!should_philo_continue(philo))
-			philo_clear_and_exit(philo, 2);
+			return (philo_clear_and_return(philo, 2));
 	}
-	return (NULL);
+	return (philo_clear_and_return(philo, 0));
 }
 
 /**
@@ -64,7 +64,7 @@ static void	*philosopher_routine(void *data)
  *
  * Sleeps for MONITOR_INTERVAL_MS * 1000 duration before each interval.
  */
-static void	philosopher_monitor(t_philosopher *philo)
+static int	philosopher_monitor(t_philosopher *philo)
 {
 	long	time;
 
@@ -74,16 +74,17 @@ static void	philosopher_monitor(t_philosopher *philo)
 		if (time == -1)
 		{
 			philo_error("internal: Can't get time (in philosopher_monitor)");
-			philo_clear_and_exit(philo, EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 		if (time - philo->last_meal_time >= (long)philo->config->starve_time)
-			philo_clear_and_exit(philo, 2);
+			return (2);
 		if (usleep(MONITOR_INTERVAL_MS * 1000) != SUCCESS)
 		{
 			philo_error("internal: Can't sleep (in philosopher_monitor)");
-			philo_clear_and_exit(philo, EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 	}
+	return (EXIT_SUCCESS);
 }
 
 /**
@@ -95,6 +96,8 @@ static void	start_philosopher_and_monitor(t_philosopher *philo)
 {
 	pthread_t	thread;
 	int			res;
+	int			res_2;
+	void		*thread_return;
 
 	res = pthread_create(&thread, NULL, philosopher_routine, (void *)philo);
 	if (res != SUCCESS)
@@ -102,9 +105,13 @@ static void	start_philosopher_and_monitor(t_philosopher *philo)
 		philo_error("internal: Can't start philosopher thread");
 		philo_clear_and_exit(philo, EXIT_FAILURE);
 	}
-	philosopher_monitor(philo);
-	pthread_join(thread, NULL);
-	philo_clear_and_exit(philo, EXIT_SUCCESS);
+	res = philosopher_monitor(philo);
+	pthread_join(thread, &thread_return);
+	res_2 = *(int *)thread_return;
+	free(thread_return);
+	if (res_2 > res)
+		res = res_2;
+	exit(res);
 }
 
 /**
