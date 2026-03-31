@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 10:38:23 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:12:08 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,7 @@ t_byte	philosopher_eat(t_philosopher *philo)
 		leave_forks(philo);
 		return (0);
 	}
-	if (philo_message(philo, EAT_MESSAGE, last_meal_time) == -1)
-	{
-		leave_forks(philo);
-		return (0);
-	}
+	philo_message(philo, EAT_MESSAGE, last_meal_time);
 	if (interval_sleep(philo->config->eat_time, philo) != 1)
 	{
 		leave_forks(philo);

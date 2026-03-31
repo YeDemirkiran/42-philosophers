@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 10:53:16 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:24:21 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ void	philo_clear_and_exit(t_philosopher *philo, int status)
 	exit(status);
 }
 
+/**
+ * @brief Closes all philosopher semaphores and returns
+ * the status code in malloc'd pointer.
+ * 
+ * @return NULL on failure.
+ */
 int	*philo_clear_and_return(t_philosopher *philo, int status)
 {
 	int	*stat;
@@ -71,17 +77,9 @@ t_byte	should_philo_continue(t_philosopher *philo)
 		philo_error("internal: Can't get time (in should_philo_continue)");
 		return (0);
 	}
-	if (sem_wait(philo->death_semaphore) != SUCCESS)
-	{
-		philo_error("internal: Can't sem_wait (in should_philo_continue)");
-		return (0);
-	}
+	sem_wait(philo->death_semaphore);
 	time_2 = get_time();
-	if (sem_post(philo->death_semaphore) != SUCCESS)
-	{
-		philo_error("internal: Can't sem_wait (in should_philo_continue)");
-		return (0);
-	}
+	sem_post(philo->death_semaphore);
 	if (time_2 == -1)
 	{
 		philo_error("internal: Can't get time (in should_philo_continue)");

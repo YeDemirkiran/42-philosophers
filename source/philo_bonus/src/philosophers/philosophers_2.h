@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_sem.c                                       :+:      :+:    :+:   */
+/*   philosophers_2.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/31 11:14:25 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 11:17:04 by yademirk         ###   ########.fr       */
+/*   Created: 2026/03/31 11:20:14 by yademirk          #+#    #+#             */
+/*   Updated: 2026/03/31 11:20:56 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <semaphore.h>
-#include <fcntl.h>
+#ifndef PHILOSOPHERS_2_H
+# define PHILOSOPHERS_2_H
+
+# include "structs/s_philosopher.h"
 
 /**
- * @brief Creates a named semaphore with count and immediately
- * unlinks it.
+ * @brief Starts both the philosopher thread and the monitor.
+ *
+ * Automatically exits with a failure code on errors.
  */
-sem_t	*create_sem(const char *name, int count)
-{
-	sem_t	*sem;
+void	start_philosopher_and_monitor(t_philosopher *philo);
 
-	sem = sem_open(name, O_CREAT, 0644, count);
-	if (sem == SEM_FAILED)
-		return (SEM_FAILED);
-	sem_unlink(name);
-	return (sem);
-}
+#endif

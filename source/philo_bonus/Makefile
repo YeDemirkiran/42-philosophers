@@ -6,7 +6,7 @@
 #    By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/01 21:37:32 by yademirk          #+#    #+#              #
-#    Updated: 2026/03/31 11:15:29 by yademirk         ###   ########.fr        #
+#    Updated: 2026/03/31 11:25:21 by yademirk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ UTILS_DIR = utils/
 UTILS_SRC = $(addprefix $(UTILS_DIR), create_sem.c ft_atol.c get_time.c interval_sleep.c philo_message.c philo_error.c)
 
 PHILOSOPHERS_DIR = philosophers/
-PHILOSOPHERS_SRC = $(addprefix $(PHILOSOPHERS_DIR), philosophers.c philosophers_routine.c philosophers_utils.c)
+PHILOSOPHERS_SRC = $(addprefix $(PHILOSOPHERS_DIR), philosophers.c philosophers_2.c philosophers_routine.c philosophers_utils.c)
 
 C_FILES = main.c simulation.c table.c $(UTILS_SRC) $(PHILOSOPHERS_SRC)
 SRCS = $(addprefix $(SRC_DIR), $(C_FILES))

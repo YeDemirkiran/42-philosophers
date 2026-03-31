@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 20:46:31 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 09:41:22 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:24:28 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@
  */
 void	philo_clear_and_exit(t_philosopher *philo, int status);
 
+/**
+ * @brief Closes all philosopher semaphores and returns
+ * the status code in malloc'd pointer.
+ * 
+ * @return NULL on failure.
+ */
 int		*philo_clear_and_return(t_philosopher *philo, int status);
 
 /**
