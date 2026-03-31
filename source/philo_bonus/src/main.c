@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 21:35:53 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 13:33:22 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:49:55 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	clear_table(t_table *table)
 	sem_close(table->forks);
 	sem_close(table->print_semaphore);
 	sem_close(table->eating_semaphore);
+	sem_close(table->death_semaphore);
 }
 
 int	main(int argc, char **argv)
