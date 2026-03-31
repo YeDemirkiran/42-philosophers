@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 10:36:37 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:53:04 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static void	*philosopher_routine(void *data)
  *
  * Sleeps for MONITOR_INTERVAL_MS * 1000 duration before each interval.
  */
-static int	philosopher_monitor(t_philosopher *philo, long starve_time, sem_t *meal_sem)
+static int	philosopher_monitor(t_philosopher *philo, long starve_time,
+	sem_t *meal_sem)
 {
 	long	time;
 	long	last_meal_time;
@@ -95,13 +96,16 @@ static int	philosopher_monitor(t_philosopher *philo, long starve_time, sem_t *me
 
 static sem_t	*create_meal_semaphore(int id)
 {
-	char	file_name[23] = "/philo_meal_0000000000";
-	int		i;
-	sem_t	*sem;
-	
-	i = 21;
+	static char	file_name[23] = "/philo_meal_0000000000";
+	int			i;
+	sem_t		*sem;
+
+	i = 22;
+	while (--i > 11)
+		file_name[i] = '0';
 	if (id <= 0)
 		id = 1;
+	i = 21;
 	while (id > 0)
 	{
 		file_name[i] = (id % 10) + '0';
@@ -109,9 +113,9 @@ static sem_t	*create_meal_semaphore(int id)
 		i--;
 	}
 	sem = sem_open(file_name, O_CREAT, 0644, 1);
-	if (sem == NULL)
+	if (sem == SEM_FAILED)
 		return (NULL);
-	unlink(file_name);
+	sem_unlink(file_name);
 	return (sem);
 }
 
