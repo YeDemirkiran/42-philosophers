@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 10:53:04 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:11:00 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ static sem_t	*create_meal_semaphore(int id)
 	}
 	sem = sem_open(file_name, O_CREAT, 0644, 1);
 	if (sem == SEM_FAILED)
-		return (NULL);
+	{
+		philo_error("internal: Can't create philosopher meal semaphore");
+		return (SEM_FAILED);
+	}
 	sem_unlink(file_name);
 	return (sem);
 }
@@ -127,34 +130,30 @@ static sem_t	*create_meal_semaphore(int id)
 static void	start_philosopher_and_monitor(t_philosopher *philo)
 {
 	pthread_t	thread;
-	int			res;
-	int			tmp;
 	void		*thread_return;
 	sem_t		*meal_sem;
+	int			starve_time;
+	int			result;
 
 	philo->meal_semaphore = NULL;
 	meal_sem = create_meal_semaphore(philo->id);
-	if (meal_sem == NULL)
-	{
-		philo_error("internal: Can't create philosopher meal semaphore");
+	if (meal_sem == SEM_FAILED)
 		philo_clear_and_exit(philo, EXIT_FAILURE);
-	}
-	tmp = (long)philo->config->starve_time;
+	starve_time = (long)philo->config->starve_time;
 	philo->meal_semaphore = meal_sem;
-	res = pthread_create(&thread, NULL, philosopher_routine, (void *)philo);
-	if (res != SUCCESS)
+	result = pthread_create(&thread, NULL, philosopher_routine, (void *)philo);
+	if (result != SUCCESS)
 	{
 		philo_error("internal: Can't start philosopher thread");
 		philo_clear_and_exit(philo, EXIT_FAILURE);
 	}
-	res = philosopher_monitor(philo, tmp, meal_sem);
+	result = philosopher_monitor(philo, starve_time, meal_sem);
 	pthread_join(thread, &thread_return);
-	tmp = *(int *)thread_return;
+	if (*(int *)thread_return > result)
+		result = *(int *)thread_return;
 	free(thread_return);
-	if (tmp > res)
-		res = tmp;
 	sem_close(meal_sem);
-	exit(res);
+	exit(result);
 }
 
 /**
