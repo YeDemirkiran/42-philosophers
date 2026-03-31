@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 11:19:21 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 11:21:30 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:39:30 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,19 @@ static int	philosopher_monitor(t_philosopher *philo, long starve_time,
 {
 	long	time;
 	long	last_meal_time;
+	long	ate_enough;
 
 	while (1)
 	{
 		time = get_time();
 		if (time == -1)
-		{
-			philo_error("internal: Can't get time (in philosopher_monitor)");
 			return (EXIT_FAILURE);
-		}
 		sem_wait(meal_sem);
 		last_meal_time = philo->last_meal_time;
+		ate_enough = philo->eat_count >= philo->config->eat_count;
 		sem_post(meal_sem);
+		if (ate_enough)
+			break ;
 		if (time - last_meal_time >= starve_time)
 			return (2);
 		if (usleep(MONITOR_INTERVAL_MS * 1000) != SUCCESS)
@@ -154,7 +155,7 @@ void	start_philosopher_and_monitor(t_philosopher *philo)
 	}
 	result = philosopher_monitor(philo, starve_time, meal_sem);
 	pthread_join(thread, &thread_return);
-	if (*(int *)thread_return > result)
+	if (*(int *)thread_return < result)
 		result = *(int *)thread_return;
 	free(thread_return);
 	sem_close(meal_sem);

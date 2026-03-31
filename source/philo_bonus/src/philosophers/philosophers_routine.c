@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 11:12:08 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:34:40 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ static t_byte	increase_eat_count(t_philosopher *philo)
 	size_t	new_eat_count;
 	size_t	max_eat_count;
 
+	sem_wait(philo->meal_semaphore);
 	philo->eat_count += 1;
 	new_eat_count = philo->eat_count;
 	max_eat_count = philo->config->eat_count;
+	sem_post(philo->meal_semaphore);
 	if (max_eat_count != 0 && new_eat_count >= max_eat_count)
 		return (0);
 	return (1);
