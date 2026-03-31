@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   table.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/30 05:13:38 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:06:07 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,21 @@ static t_byte	init_table_error(const char *msg, sem_t *fork_sem,
 }
 
 /**
+ * @brief Creates a named semaphore with count and immediately
+ * unlinks it.
+ */
+static sem_t	*create_sem(const char *name, int count)
+{
+	sem_t	*sem;
+
+	sem = sem_open(name, O_CREAT, 0644, count);
+	if (sem == SEM_FAILED)
+		return (SEM_FAILED);
+	sem_unlink(FORK_SEMAPHORE_NAME);
+	return (sem);
+}
+
+/**
  * @brief Inits the dinner table.
  *
  * @return 0 on success, 1 on failure.
@@ -140,29 +155,23 @@ t_byte	init_table(t_table *table, int argc, char **argv)
 			* table->config.philo_count);
 	if (table->philosophers == NULL)
 		return (init_table_error("Can't allocate memory", NULL, NULL, NULL));
-	table->forks = sem_open(FORK_SEMAPHORE_NAME, O_CREAT,
-			0644, table->config.philo_count);
+	table->forks = create_sem(FORK_SEMAPHORE_NAME, table->config.philo_count);
 	if (table->forks == SEM_FAILED)
 		return (init_table_error("Can't initialize the fork semaphore",
 				NULL, NULL, NULL));
-	sem_unlink(FORK_SEMAPHORE_NAME);
-	table->print_semaphore = sem_open(PRINT_SEMAPHORE_NAME, O_CREAT,
-			0644, 1);
+	table->print_semaphore = create_sem(PRINT_SEMAPHORE_NAME, 1);
 	if (table->print_semaphore == SEM_FAILED)
 		return (init_table_error("Can't initialize the print semaphore",
 				table->forks, NULL, NULL));
-	sem_unlink(PRINT_SEMAPHORE_NAME);
-	table->eating_semaphore = sem_open(EATING_SEMAPHORE_NAME, O_CREAT,
-			0644, table->config.philo_count - (table->config.philo_count != 1));
+	table->eating_semaphore = create_sem(EATING_SEMAPHORE_NAME,
+			table->config.philo_count - (table->config.philo_count != 1));
 	if (table->eating_semaphore == SEM_FAILED)
 		return (init_table_error("Can't initialize the print semaphore",
 				table->forks, table->print_semaphore, NULL));
-	sem_unlink(EATING_SEMAPHORE_NAME);
-	table->death_semaphore = sem_open(DEATH_SEMAPHORE_NAME, O_CREAT,
-			0644, table->config.philo_count);
+	table->death_semaphore = create_sem(DEATH_SEMAPHORE_NAME,
+			table->config.philo_count);
 	if (table->death_semaphore == SEM_FAILED)
 		return (init_table_error("Can't initialize the death semaphore",
 				table->forks, table->print_semaphore, table->eating_semaphore));
-	sem_unlink(DEATH_SEMAPHORE_NAME);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 10:35:36 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:53:16 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	*philo_clear_and_return(t_philosopher *philo, int status)
 	return (stat);
 }
 
-#include <stdio.h>
 /**
  * @return 0 if the philosopher should stop, 1 if it should continue.
  */
