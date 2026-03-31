@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 14:05:05 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/17 12:56:49 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:15:07 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
  * characters since this function simply returns 0 on such cases.
  */
 long long	ft_atol(const char *str);
+
+/**
+ * @brief Creates a named semaphore with count and immediately
+ * unlinks it.
+ */
+sem_t		*create_sem(const char *name, int count);
 
 /**
  * @brief Returns the current time in milliseconds since the start

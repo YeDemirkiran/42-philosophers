@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 15:22:55 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 11:06:07 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:14:32 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,21 +125,6 @@ static t_byte	init_table_error(const char *msg, sem_t *fork_sem,
 		sem_close(print_sem);
 	philo_error(msg);
 	return (FAILURE);
-}
-
-/**
- * @brief Creates a named semaphore with count and immediately
- * unlinks it.
- */
-static sem_t	*create_sem(const char *name, int count)
-{
-	sem_t	*sem;
-
-	sem = sem_open(name, O_CREAT, 0644, count);
-	if (sem == SEM_FAILED)
-		return (SEM_FAILED);
-	sem_unlink(FORK_SEMAPHORE_NAME);
-	return (sem);
 }
 
 /**
