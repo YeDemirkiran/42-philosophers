@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:35:34 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 09:48:06 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:38:23 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,19 @@ static t_byte	leave_forks(t_philosopher *philo)
  */
 static long	update_last_meal_time(t_philosopher *philo)
 {
+	long	time;
+
 	if (philo == NULL)
 		return (-1);
-	philo->last_meal_time = get_time();
-	if (philo->last_meal_time == -1)
+	time = get_time();
+	if (time == -1)
 	{
 		philo_error("internal: Error during last_meal_time update");
 		return (-1);
 	}
+	sem_wait(philo->meal_semaphore);
+	philo->last_meal_time = time;
+	sem_post(philo->meal_semaphore);
 	if (!should_philo_continue(philo))
 	{
 		leave_forks(philo);

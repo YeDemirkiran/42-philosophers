@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_philosopher.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yademirk <yademirk@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:56:29 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/30 05:06:57 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:32:03 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_philosopher
 	sem_t		*print_semaphore;
 	sem_t		*eating_semaphore;
 	sem_t		*death_semaphore;
+	sem_t		*meal_semaphore;
 }	t_philosopher;
 
 #endif

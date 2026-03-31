@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 23:31:44 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 09:41:14 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:35:36 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	philo_clear_and_exit(t_philosopher *philo, int status)
 	sem_close(philo->print_semaphore);
 	sem_close(philo->eating_semaphore);
 	sem_close(philo->death_semaphore);
+	if (philo->meal_semaphore != NULL)
+		sem_close(philo->meal_semaphore);
 	exit(status);
 }
 

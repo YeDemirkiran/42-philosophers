@@ -6,7 +6,7 @@
 /*   By: yademirk <yademirk@student.42istanbul.com. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:08 by yademirk          #+#    #+#             */
-/*   Updated: 2026/03/31 10:05:54 by yademirk         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:36:37 by yademirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <fcntl.h>
+#include <semaphore.h>
 
 #include "structs/s_table.h"
 #include "structs/s_philosopher.h"
@@ -64,9 +66,10 @@ static void	*philosopher_routine(void *data)
  *
  * Sleeps for MONITOR_INTERVAL_MS * 1000 duration before each interval.
  */
-static int	philosopher_monitor(t_philosopher *philo)
+static int	philosopher_monitor(t_philosopher *philo, long starve_time, sem_t *meal_sem)
 {
 	long	time;
+	long	last_meal_time;
 
 	while (1)
 	{
@@ -76,7 +79,10 @@ static int	philosopher_monitor(t_philosopher *philo)
 			philo_error("internal: Can't get time (in philosopher_monitor)");
 			return (EXIT_FAILURE);
 		}
-		if (time - philo->last_meal_time >= (long)philo->config->starve_time)
+		sem_wait(meal_sem);
+		last_meal_time = philo->last_meal_time;
+		sem_post(meal_sem);
+		if (time - last_meal_time >= starve_time)
 			return (2);
 		if (usleep(MONITOR_INTERVAL_MS * 1000) != SUCCESS)
 		{
@@ -85,6 +91,28 @@ static int	philosopher_monitor(t_philosopher *philo)
 		}
 	}
 	return (EXIT_SUCCESS);
+}
+
+static sem_t	*create_meal_semaphore(int id)
+{
+	char	file_name[23] = "/philo_meal_0000000000";
+	int		i;
+	sem_t	*sem;
+	
+	i = 21;
+	if (id <= 0)
+		id = 1;
+	while (id > 0)
+	{
+		file_name[i] = (id % 10) + '0';
+		id /= 10;
+		i--;
+	}
+	sem = sem_open(file_name, O_CREAT, 0644, 1);
+	if (sem == NULL)
+		return (NULL);
+	unlink(file_name);
+	return (sem);
 }
 
 /**
@@ -96,21 +124,32 @@ static void	start_philosopher_and_monitor(t_philosopher *philo)
 {
 	pthread_t	thread;
 	int			res;
-	int			res_2;
+	int			tmp;
 	void		*thread_return;
+	sem_t		*meal_sem;
 
+	philo->meal_semaphore = NULL;
+	meal_sem = create_meal_semaphore(philo->id);
+	if (meal_sem == NULL)
+	{
+		philo_error("internal: Can't create philosopher meal semaphore");
+		philo_clear_and_exit(philo, EXIT_FAILURE);
+	}
+	tmp = (long)philo->config->starve_time;
+	philo->meal_semaphore = meal_sem;
 	res = pthread_create(&thread, NULL, philosopher_routine, (void *)philo);
 	if (res != SUCCESS)
 	{
 		philo_error("internal: Can't start philosopher thread");
 		philo_clear_and_exit(philo, EXIT_FAILURE);
 	}
-	res = philosopher_monitor(philo);
+	res = philosopher_monitor(philo, tmp, meal_sem);
 	pthread_join(thread, &thread_return);
-	res_2 = *(int *)thread_return;
+	tmp = *(int *)thread_return;
 	free(thread_return);
-	if (res_2 > res)
-		res = res_2;
+	if (tmp > res)
+		res = tmp;
+	sem_close(meal_sem);
 	exit(res);
 }
 
